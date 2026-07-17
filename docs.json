@@ -1,0 +1,30 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Sendify 帮助中心",
+  "description": "Sendify 产品使用指南",
+  "colors": {
+    "primary": "#635BFF",
+    "light": "#7C74FF",
+    "dark": "#4B43D6"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "开始使用",
+        "pages": ["index", "preparation", "member-settings"]
+      },
+      {
+        "group": "联系人管理",
+        "pages": ["contacts", "segments-tags"]
+      },
+      {
+        "group": "邮件营销",
+        "pages": ["send-task", "analytics", "assets"]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {}
+  }
+}
