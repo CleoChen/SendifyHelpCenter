@@ -12,15 +12,15 @@
     "groups": [
       {
         "group": "开始使用",
-        "pages": ["index", "preparation", "member-settings"]
+        "pages": ["index", "preparation", "sending-domain", "member-settings"]
       },
       {
         "group": "联系人管理",
-        "pages": ["contacts", "segments-tags"]
+        "pages": ["contacts", "segments-tags", "unsubscribe"]
       },
       {
         "group": "邮件营销",
-        "pages": ["send-task", "analytics", "assets"]
+        "pages": ["sending-overview", "send-task", "analytics", "gmail-deliverability", "assets"]
       }
     ]
   },
