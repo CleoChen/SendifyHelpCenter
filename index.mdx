@@ -1,66 +1,76 @@
 ---
-title: "开始使用"
-description: "了解 Sendify 的主要功能并快速开始邮件营销"
-sidebarTitle: "欢迎"
+title: "Sendify 帮助中心 — 使用指南与常见问题"
+description: "查找 Sendify 发信域名配置、联系人管理、邮件创作、发信任务与数据分析的使用指南和常见问题，快速找到所需答案。"
+keywords: "Sendify, Sendify 帮助中心, 邮件营销, 发信域名, EDM, 邮件送达率, 联系人管理"
+"og:title": "Sendify 帮助中心 — 使用指南与常见问题"
+"og:description": "查找 Sendify 发信域名配置、联系人管理、邮件创作、发信任务与数据分析的使用指南和常见问题，快速找到所需答案。"
+"og:locale": "zh_CN"
+"twitter:title": "Sendify 帮助中心 — 使用指南与常见问题"
+"twitter:description": "查找 Sendify 发信域名配置、联系人管理、邮件创作、发信任务与数据分析的使用指南和常见问题，快速找到所需答案。"
+mode: "custom"
 ---
 
-<Note>
-  **想要快速查找内容？** 点击右上角搜索框或按 <kbd>⌘</kbd> \+ <kbd>K</kbd>（Mac）/ <kbd>Ctrl</kbd> \+ <kbd>K</kbd>（Windows）搜索关键词。
-</Note>
+import { Home } from "/snippets/home.jsx";
 
-## 快速开始
+export const T = {
+  brand_sub: "帮助中心",
+  nav1: "产品文档",
+  nav4: "联系我们",
+  contact: "联系客服",
+  status: "服务状态正常 · 在线支持",
+  title: "你好，需要什么帮助？",
+  subtitle: "搜索使用指南、常见问题与产品功能，快速找到你需要的答案。",
+  search_btn: "搜索",
+  ph: "搜索问题、功能或关键词…",
+  hot_label: "热门：",
+  pop_title: "推荐阅读",
+  pop_sub: "精选常用指南，帮你快速上手 Sendify。",
+  sup_title: "没有找到答案？",
+  sup_sub: "我们的支持团队随时待命。发送邮件与我们联系，我们会尽快回复。",
+  sup_b1: "联系客服",
+  sup_b2: "反馈问题和建议",
+  foot_tag: "Work Smarter, Work with AI",
+  foot_h1: "产品",
+  foot_p1: "即时通讯",
+  foot_p2: "音视频会议",
+  foot_p3: "在线文档",
+  foot_p4: "AI 表格",
+  foot_h2: "支持",
+  foot_s1: "价格",
+  foot_s2: "联系客服",
+  foot_s3: "帮助文档",
+  foot_s4: "开发者平台",
+  foot_h3: "资源",
+  foot_r1: "新功能发布",
+  foot_r2: "使用技巧",
+  foot_r3: "客户案例",
+  foot_r4: "下载客户端",
+  rights: "保留所有权利。",
+  legal1: "隐私政策",
+  legal2: "服务条款",
+};
 
-三步开启你的邮件营销之旅：
+export const HOT = [
+  "发信域名",
+  "导入联系人",
+  "退订",
+  "送达率",
+  "发信任务",
+];
 
-<Steps>
-  <Step title="完成基础配置" href="/sending-domain">
-    添加发信域名、创建发信地址、分配成员账户。
-  </Step>
-  <Step title="导入联系人" href="/contacts">
-    批量导入客户名单，并通过标签或群体进行细分。
-  </Step>
-  <Step title="创建营销任务" href="/send-task">
-    创作邮件、发起发信任务，通过数据看板持续优化效果。
-  </Step>
-</Steps>
+export const ARTS = [
+  { slug: "getting-started", tag: "开始使用", t: "开始使用 Sendify" },
+  { slug: "sending-domain", tag: "账户与设置", t: "添加并验证发信域名" },
+  { slug: "sender-address", tag: "账户与设置", t: "管理发信地址与回信地址" },
+  { slug: "member-settings", tag: "账户与设置", t: "成员账户设置" },
+  { slug: "contacts", tag: "联系人管理", t: "维护联系人信息" },
+  { slug: "tags", tag: "联系人管理", t: "标签管理" },
+  { slug: "segments", tag: "联系人管理", t: "群体（动态分组）" },
+  { slug: "unsubscribe", tag: "联系人管理", t: "联系人退订" },
+  { slug: "assets", tag: "邮件创作", t: "素材库" },
+  { slug: "send-task", tag: "发信任务与效果", t: "创建发信任务" },
+  { slug: "analytics", tag: "发信任务与效果", t: "查看发信数据" },
+  { slug: "gmail-deliverability", tag: "发信任务与效果", t: "改善 Gmail 邮件送达率" },
+];
 
-## 热门指南
-
-<CardGroup cols={2}>
-  <Card title="添加并验证发信域名" icon="globe" href="/sending-domain">
-    配置 SPF、DKIM、DMARC，完成域名验证并开启发信能力。
-  </Card>
-
-  <Card title="成员账户设置" icon="users" href="/member-settings">
-    创建成员账号、分配角色，并为成员关联发信地址。
-  </Card>
-
-  <Card title="维护联系人信息" icon="address-book" href="/contacts">
-    批量导入或单独添加联系人，并进行分组管理。
-  </Card>
-
-  <Card title="创建发信任务" icon="paper-plane" href="/send-task">
-    创作邮件内容、配置任务参数并完成发送。
-  </Card>
-
-  <Card title="查看发信数据" icon="chart-line" href="/analytics">
-    实时查看邮件送达、打开、点击等核心指标。
-  </Card>
-
-  <Card title="改善 Gmail 邮件送达率" icon="envelope-circle-check" href="/gmail-deliverability">
-    针对 Gmail 的最佳实践，提升进入收件箱的比例。
-  </Card>
-</CardGroup>
-
-## Sendify 能为你做什么
-
-- **智能投递策略**：根据流控与报错信息动态调节发送速率，提高投递成功率。
-- **精细化受众管理**：多维度标签与动态群体，帮助你对不同用户发送不同内容。
-- **可视化数据分析**：实时看板展示打开、点击、转化、退订等核心指标。
-- **合规友好**：内置退订管理，帮助满足 GDPR 等隐私法规要求。
-
-## 需要更多帮助？
-
-<Card title="联系客服" icon="headset" href="mailto:sendify-support@dingmail.work">
-  发送邮件至 [sendify-support@dingmail.work](mailto:sendify-support@dingmail.work) 联系 Sendify 支持团队，我们会尽快回复。
-</Card>
+<Home t={T} arts={ARTS} hot={HOT} />

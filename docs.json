@@ -8,12 +8,21 @@
     "light": "#7C74FF",
     "dark": "#4B43D6"
   },
+  "appearance": {
+    "default": "system"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "/"
+  },
   "navigation": {
     "groups": [
       {
         "group": "开始使用",
         "pages": [
-          "index"
+          "getting-started"
         ],
         "icon": "rocket"
       },
