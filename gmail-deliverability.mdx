@@ -18,7 +18,7 @@ Gmail 拥有严格且智能的垃圾邮件过滤系统。新的发信域名和 I
 - **DMARC（Domain-based Message Authentication, Reporting, and Conformance）**：规定 Gmail 应如何处理未通过 SPF 或 DKIM 验证的邮件，并提供域名冒用报告。
 
 <Note>
-预热初期建议将 DMARC 策略设置为 `p=none`，先观察和收集数据，避免直接拒绝可能存在配置问题的合法邮件。
+  预热初期建议将 DMARC 策略设置为 `p=none`，先观察和收集数据，避免直接拒绝可能存在配置问题的合法邮件。
 </Note>
 
 关于配置方法，请参阅[添加并验证发信域名](/sending-domain)。
@@ -27,7 +27,9 @@ Gmail 拥有严格且智能的垃圾邮件过滤系统。新的发信域名和 I
 
 访问 [Google Postmaster Tools](https://postmaster.google.com/)，按照页面提示验证发信域名。
 
-![Google Postmaster Tools 配置示例](/gmail-postmaster.png)
+<Frame>
+  ![Google Postmaster Tools 配置示例](/gmail-postmaster.png)
+</Frame>
 
 配置完成后，可以查看：
 
@@ -61,7 +63,7 @@ Gmail 拥有严格且智能的垃圾邮件过滤系统。新的发信域名和 I
 | 第 8–14 天 | 保持健康增长，例如每天 1,500 → 3,000 → 6,000 封 |
 
 <Warning>
-如果垃圾邮件投诉率上升或打开率骤降，应立即暂停增加发送量，检查邮件内容和联系人质量。数据恢复后再继续增长。
+  如果垃圾邮件投诉率上升或打开率骤降，应立即暂停增加发送量，检查邮件内容和联系人质量。数据恢复后再继续增长。
 </Warning>
 
 ### 保持稳定的发送频率
@@ -86,11 +88,11 @@ Gmail 拥有严格且智能的垃圾邮件过滤系统。新的发信域名和 I
 
 ## 发送前检查清单
 
-- [ ] 域名已正确配置 SPF、DKIM 和 DMARC（预热初期为 `p=none`）
-- [ ] 已在 Google Postmaster Tools 中验证域名，并可以查看信誉数据
-- [ ] 已筛选高质量、高活跃度的 Gmail 地址作为初始预热对象
-- [ ] 已制定从低到高、循序渐进的发送计划
-- [ ] 可以监控投诉率、退信率等指标，并在数据恶化时暂停计划
-- [ ] 邮件内容提供明确价值和便捷的退订方式
+- 域名已正确配置 SPF、DKIM 和 DMARC（预热初期为 `p=none`）
+- 已在 Google Postmaster Tools 中验证域名，并可以查看信誉数据
+- 已筛选高质量、高活跃度的 Gmail 地址作为初始预热对象
+- 已制定从低到高、循序渐进的发送计划
+- 可以监控投诉率、退信率等指标，并在数据恶化时暂停计划
+- 邮件内容提供明确价值和便捷的退订方式
 
 耐心是 Gmail 域名预热的关键。保持稳定发送并持续改善联系人和内容质量，才能与 Gmail 建立长期信任关系。

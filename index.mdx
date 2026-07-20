@@ -1,48 +1,60 @@
 ---
-title: "Sendify 帮助手册"
+title: "开始使用"
 description: "了解 Sendify 的主要功能并快速开始邮件营销"
+sidebarTitle: "欢迎"
 ---
 
-欢迎使用 Sendify！Sendify 是一款高效的邮件营销工具，旨在帮助出海企业高效触达目标用户、提升客户参与度并优化营销效果。您可以通过本帮助手册掌握本工具的使用方法。
+<Note>
+  **新手请从[添加并验证发信域名](/sending-domain)开始**，只需几步即可完成域名验证与发信配置，30 分钟内发出第一封邮件。
+</Note>
 
-## 1. 账户初始化
+## 快速开始
 
-完成发信域名、发信地址的创建和分配等事项。
+三步即可快速你的邮件营销之旅：
+
+<Steps>
+  <Step title="完成基础配置" href="/sending-domain">
+    添加发信域名、创建发信地址、分配成员账户。
+  </Step>
+  <Step title="导入联系人" href="/contacts">
+    批量导入客户名单，并通过标签或群体进行细分。
+  </Step>
+  <Step title="创建营销任务" href="/send-task">
+    创作邮件、发起发信任务，通过数据看板持续优化效果。
+  </Step>
+</Steps>
+
+## 按主题浏览
+
+## 热门指南
 
 <CardGroup cols={2}>
-  <Card title="准备工作" icon="rocket" href="/preparation">
-    添加发信域名、创建发信地址并设置回信地址。
+  <Card title="添加并验证发信域名" icon="globe" href="/sending-domain">
+    了解 SPF、DKIM、DMARC 的配置方法，确保邮件可达率。
   </Card>
-  <Card title="成员账户设置" icon="users" href="/member-settings">
-    创建成员账户并分配发信地址。
+
+  <Card title="联系人管理" icon="address-book" href="/contacts">
+    维护联系人信息，使用标签与群体精准细分受众。
   </Card>
-</CardGroup>
 
-## 2. 高效邮件列表管理
-
-- **多渠道导入**：支持 CSV、Excel 文件或直接在平台新建联系人列表。
-- **分组与标签**：按用户属性（如地域、购买行为、兴趣标签）细分受众群体，精准推送内容。
-- **数据清洗与验证**：发信时支持自动清理无效邮箱地址，验证邮箱有效性，提升发送成功率。
-- **订阅管理**：集成退订用户管理，帮助满足 GDPR 等隐私法规要求。
-
-<CardGroup cols={2}>
-  <Card title="维护联系人信息" icon="address-book" href="/contacts">
-    批量或单独添加、编辑和删除联系人。
+  <Card title="发信任务与效果" icon="paper-plane" href="/send-task">
+    创建发信任务、查看效果数据、提升邮件送达率。
   </Card>
-  <Card title="标签与群体" icon="tags" href="/segments-tags">
-    对联系人进行分类并创建动态收件人集合。
+
+  <Card title="邮件素材管理" icon="envelope-open-text" href="/assets">
+    集中管理邮件模版、图片等素材，在邮件中随时调用。
   </Card>
 </CardGroup>
 
-## 3. 智能发送与深度数据分析
+## Sendify 能为你做什么
 
-- **计划发送**：设置定时发送任务。
-- **个性化变量**：在邮件中嵌入称呼、地域、购买历史等动态内容。
-- **实时统计看板**：展示邮件打开率、点击率、转化率、退订率等核心指标。
-- **受众行为追踪**：分析用户打开时间、退订时间等详细数据。
+- **智能投递策略：**根据流控与报错信息动态调节发送速率，提高投递成功率
+- **精细化受众管理**：多维度标签与动态群体，帮助你对不同用户发送不同内容。
+- **可视化数据分析**：实时看板展示打开、点击、转化、退订等核心指标。
+- **合规友好**：内置退订管理，帮助满足 GDPR 等隐私法规要求。
 
-<CardGroup cols={3}>
-  <Card title="创建发信任务" icon="paper-plane" href="/send-task" />
-  <Card title="查看发信数据" icon="chart-line" href="/analytics" />
-  <Card title="素材库" icon="images" href="/assets" />
-</CardGroup>
+## 需要更多帮助？
+
+<Card title="联系客服" icon="headset" href="mailto:support@sendify.com">
+  发送邮件[sendify-support@dingmail.work](mailto:sendify-support@dingmail.work) 联系 Sendify 支持团队，我们会尽快回复。
+</Card>

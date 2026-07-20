@@ -11,18 +11,30 @@ description: "插入退订链接、查看退订数据并合规恢复联系人订
 
 ### 方式一：在编辑器中插入退订链接
 
-1. 打开邮件内容创作页面。
-2. 将光标放在正文中需要插入链接的位置。
-3. 点击工具栏中的「插入退订链接」，选择链接语言。
-4. 系统会自动插入可点击的退订链接。
+<Steps>
+  <Step title="打开邮件创作页">
+    打开邮件内容创作页面。
+  </Step>
+  <Step title="定位插入位置">
+    将光标放在正文中需要插入链接的位置。
+  </Step>
+  <Step title="插入退订链接">
+    点击工具栏中的「插入退订链接」，选择链接语言。系统会自动插入可点击的退订链接。
+  </Step>
+</Steps>
 
-**富文本编辑器**
-
-![在富文本编辑器中插入退订链接](/unsubscribe-editor-rich.png)
-
-**搭建式编辑器**
-
-![在搭建式编辑器中插入退订链接](/unsubscribe-editor-builder.png)
+<Tabs>
+  <Tab title="富文本编辑器">
+    <Frame>
+      ![在富文本编辑器中插入退订链接](/unsubscribe-editor-rich.png)
+    </Frame>
+  </Tab>
+  <Tab title="搭建式编辑器">
+    <Frame>
+      ![在搭建式编辑器中插入退订链接](/unsubscribe-editor-builder.png)
+    </Frame>
+  </Tab>
+</Tabs>
 
 ### 方式二：使用自定义文字链接
 
@@ -32,10 +44,20 @@ description: "插入退订链接、查看退订数据并合规恢复联系人订
 
 操作步骤：
 
-1. 选中退订文案。
-2. 点击工具栏中的「超链接」。
-3. 输入变量 `${SYS:UNSUBSCRIBE_LINK}`。
-4. 保存邮件内容。
+<Steps>
+  <Step title="选中退订文案">
+    在邮件内容中选中要作为退订链接的文案。
+  </Step>
+  <Step title="插入超链接">
+    点击工具栏中的「超链接」。
+  </Step>
+  <Step title="填入退订变量">
+    输入变量 `${SYS:UNSUBSCRIBE_LINK}`。
+  </Step>
+  <Step title="保存内容">
+    保存邮件内容。
+  </Step>
+</Steps>
 
 ## 联系人退订后会发生什么
 
@@ -45,7 +67,7 @@ description: "插入退订链接、查看退订数据并合规恢复联系人订
 
 ## 查看已退订联系人
 
-**功能入口：**「联系人 → 已退订联系人」
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `联系人` → `已退订联系人`
 
 退订列表包含以下信息：
 
@@ -54,26 +76,42 @@ description: "插入退订链接、查看退订数据并合规恢复联系人订
 - 被退订的发信地址（Sender）
 - 产生退订的发信任务
 
-![已退订联系人列表](/unsubscribe-list.png)
+<Frame>
+  ![已退订联系人列表](/unsubscribe-list.png)
+</Frame>
 
 ## 恢复联系人订阅状态
 
 如果用户误操作退订，或者通过其他渠道明确授权恢复订阅，可以手动将联系人恢复为「正常」状态。
 
 <Warning>
-只有在用户明确同意重新订阅的前提下，才可以恢复订阅。未经同意恢复可能影响邮件送达率和发信账户信誉。
+  只有在用户明确同意重新订阅的前提下，才可以恢复订阅。未经同意恢复可能影响邮件送达率和发信账户信誉。
 </Warning>
 
 ### 恢复步骤
 
-1. 打开「已退订联系人」页面。
-2. 搜索目标邮箱。
-3. 点击操作栏中的「移除」。
-4. 点击「确认移除」，该联系人后续即可正常收信。
+<Steps>
+  <Step title="打开已退订联系人页面">
+    进入「联系人 → 已退订联系人」。
+  </Step>
+  <Step title="搜索目标邮箱">
+    在列表中搜索需要恢复的邮箱地址。
+  </Step>
+  <Step title="点击移除">
+    点击操作栏中的「移除」。
 
-![移除退订状态](/unsubscribe-remove.png)
+    <Frame>
+      ![移除退订状态](/unsubscribe-remove.png)
+    </Frame>
+  </Step>
+  <Step title="确认移除">
+    点击「确认移除」，该联系人后续即可正常收信。
 
-![确认恢复订阅](/unsubscribe-confirm.png)
+    <Frame>
+      ![确认恢复订阅](/unsubscribe-confirm.png)
+    </Frame>
+  </Step>
+</Steps>
 
 ## 常见问题
 

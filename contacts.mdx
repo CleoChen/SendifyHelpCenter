@@ -1,58 +1,82 @@
 ---
 title: "维护联系人信息"
 description: "批量或单独添加、编辑和删除联系人"
+keywords: ["contacts"]
 ---
 
-## 1. 批量添加联系人
+## 批量添加联系人
 
-**功能入口：**「联系人 → 全部联系人」或「发信任务 → 添加联系人」
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `联系人` → `全部联系人`，或 `发信任务` → `添加联系人`
 
 您可以通过上传表格文件批量添加联系人。导入流程为：选择文件 → 匹配字段 → 添加标签 → 完成导入。
 
-### Step 1：选择文件
+<Steps>
+  <Step title="选择文件">
+    上传包含邮箱地址的联系人列表，系统会自动解析内容。目前支持的字段包括：邮件地址、姓（Last Name）、名（First Name）、公司和职位。
 
-上传包含邮箱地址的联系人列表，系统会自动解析内容。目前支持的字段包括：邮件地址、姓（Last Name）、名（First Name）、公司和职位。
+    您也可以下载联系人导入模板，按模板格式整理数据。支持 `.csv`、`.xls` 和 `.xlsx` 文件。
 
-您也可以下载联系人导入模板，按模板格式整理数据。支持 `.csv`、`.xls` 和 `.xlsx` 文件。
+    <Frame>
+      ![选择联系人导入文件](/contacts-import-file.png)
+    </Frame>
+  </Step>
+  <Step title="匹配字段">
+    - 系统会自动识别上传文件的表头并匹配现有字段；未自动匹配的字段需要手动关联，未匹配的数据列不会被导入。
+    - 如果导入文件中的邮箱地址已存在，系统会使用文件中的内容覆盖已有联系人信息。
+    - 请在匹配表头时检查邮箱格式是否正确。
 
-![选择联系人导入文件](/contacts-import-file.png)
+    <Frame>
+      ![匹配联系人字段](/contacts-match-fields.png)
+    </Frame>
+  </Step>
+  <Step title="添加标签">
+    为导入的联系人添加标签，方便后续分组管理。此步骤可以跳过。
 
-### Step 2：匹配字段
+    <Frame>
+      ![为导入联系人添加标签](/contacts-import-tags.png)
+    </Frame>
+  </Step>
+  <Step title="完成导入">
+    导入完成后，系统会显示本次导入的状态。
 
-1. 系统会自动识别上传文件的表头并匹配现有字段；未自动匹配的字段需要手动关联，未匹配的数据列不会被导入。
-2. 如果导入文件中的邮箱地址已存在，系统会使用文件中的内容覆盖已有联系人信息。
-3. 请在匹配表头时检查邮箱格式是否正确。
+    <Frame>
+      ![联系人导入完成](/contacts-import-complete.png)
+    </Frame>
+  </Step>
+</Steps>
 
-![匹配联系人字段](/contacts-match-fields.png)
+## 单独添加联系人
 
-### Step 3：添加标签
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `联系人` → `全部联系人`
 
-为导入的联系人添加标签，方便后续分组管理。此步骤可以跳过。
+<Steps>
+  <Step title="进入手动添加">
+    点击「添加联系人 → 手动添加」。
 
-![为导入联系人添加标签](/contacts-import-tags.png)
+    <Frame>
+      ![选择手动添加联系人](/contacts-manual-entry.png)
+    </Frame>
+  </Step>
+  <Step title="填写联系人信息">
+    填写联系人信息并点击「确定」。
 
-### Step 4：完成导入
+    <Frame>
+      ![填写新联系人信息](/contacts-manual-form.png)
+    </Frame>
+  </Step>
+  <Step title="查看新联系人">
+    创建成功后，可在「全部联系人」中查看新联系人。
 
-导入完成后，系统会显示本次导入的状态。
+    <Frame>
+      ![查看联系人列表](/contacts-list.png)
+    </Frame>
+  </Step>
+</Steps>
 
-![联系人导入完成](/contacts-import-complete.png)
-
-## 2. 单独添加联系人
-
-**功能入口：**「联系人 → 全部联系人」
-
-1. 点击「添加联系人 → 手动添加」。
-2. 填写联系人信息并点击「确定」。
-3. 创建成功后，可在「全部联系人」中查看新联系人。
-
-![选择手动添加联系人](/contacts-manual-entry.png)
-
-![填写新联系人信息](/contacts-manual-form.png)
-
-![查看联系人列表](/contacts-list.png)
-
-## 3. 编辑和删除联系人
+## 编辑和删除联系人
 
 您可以在联系人列表中修改或删除已添加的联系人信息。
 
-![编辑或删除联系人](/contacts-edit-delete.png)
+<Frame>
+  ![编辑或删除联系人](/contacts-edit-delete.png)
+</Frame>

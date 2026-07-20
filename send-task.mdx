@@ -3,31 +3,55 @@ title: "创建发信任务"
 description: "创作邮件、配置任务并完成发送"
 ---
 
-**功能入口：**首页或「发信任务」页面
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `首页`，或 `发信任务` 页面
 
-![进入发信任务列表](/send-task-entry.png)
+<Frame>
+  ![进入发信任务列表](/send-task-entry.png)
+</Frame>
 
-## Step 1：创作邮件内容
+## 操作步骤
 
-点击「创作邮件内容」，选择合适的编辑器完成邮件内容。
+<Steps>
+  <Step title="创作邮件内容">
+    点击「创作邮件内容」，选择合适的编辑器完成邮件内容。
 
-![选择邮件编辑方式](/send-editor-choice.png)
+    <Frame>
+      ![选择邮件编辑方式](/send-editor-choice.png)
+    </Frame>
+  </Step>
+  <Step title="填写任务基本信息">
+    - 设置邮件主题、发信人昵称、发信地址和回信地址等基本信息。
+    - 选择联系人：支持按照标签或群体选择收件人列表。
+    - 设置定时发送时间：系统可在指定时间开始发信。
+    - 过滤无效联系人：发信前提前过滤无效联系人。发送时发现的无效联系人会自动分类，方便后续筛选和剔除。
 
-## Step 2：填写任务基本信息
+    <Frame>
+      ![填写发信任务信息](/send-task-form.png)
+    </Frame>
+  </Step>
+  <Step title="预览并发送">
+    点击「下一步」进入任务预览页面。确认发送内容无误后，点击「确认发送」完成发信。
 
-- 设置邮件主题、发信人昵称、发信地址和回信地址等基本信息。
-- 选择联系人：支持按照标签或群体选择收件人列表。
-- 设置定时发送时间：系统可在指定时间开始发信。
-- 过滤无效联系人：发信前提前过滤无效联系人。发送时发现的无效联系人会自动分类，方便后续筛选和剔除。
+    <Frame>
+      <img
+        src="/send-task-preview.png"
+        alt="预览并确认发送"
+        className="mx-auto"
+        style={{ width:"69%" }}
+      />
+    </Frame>
 
-![填写发信任务信息](/send-task-form.png)
+    <Frame>
+      <img
+        src="/send-task-success.png"
+        alt="发信任务创建成功"
+        className="mx-auto"
+        style={{ width:"73%" }}
+      />
+    </Frame>
+  </Step>
+</Steps>
 
-## Step 3：预览并发送
-
-点击「下一步」进入任务预览页面。确认发送内容无误后，点击「确认发送」完成发信。
-
-![预览并确认发送](/send-task-preview.png)
-
-![发信任务创建成功](/send-task-success.png)
-
-<Warning>正式发送前，请仔细核对收件人、邮件内容、发信地址和发送时间。</Warning>
+<Warning>
+  正式发送前，请仔细核对收件人、邮件内容、发信地址和发送时间。
+</Warning>

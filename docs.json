@@ -12,15 +12,45 @@
     "groups": [
       {
         "group": "开始使用",
-        "pages": ["index", "preparation", "sending-domain", "member-settings"]
+        "pages": [
+          "index"
+        ],
+        "icon": "rocket"
+      },
+      {
+        "group": "账户与设置",
+        "icon": "gear",
+        "pages": [
+          "sending-domain",
+          "sender-address",
+          "member-settings"
+        ]
       },
       {
         "group": "联系人管理",
-        "pages": ["contacts", "segments-tags", "unsubscribe"]
+        "pages": [
+          "contacts",
+          "tags",
+          "segments",
+          "unsubscribe"
+        ],
+        "icon": "address-book"
       },
       {
-        "group": "邮件营销",
-        "pages": ["sending-overview", "send-task", "analytics", "gmail-deliverability", "assets"]
+        "group": "邮件创作",
+        "icon": "envelope-open-text",
+        "pages": [
+          "assets"
+        ]
+      },
+      {
+        "group": "发信任务与效果",
+        "icon": "paper-plane",
+        "pages": [
+          "send-task",
+          "analytics",
+          "gmail-deliverability"
+        ]
       }
     ]
   },
