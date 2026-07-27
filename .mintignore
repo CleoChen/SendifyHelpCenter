@@ -1,0 +1,6 @@
+# Product prototypes and their source files are not documentation pages.
+automation-demo/
+
+# Internal planning documents should not be published as hidden pages.
+Automation-Phase-1-Roadmap.md
+PRD-Automation-Details.md
