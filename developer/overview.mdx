@@ -1,0 +1,80 @@
+---
+title: "Sendify API 概览"
+description: "创建 API Key、认证请求并了解限流与密钥安全要求"
+icon: "brackets-curly"
+---
+
+Sendify 提供一套 RESTful API，目前已开放联系人管理能力。创建 API Key 后，可以先调用 `/v2/me` 验证密钥和账号信息，再接入联系人接口。
+
+## 基础地址
+
+```text
+https://api.sendify.dingstore.cn
+```
+
+所有 API 请求均应通过 HTTPS 发起，并在 `Authorization` 请求头中携带 Bearer API Key。
+
+## 1. 获取 API Key
+
+打开 Sendify 控制台的「开放能力」，进入「API 密钥」页面，然后点击「创建密钥」。
+
+<Note>
+API Key 的完整内容只展示一次。创建后请立即将其保存到安全的密钥管理系统。
+</Note>
+
+控制台路径：
+
+```text
+开放能力 / API 密钥 / 创建密钥
+```
+
+## 2. 验证 API Key
+
+发送以下请求，确认 API Key 和账号信息有效：
+
+```bash
+curl -X GET \
+  "https://api.sendify.dingstore.cn/v2/me" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+返回 HTTP `200` 且响应中包含账号信息，说明 API Key 有效，可以继续调用联系人接口。
+
+<Warning>
+不要在浏览器前端代码、公开仓库、日志或面向终端用户的环境中存储 API Key。生产集成应由后端服务发起请求。
+</Warning>
+
+## 3. 创建联系人
+
+联系人接口接受 JSON 请求体。下面是一个最小请求示例：
+
+```bash
+curl -X POST \
+  "https://api.sendify.dingstore.cn/dmx/v2/contacts" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{
+    "email": "customer@example.com"
+  }'
+```
+
+如需添加标签、自定义字段或设置联系人冲突策略，请参阅左侧导航中的「创建联系人」接口文档。
+
+## 4. 处理错误与限流
+
+| HTTP 状态码 | 说明 | 建议处理方式 |
+| --- | --- | --- |
+| `401` | API Key 缺失或无效 | 检查 `Authorization` 请求头和 API Key 状态 |
+| `403` | API Key 没有接口访问权限 | 检查密钥权限配置 |
+| `429` | 请求频率超过限制 | 等待后重试，并使用指数退避 |
+
+批量同步联系人时，建议使用队列削峰，并设置最大重试次数。记录接口路径、HTTP 状态码和业务对象 ID，便于排查问题。
+
+## 5. API Key 安全建议
+
+- 为开发、预发和生产环境分别创建独立的 API Key。
+- 按最小权限原则配置每个 API Key。
+- 在人员变更或疑似泄露时立即禁用旧 API Key。
+- 不要将生产 API Key 用于本地调试或共享测试。

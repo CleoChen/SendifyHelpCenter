@@ -60,6 +60,11 @@
           "analytics",
           "gmail-deliverability"
         ]
+      },
+      {
+        "group": "开发者 API",
+        "openapi": "openapi/sendify.yaml",
+        "pages": ["developer/overview", "POST /dmx/v2/contacts"]
       }
     ]
   },
