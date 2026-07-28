@@ -18,53 +18,91 @@
     "href": "/"
   },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "开始使用",
-        "pages": [
-          "getting-started"
-        ],
-        "icon": "rocket"
-      },
-      {
-        "group": "账户与设置",
-        "icon": "gear",
-        "pages": [
-          "sending-domain",
-          "sender-address",
-          "member-settings"
+        "tab": "帮助中心",
+        "groups": [
+          {
+            "group": "开始使用",
+            "icon": "rocket",
+            "pages": []
+          },
+          {
+            "group": "开始使用",
+            "icon": "rocket",
+            "pages": [
+              "getting-started"
+            ]
+          },
+          {
+            "group": "账户与设置",
+            "icon": "gear",
+            "pages": []
+          },
+          {
+            "group": "账户与设置",
+            "icon": "gear",
+            "pages": [
+              "sending-domain",
+              "sender-address",
+              "member-settings"
+            ]
+          },
+          {
+            "group": "联系人管理",
+            "icon": "address-book",
+            "pages": []
+          },
+          {
+            "group": "联系人管理",
+            "icon": "address-book",
+            "pages": [
+              "contacts",
+              "tags",
+              "segments",
+              "unsubscribe"
+            ]
+          },
+          {
+            "group": "邮件创作",
+            "icon": "envelope-open-text",
+            "pages": []
+          },
+          {
+            "group": "邮件创作",
+            "icon": "envelope-open-text",
+            "pages": [
+              "assets"
+            ]
+          },
+          {
+            "group": "发信任务与效果",
+            "icon": "paper-plane",
+            "pages": []
+          },
+          {
+            "group": "发信任务与效果",
+            "icon": "paper-plane",
+            "pages": [
+              "send-task",
+              "analytics",
+              "gmail-deliverability"
+            ]
+          }
         ]
       },
       {
-        "group": "联系人管理",
-        "pages": [
-          "contacts",
-          "tags",
-          "segments",
-          "unsubscribe"
-        ],
-        "icon": "address-book"
-      },
-      {
-        "group": "邮件创作",
-        "icon": "envelope-open-text",
-        "pages": [
-          "assets"
+        "tab": "Open API",
+        "groups": [
+          {
+            "group": "开发者 API",
+            "openapi": "openapi/sendify.yaml",
+            "pages": [
+              "developer/overview",
+              "POST /dmx/v2/contacts"
+            ]
+          }
         ]
-      },
-      {
-        "group": "发信任务与效果",
-        "icon": "paper-plane",
-        "pages": [
-          "send-task",
-          "analytics",
-          "gmail-deliverability"
-        ]
-      },
-      {
-        "group": "开发者 API",
-        "openapi": "openapi/sendify.yaml",
-        "pages": ["developer/overview", "POST /dmx/v2/contacts"]
       }
     ]
   },
