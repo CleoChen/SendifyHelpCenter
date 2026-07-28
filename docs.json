@@ -25,19 +25,9 @@
           {
             "group": "开始使用",
             "icon": "rocket",
-            "pages": []
-          },
-          {
-            "group": "开始使用",
-            "icon": "rocket",
             "pages": [
               "getting-started"
             ]
-          },
-          {
-            "group": "账户与设置",
-            "icon": "gear",
-            "pages": []
           },
           {
             "group": "账户与设置",
@@ -47,11 +37,6 @@
               "sender-address",
               "member-settings"
             ]
-          },
-          {
-            "group": "联系人管理",
-            "icon": "address-book",
-            "pages": []
           },
           {
             "group": "联系人管理",
@@ -66,19 +51,9 @@
           {
             "group": "邮件创作",
             "icon": "envelope-open-text",
-            "pages": []
-          },
-          {
-            "group": "邮件创作",
-            "icon": "envelope-open-text",
             "pages": [
               "assets"
             ]
-          },
-          {
-            "group": "发信任务与效果",
-            "icon": "paper-plane",
-            "pages": []
           },
           {
             "group": "发信任务与效果",
