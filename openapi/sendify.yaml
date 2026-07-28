@@ -22,6 +22,15 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateContactRequest"
+            example:
+              email: string
+              tagNames:
+                - string
+              customFields:
+                - fieldName: string
+                  fieldValue: string
+              autoCreateTags: true
+              conflictPolicy: CONTACT_CONFLICT_POLICY_FAIL_IF_EXISTS
       responses:
         "200":
           description: 联系人创建成功
@@ -29,19 +38,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateContactResponse"
+              example:
+                contact:
+                  id: string
+                  email: string
+                  tagNames:
+                    - string
+                  customFields:
+                    - fieldName: string
+                      fieldValue: string
+                  createTime: string
         "401":
           description: 访问未授权，请检查是否传递了正确的 Bearer API Key
         "403":
-          description: 当前 API Key 没有访问该接口的权限
-        "429":
-          description: 请求频率超过限制，请稍后重试
+          description: 无 API 访问权限，请检查 API Key 的权限配置
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: API Key
-      description: 在 Authorization 请求头中传入 Sendify API Key。
+      description: 在 Authorization 请求头中使用 `Bearer YOUR_TOKEN` 格式传入 Sendify API Key。
   schemas:
     Contact:
       type: object
@@ -70,9 +87,9 @@ components:
     ContactConflictPolicy:
       type: string
       description: |-
-        联系人已存在时的处理策略：
-        - `CONTACT_CONFLICT_POLICY_FAIL_IF_EXISTS`：返回冲突错误，不更新联系人。
-        - `CONTACT_CONFLICT_POLICY_UPDATE_IF_EXISTS`：更新已有联系人；保留已有标签，仅追加新标签。
+        联系人已存在时的处理策略，默认创建失败。设置为更新策略时，按 email 匹配到已有联系人则用本次提供的数据更新。
+        - `CONTACT_CONFLICT_POLICY_FAIL_IF_EXISTS`：联系人已存在时返回冲突错误，不更新联系人。
+        - `CONTACT_CONFLICT_POLICY_UPDATE_IF_EXISTS`：联系人已存在时更新已有联系人。已有标签会保留，tagNames 仅追加新标签。
       enum:
         - CONTACT_CONFLICT_POLICY_FAIL_IF_EXISTS
         - CONTACT_CONFLICT_POLICY_UPDATE_IF_EXISTS
@@ -83,7 +100,7 @@ components:
       properties:
         fieldName:
           type: string
-          description: 自定义字段名称。字段必须已存在且唯一。
+          description: 自定义字段名称。字段名称必须已存在且唯一；不存在或匹配不唯一时请求失败。
         fieldValue:
           type: string
           description: 自定义字段值
@@ -100,7 +117,7 @@ components:
           type: array
           items:
             type: string
-          description: 要添加到联系人的标签名称列表。已有标签会保留，仅追加新标签。
+          description: 要添加到联系人的标签名称列表。追加语义：保留已有标签，仅添加本次列表中的新标签。
         customFields:
           type: array
           items:
@@ -109,7 +126,7 @@ components:
         autoCreateTags:
           type: boolean
           default: false
-          description: 标签不存在时是否自动创建
+          description: 标签名称不存在时是否自动创建，默认 false。为 false 时，tagNames 中存在未命中标签会请求失败；为 true 时自动创建后追加到联系人。
         conflictPolicy:
           $ref: "#/components/schemas/ContactConflictPolicy"
     CreateContactResponse:
