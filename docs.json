@@ -71,7 +71,6 @@
         "groups": [
           {
             "group": "开发者 API",
-            "openapi": "openapi/sendify.yaml",
             "pages": [
               "developer/overview",
               "developer/create-contact"
