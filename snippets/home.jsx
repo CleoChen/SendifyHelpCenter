@@ -437,7 +437,43 @@ export const Home = ({ t, arts, hot }) => {
   );
 
   const homeHref = "/";
+  const apiDocsHref = "https://docs.sendify.dingstore.cn/developer/overview";
   const supportMail = "mailto:sendify-support@dingmail.work";
+  const feedbackHref =
+    "https://alidocs.dingtalk.com/notable/share/form/v01YvenvKpQJPD4qoyZ_LIfCrNM_o7BUI39?";
+  const legalLinks = [
+    {
+      label: "隐私政策",
+      href: "https://terms.alicdn.com/legal-agreement/terms/privacy_policy_full/20250320112834560/20250320112834560.html",
+    },
+    {
+      label: "服务协议",
+      href: "https://terms.alicdn.com/legal-agreement/terms/b_end_product_protocol/20250320110123957/20250320110123957.html",
+    },
+    {
+      label: "服务等级协议",
+      href: "https://terms.alicdn.com/legal-agreement/terms/b_end_product_protocol/20250320143730445/20250320143730445.html",
+    },
+  ];
+  const partnerLinks = [
+    ["钉钉", "https://www.dingtalk.com"],
+    ["阿里巴巴集团", "https://www.alibabagroup.com/cn/global/home"],
+    ["淘宝网", "https://www.taobao.com"],
+    ["天猫", "https://www.tmall.com"],
+    ["聚划算", "https://ju.taobao.com"],
+    ["全球速卖通", "https://www.aliexpress.com"],
+    ["阿里巴巴国际交易市场", "https://www.alibaba.com"],
+    ["1688", "https://www.1688.com"],
+    ["阿里妈妈", "https://www.alimama.com"],
+    ["飞猪", "https://www.fliggy.com"],
+    ["阿里云计算", "https://www.aliyun.com"],
+    ["AliOS", "http://www.alios.cn"],
+    ["支付宝", "https://www.alipay.com/"],
+    ["支付宝商家平台", "https://b.alipay.com/?ynsrc=dingdingB"],
+    ["UC", "http://www.uc.cn"],
+    ["达摩院", "https://damo.alibaba.com"],
+    ["阿里云盘", "https://www.aliyundrive.com/"],
+  ];
 
   /* ---- NavMenu（移动端汉堡菜单） ----
      桌面端内联导航 .dt-home-nav-links 在 ≤900px 隐藏（见 style.css）；
@@ -480,6 +516,9 @@ export const Home = ({ t, arts, hot }) => {
           <a href="#popular" role="menuitem" onClick={() => setOpen(false)}>
             {t.nav1}
           </a>
+          <a href={apiDocsHref} role="menuitem" onClick={() => setOpen(false)}>
+            {t.nav2}
+          </a>
           <a href={supportMail} role="menuitem" onClick={() => setOpen(false)}>
             {t.nav4}
           </a>
@@ -506,12 +545,10 @@ export const Home = ({ t, arts, hot }) => {
         </a>
         <div className="dt-home-nav-links">
           <a href="#popular">{t.nav1}</a>
+          <a href={apiDocsHref}>{t.nav2}</a>
           <a href={supportMail}>{t.nav4}</a>
         </div>
         <div className="dt-home-nav-right">
-          <a href={supportMail} className="dt-home-btn-primary">
-            {t.contact}
-          </a>
           {React.createElement(NavMenu)}
         </div>
       </nav>
@@ -524,10 +561,6 @@ export const Home = ({ t, arts, hot }) => {
       <div className="dt-home-hero-bg">{React.createElement(ParticleCanvas)}</div>
       <div className="dt-home-hero-scrim" />
       <div className="dt-home-hero-inner">
-        <span className="dt-home-eyebrow">
-          <span className="dt-home-eyebrow-dot" />
-          <span>{t.status}</span>
-        </span>
         <h1 className="dt-home-hero-title">{t.title}</h1>
         <p className="dt-home-hero-sub">{t.subtitle}</p>
         {React.createElement(SearchBar)}
@@ -580,7 +613,12 @@ export const Home = ({ t, arts, hot }) => {
           <a href={supportMail} className="dt-home-support-s1">
             {t.sup_b1}
           </a>
-          <a href={supportMail} className="dt-home-support-s2">
+          <a
+            href={feedbackHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dt-home-support-s2"
+          >
             {t.sup_b2}
           </a>
         </div>
@@ -588,51 +626,59 @@ export const Home = ({ t, arts, hot }) => {
     </section>
   );
 
-  /* Footer 链接暂沿用 dingtalk-docs 的内容占位，后续手工替换为
-     Sendify 官方链接。 */
-  const mkt = (path) => "https://www.dingtalk.io" + path;
-
   const renderHomeFooter = () => (
     <footer className="dt-home-footer">
       <div className="dt-home-wrap dt-home-foot">
-        <div>
-          <a href={homeHref} className="dt-home-foot-brand" aria-label="Sendify" />
-          <p className="dt-home-foot-tagline">{t.foot_tag}</p>
-        </div>
-        <div>
-          <h5>{t.foot_h1}</h5>
+        <section className="dt-home-foot-section">
+          <h5>法律协议</h5>
           <ul>
-            <li><a href={mkt("/products/dingtalk-im/")} target="_blank" rel="noopener noreferrer">{t.foot_p1}</a></li>
-            <li><a href={mkt("/products/dingtalk-meeting/")} target="_blank" rel="noopener noreferrer">{t.foot_p2}</a></li>
-            <li><a href={mkt("/products/dingtalk-document/")} target="_blank" rel="noopener noreferrer">{t.foot_p3}</a></li>
-            <li><a href={mkt("/products/ai-table/")} target="_blank" rel="noopener noreferrer">{t.foot_p4}</a></li>
+            {legalLinks.map((item) => (
+              <li key={item.label}>
+                <a href={item.href} target="_blank" rel="noopener noreferrer">
+                  {item.label}
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
-        <div>
-          <h5>{t.foot_h2}</h5>
-          <ul>
-            <li><a href={mkt("/#pricing")} target="_blank" rel="noopener noreferrer">{t.foot_s1}</a></li>
-            <li><a href={supportMail}>{t.foot_s2}</a></li>
-            <li><a href={homeHref}>{t.foot_s3}</a></li>
-            <li><a href={mkt("/blog/")} target="_blank" rel="noopener noreferrer">{t.foot_s4}</a></li>
+        </section>
+        <section className="dt-home-foot-section">
+          <h5>联系我们</h5>
+          <ul className="dt-home-foot-contact">
+            <li>
+              <span>售后服务：</span>
+              <a href={supportMail}>sendify-support@dingmail.work</a>
+            </li>
           </ul>
-        </div>
-        <div>
-          <h5>{t.foot_h3}</h5>
-          <ul>
-            <li><a href={mkt("/blog/")} target="_blank" rel="noopener noreferrer">{t.foot_r1}</a></li>
-            <li><a href={mkt("/qa/")} target="_blank" rel="noopener noreferrer">{t.foot_r2}</a></li>
-            <li><a href={mkt("/#customer-cases")} target="_blank" rel="noopener noreferrer">{t.foot_r3}</a></li>
-            <li><a href={mkt("/download/")} target="_blank" rel="noopener noreferrer">{t.foot_r4}</a></li>
-          </ul>
-        </div>
+        </section>
       </div>
-      <div className="dt-home-foot-bottom">
-        <span>© 2026 Sendify. {t.rights}</span>
-        <span style={{ display: "flex", gap: "20px" }}>
-          <a href={mkt("/privacy-policy/")} target="_blank" rel="noopener noreferrer">{t.legal1}</a>
-          <a href={mkt("/terms-of-service/")} target="_blank" rel="noopener noreferrer">{t.legal2}</a>
-        </span>
+      <div className="dt-home-foot-divider" />
+      <div className="dt-home-wrap dt-home-foot-affiliates" aria-label="阿里生态网站">
+        {partnerLinks.map(([label, href]) => (
+          <a key={label} href={href} target="_blank" rel="nofollow noopener noreferrer">
+            {label}
+          </a>
+        ))}
+      </div>
+      <div className="dt-home-foot-copyright">
+        <p>阿里钉钉 ©版权公告 © 2025 钉钉（中国）信息技术有限公司/或其关联公司版权所有</p>
+        <p className="dt-home-foot-records">
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002018233"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://img.alicdn.com/imgextra/i4/O1CN01AnwpVO1byAMKsZk2h_!!6000000003533-2-tps-62-67.png"
+              alt=""
+              width="16"
+              height="17"
+            />
+            <span>浙公网安备 33011002018233号</span>
+          </a>
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+            浙ICP备18037475号-53
+          </a>
+        </p>
       </div>
     </footer>
   );
