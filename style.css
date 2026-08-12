@@ -80,9 +80,12 @@ html:has(.dt-home) body::-webkit-scrollbar {
   max-width: 1180px; margin: 0 auto; padding: 0 28px; height: 66px;
   display: flex; align-items: center; gap: 32px;
 }
+.dt-home-brand-lockup {
+  display: flex; align-items: center;
+  flex: none;
+}
 .dt-home .dt-home-brand {
-  display: flex; align-items: center; gap: 10px;
-  font-weight: 700; letter-spacing: -0.01em;
+  display: flex; align-items: center;
   text-decoration: none;
 }
 .dt-home-brand-logo {
@@ -92,14 +95,14 @@ html:has(.dt-home) body::-webkit-scrollbar {
   background-size: contain;
 }
 .dt-home-brand-sub {
-  color: var(--ink-3);
-  font-weight: 500; font-size: 13px;
-  border-left: 1px solid var(--line);
-  padding-left: 11px;
-  margin-left: 2px;
+  color: color-mix(in srgb, var(--ink-3) 76%, transparent);
+  font-weight: 400; font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  margin-left: 0;
 }
 .dt-home-nav-links {
-  display: flex; gap: 28px; margin-left: 8px;
+  display: flex; gap: 28px; margin-left: 2px;
 }
 .dt-home .dt-home-nav-links a {
   font-size: 14.5px; color: var(--ink-2); font-weight: 500;
@@ -508,7 +511,6 @@ html:has(.dt-home) body::-webkit-scrollbar {
 }
 @media (max-width: 560px) {
   .dt-home-nav { gap: 10px; padding: 0 24px; height: 60px; }
-  .dt-home-brand { font-size: 17px; gap: 8px; }
   .dt-home-brand-logo { width: 86px; height: 26px; }
   .dt-home-brand-sub { display: none; }
   .dt-home-nav-right { gap: 8px; }

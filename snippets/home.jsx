@@ -437,8 +437,14 @@ export const Home = ({ t, arts, hot }) => {
   );
 
   const homeHref = "/";
+  const productDocsHref = "https://docs.sendify.dingstore.cn/getting-started";
   const apiDocsHref = "https://docs.sendify.dingstore.cn/developer/overview";
   const supportMail = "mailto:sendify-support@dingmail.work";
+  const currentYear = new Date().getFullYear();
+  const openSupportMail = (event) => {
+    event.preventDefault();
+    window.location.assign(supportMail);
+  };
   const feedbackHref =
     "https://alidocs.dingtalk.com/notable/share/form/v01YvenvKpQJPD4qoyZ_LIfCrNM_o7BUI39?";
   const legalLinks = [
@@ -513,20 +519,30 @@ export const Home = ({ t, arts, hot }) => {
           </svg>
         </button>
         <div className="dt-home-nav-panel" role="menu">
-          <a href="#popular" role="menuitem" onClick={() => setOpen(false)}>
+          <a href={productDocsHref} role="menuitem" onClick={() => setOpen(false)}>
             {t.nav1}
           </a>
           <a href={apiDocsHref} role="menuitem" onClick={() => setOpen(false)}>
             {t.nav2}
           </a>
-          <a href={supportMail} role="menuitem" onClick={() => setOpen(false)}>
+          <a
+            href={supportMail}
+            role="menuitem"
+            onClick={(event) => {
+              setOpen(false);
+              openSupportMail(event);
+            }}
+          >
             {t.nav4}
           </a>
           <a
             href={supportMail}
             role="menuitem"
             className="dt-home-nav-panel-cta"
-            onClick={() => setOpen(false)}
+            onClick={(event) => {
+              setOpen(false);
+              openSupportMail(event);
+            }}
           >
             {t.contact}
           </a>
@@ -539,14 +555,16 @@ export const Home = ({ t, arts, hot }) => {
   const renderHeader = () => (
     <header className="dt-home-header">
       <nav className="dt-home-nav">
-        <a href={homeHref} className="dt-home-brand">
-          <span className="dt-home-brand-logo" aria-label="Sendify" />
+        <div className="dt-home-brand-lockup">
+          <a href={homeHref} className="dt-home-brand" aria-label="Sendify 首页">
+            <span className="dt-home-brand-logo" aria-hidden="true" />
+          </a>
           <small className="dt-home-brand-sub">{t.brand_sub}</small>
-        </a>
+        </div>
         <div className="dt-home-nav-links">
-          <a href="#popular">{t.nav1}</a>
+          <a href={productDocsHref}>{t.nav1}</a>
           <a href={apiDocsHref}>{t.nav2}</a>
-          <a href={supportMail}>{t.nav4}</a>
+          <a href={supportMail} onClick={openSupportMail}>{t.nav4}</a>
         </div>
         <div className="dt-home-nav-right">
           {React.createElement(NavMenu)}
@@ -610,7 +628,7 @@ export const Home = ({ t, arts, hot }) => {
           <p>{t.sup_sub}</p>
         </div>
         <div className="dt-home-support-acts">
-          <a href={supportMail} className="dt-home-support-s1">
+          <a href={supportMail} className="dt-home-support-s1" onClick={openSupportMail}>
             {t.sup_b1}
           </a>
           <a
@@ -646,7 +664,7 @@ export const Home = ({ t, arts, hot }) => {
           <ul className="dt-home-foot-contact">
             <li>
               <span>售后服务：</span>
-              <a href={supportMail}>sendify-support@dingmail.work</a>
+              <a href={supportMail} onClick={openSupportMail}>sendify-support@dingmail.work</a>
             </li>
           </ul>
         </section>
@@ -660,7 +678,7 @@ export const Home = ({ t, arts, hot }) => {
         ))}
       </div>
       <div className="dt-home-foot-copyright">
-        <p>阿里钉钉 ©版权公告 © 2025 钉钉（中国）信息技术有限公司/或其关联公司版权所有</p>
+        <p>阿里钉钉 ©版权公告 © {currentYear} 钉钉（中国）信息技术有限公司/或其关联公司版权所有</p>
         <p className="dt-home-foot-records">
           <a
             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002018233"
