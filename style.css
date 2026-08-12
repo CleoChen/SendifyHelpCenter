@@ -19,7 +19,7 @@
   --surface: #ffffff;
   --surface-glass: rgba(255, 255, 255, 0.82);
   --eyebrow-bg: #ffffff;
-  --logo-url: url(/logo/light.svg);
+  --logo-url: url(/logo/sendify-light.svg);
   --dot-pattern: rgba(13, 20, 33, 0.045);
   --hero-scrim: radial-gradient(660px 420px at 50% 42%, rgba(247, 249, 252, 0.62), rgba(247, 249, 252, 0.18) 54%, rgba(247, 249, 252, 0) 78%);
   --hero-tint-1: rgba(99, 91, 255, 0.10);
@@ -90,7 +90,7 @@ html:has(.dt-home) body::-webkit-scrollbar {
 }
 .dt-home-brand-logo {
   display: block;
-  width: 105px; height: 32px;
+  width: 102px; height: 32px;
   background: var(--logo-url) no-repeat left center;
   background-size: contain;
 }
@@ -584,7 +584,7 @@ html.dark .dt-home {
   --surface: #161d27;
   --surface-glass: rgba(12, 18, 25, 0.78);
   --eyebrow-bg: #161d27;
-  --logo-url: url(/logo/dark.svg);
+  --logo-url: url(/logo/sendify-dark.svg);
   --dot-pattern: rgba(255, 255, 255, 0.05);
   --hero-scrim: radial-gradient(660px 420px at 50% 42%, rgba(12, 18, 25, 0.55), rgba(12, 18, 25, 0.20) 54%, rgba(12, 18, 25, 0) 78%);
   --hero-tint-1: rgba(99, 91, 255, 0.18);
