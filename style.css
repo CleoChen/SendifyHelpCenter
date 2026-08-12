@@ -90,7 +90,7 @@ html:has(.dt-home) body::-webkit-scrollbar {
 }
 .dt-home-brand-logo {
   display: block;
-  width: 102px; height: 32px;
+  width: 106px; height: 32px;
   background: var(--logo-url) no-repeat left center;
   background-size: contain;
 }
