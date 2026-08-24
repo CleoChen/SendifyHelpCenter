@@ -4,9 +4,9 @@
   "name": "Sendify 帮助中心",
   "description": "Sendify 产品使用指南",
   "colors": {
-    "primary": "#635BFF",
-    "light": "#7C74FF",
-    "dark": "#4B43D6"
+    "primary": "#0B63E6",
+    "light": "#3B8CFF",
+    "dark": "#084EA8"
   },
   "appearance": {
     "default": "system"
