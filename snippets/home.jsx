@@ -335,8 +335,19 @@ export const Home = ({ t, arts, hot, journeys }) => {
         </div>
       </div>
       <div className="dt-home-wrap dt-home-footer-bottom">
-        <span>© {currentYear} Sendify. 保留所有权利。</span>
-        <span>浙ICP备18037475号-53</span>
+        <span>阿里钉钉 ©版权公告 © {currentYear} 钉钉（中国）信息技术有限公司/或其关联公司版权所有</span>
+        <span className="dt-home-footer-filings">
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002018233"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            浙公网安备 33011002018233号
+          </a>
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+            浙ICP备18037475号-53
+          </a>
+        </span>
       </div>
     </footer>
   );

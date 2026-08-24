@@ -756,6 +756,19 @@ html[data-page-mode="custom"] :where(div):has(> #content-area) { padding-top: 0 
   line-height: 18px;
   text-align: center;
 }
+.dt-home-footer-filings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.dt-home-footer-bottom a {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 /* 焦点与动画 */
 .dt-home :focus-visible {
