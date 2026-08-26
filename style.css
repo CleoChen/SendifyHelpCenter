@@ -898,5 +898,39 @@ html.dark .dt-home-support {
 }
 html.dark .dt-home-button-secondary { background: rgba(18, 35, 56, 0.82); }
 
-/* Mintlify 文档内页品牌色与 logo 尺寸。 */
-.nav-logo { height: 2rem; }
+/*
+ * Mintlify 会把内页 Logo 改写到 mintcdn.com；该域名在公司网络中可能被
+ * 安全策略拦截。隐藏 CDN 图片，改为从当前文档域名加载同源静态资源。
+ */
+#navbar a.select-none:has(> .nav-logo) {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 2rem;
+}
+
+#navbar a.select-none:has(> .nav-logo)::before {
+  content: "";
+  display: block;
+  width: 104px;
+  height: 2rem;
+  flex: none;
+  background: url("/logo/sendify-brand.png") no-repeat left center / contain;
+}
+
+#navbar a.select-none:has(> .nav-logo)::after {
+  content: "帮助中心";
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#navbar .nav-logo {
+  display: none !important;
+}
+
+html.dark #navbar a.select-none:has(> .nav-logo)::before {
+  background-image: url("/logo/sendify-brand-dark.png");
+}
