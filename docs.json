@@ -13,8 +13,8 @@
   },
   "favicon": "/favicon.svg",
   "logo": {
-    "light": "/logo/sendify-light.svg",
-    "dark": "/logo/sendify-dark.svg",
+    "light": "/logo/sendify-brand.png",
+    "dark": "/logo/sendify-brand-dark.png",
     "href": "/"
   },
   "navigation": {
