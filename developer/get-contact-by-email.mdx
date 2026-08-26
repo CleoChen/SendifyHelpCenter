@@ -1,0 +1,151 @@
+---
+title: "查询单个联系人"
+description: "根据邮件地址查询当前账号下的联系人"
+icon: "magnifying-glass"
+keywords:
+  - "查询联系人"
+  - "单个联系人"
+  - "邮件地址"
+  - "联系人 API"
+---
+
+根据完整的邮件地址，查询当前 API Key 所属账号下的联系人。接口不会暴露内部联系人 ID。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/contacts/{email}
+```
+
+## 认证
+
+在 `Authorization` 请求头中使用 Bearer API Key：
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+请勿在前端代码、公开仓库或日志中保存真实 API Key。
+</Warning>
+
+## 路径参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `email` | `string` | 是 | 要查询的联系人邮件地址，按完整邮件地址精确匹配。放入 URL 路径前需要进行 URL 编码 |
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl \
+      "https://api.sendify.dingstore.cn/dmx/v2/contacts/zhangsan%40example.com" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Accept: application/json"
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    const email = "zhangsan@example.com";
+    const url =
+      "https://api.sendify.dingstore.cn/dmx/v2/contacts/" +
+      encodeURIComponent(email);
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: "Bearer YOUR_API_KEY",
+        Accept: "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    from urllib.parse import quote
+    import requests
+
+    email = "zhangsan@example.com"
+    encoded_email = quote(email, safe="")
+    url = (
+        "https://api.sendify.dingstore.cn/dmx/v2/contacts/"
+        + encoded_email
+    )
+    headers = {
+        "Authorization": "Bearer YOUR_API_KEY",
+        "Accept": "application/json",
+    }
+
+    response = requests.get(url, headers=headers)
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+HTTP `200` 返回与邮件地址匹配的联系人：
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `contact` | `object` | 与请求邮件地址匹配的联系人 |
+| `contact.firstName` | `string` | 联系人的名字，可以为空 |
+| `contact.lastName` | `string` | 联系人的姓氏，可以为空 |
+| `contact.company` | `string \| null` | 联系人所在公司，可以为 `null` |
+| `contact.position` | `string` | 联系人的职位，可以为空 |
+| `contact.source` | `string` | 联系人的创建来源，可选值见下表 |
+| `contact.createTime` | `string (date-time)` | 联系人创建时间，RFC 3339 格式的 UTC 时间戳 |
+| `contact.customFields` | `array<object>` | 自定义字段列表；未设置自定义字段时返回空数组 |
+| `contact.customFields[].fieldName` | `string` | 自定义字段名称，用于识别 `fieldValue` 对应的字段 |
+| `contact.customFields[].fieldValue` | `string` | 自定义字段值，可以为空 |
+| `contact.lastOpenTime` | `string (date-time)` | 最近一次打开营销邮件的时间，RFC 3339 格式的 UTC 时间戳；从未打开时为空 |
+| `contact.email` | `string` | 联系人的邮件地址，在当前账号的联系人范围内唯一 |
+| `contact.tagNames` | `array<string>` | 联系人的标签名称列表，不包含内部标签 ID；没有标签时返回空数组 |
+
+### 联系人来源
+
+| 值 | 说明 |
+| --- | --- |
+| `import` | 通过文件导入 |
+| `user_add` | 在控制台手动添加 |
+| `open_api` | 通过 Open API 创建 |
+
+### 响应示例
+
+```json
+{
+  "contact": {
+    "firstName": "San",
+    "lastName": "Zhang",
+    "company": "Example Co.",
+    "position": "Marketing Manager",
+    "source": "open_api",
+    "createTime": "2026-08-25T02:30:00Z",
+    "customFields": [
+      {
+        "fieldName": "City",
+        "fieldValue": "Hangzhou"
+      }
+    ],
+    "lastOpenTime": "2026-08-25T03:00:00Z",
+    "email": "zhangsan@example.com",
+    "tagNames": [
+      "Newsletter"
+    ]
+  }
+}
+```
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | 请求参数不合法，请检查邮件地址格式 |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `500` | 服务内部错误 |

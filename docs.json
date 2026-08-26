@@ -73,7 +73,9 @@
             "group": "开发者 API",
             "pages": [
               "developer/overview",
-              "developer/create-contact"
+              "developer/create-contact",
+              "developer/list-contacts",
+              "developer/get-contact-by-email"
             ]
           }
         ]

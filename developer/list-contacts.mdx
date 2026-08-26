@@ -1,0 +1,161 @@
+---
+title: "查询联系人列表"
+description: "分页查询当前账号下的联系人"
+icon: "users"
+keywords:
+  - "查询联系人"
+  - "联系人列表"
+  - "联系人 API"
+  - "分页"
+---
+
+分页查询当前 API Key 所属账号下的联系人。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/contacts
+```
+
+## 认证
+
+在 `Authorization` 请求头中使用 Bearer API Key：
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+请勿在前端代码、公开仓库或日志中保存真实 API Key。
+</Warning>
+
+## 查询参数
+
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `pageNo` | `number` | 否 | `1` | 页码，从 `1` 开始，必须是正整数。未传或传 `0` 时使用默认值；负数会导致请求失败 |
+| `pageSize` | `number` | 否 | `50` | 每页返回的联系人数量，取值范围为 `1`～`1500`。未传或传 `0` 时使用默认值；负数或大于 `1500` 会导致请求失败 |
+
+## 请求示例
+
+以下示例查询第 `1` 页，每页返回 `50` 个联系人。
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl -G \
+      "https://api.sendify.dingstore.cn/dmx/v2/contacts" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Accept: application/json" \
+      --data-urlencode "pageNo=1" \
+      --data-urlencode "pageSize=50"
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    const url = new URL(
+      "https://api.sendify.dingstore.cn/dmx/v2/contacts"
+    );
+    url.searchParams.set("pageNo", "1");
+    url.searchParams.set("pageSize", "50");
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: "Bearer YOUR_API_KEY",
+        Accept: "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import requests
+
+    url = "https://api.sendify.dingstore.cn/dmx/v2/contacts"
+    headers = {
+        "Authorization": "Bearer YOUR_API_KEY",
+        "Accept": "application/json",
+    }
+    params = {
+        "pageNo": 1,
+        "pageSize": 50,
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+HTTP `200` 返回当前页的联系人以及分页信息：
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `contacts` | `array<object>` | 当前页的联系人列表；没有匹配结果时返回空数组 |
+| `contacts[].firstName` | `string` | 联系人的名字，可以为空 |
+| `contacts[].lastName` | `string` | 联系人的姓氏，可以为空 |
+| `contacts[].company` | `string \| null` | 联系人所在公司，可以为 `null` |
+| `contacts[].position` | `string` | 联系人的职位，可以为空 |
+| `contacts[].source` | `string` | 联系人的创建来源，可选值见下表 |
+| `contacts[].createTime` | `string (date-time)` | 联系人创建时间，RFC 3339 格式的 UTC 时间戳 |
+| `contacts[].customFields` | `array<object>` | 自定义字段列表；未设置自定义字段时返回空数组 |
+| `contacts[].customFields[].fieldName` | `string` | 自定义字段名称，用于识别 `fieldValue` 对应的字段 |
+| `contacts[].customFields[].fieldValue` | `string` | 自定义字段值，可以为空 |
+| `contacts[].lastOpenTime` | `string (date-time)` | 最近一次打开营销邮件的时间，RFC 3339 格式的 UTC 时间戳；从未打开时为空 |
+| `contacts[].email` | `string` | 联系人的邮件地址，在当前账号的联系人范围内唯一 |
+| `contacts[].tagNames` | `array<string>` | 联系人的标签名称列表，不包含内部标签 ID；没有标签时返回空数组 |
+| `totalCounts` | `number (int32)` | 符合条件的联系人总数 |
+| `totalPages` | `number (int32)` | 按 `pageSize` 计算的总页数；没有匹配联系人时为 `0` |
+
+### 联系人来源
+
+| 值 | 说明 |
+| --- | --- |
+| `import` | 通过文件导入 |
+| `user_add` | 在控制台手动添加 |
+| `open_api` | 通过 Open API 创建 |
+
+### 响应示例
+
+```json
+{
+  "contacts": [
+    {
+      "firstName": "San",
+      "lastName": "Zhang",
+      "company": "Example Co.",
+      "position": "Marketing Manager",
+      "source": "open_api",
+      "createTime": "2026-08-25T02:30:00Z",
+      "customFields": [
+        {
+          "fieldName": "City",
+          "fieldValue": "Hangzhou"
+        }
+      ],
+      "lastOpenTime": "2026-08-25T03:00:00Z",
+      "email": "zhangsan@example.com",
+      "tagNames": [
+        "Newsletter"
+      ]
+    }
+  ],
+  "totalCounts": 1,
+  "totalPages": 1
+}
+```
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | 请求参数不合法，请检查 `pageNo` 和 `pageSize` |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `500` | 服务内部错误 |
