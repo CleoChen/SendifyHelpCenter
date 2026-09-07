@@ -1,51 +1,34 @@
 /* Sendify 帮助中心首页。样式位于 /style.css 的 .dt-home 命名空间。 */
 
-export const Home = ({ t, arts, hot, journeys }) => {
-  const openSearchWithQuery = (query) => {
+export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
+  const applySearchQuery = (query, focus = false) => {
     if (typeof document === "undefined") return;
-    const trigger =
-      document.querySelector('button[id*="search-bar-entry"]') ||
-      document.querySelector('button[aria-label*="Search" i]') ||
-      document.querySelector("[data-search-trigger]");
+    const input = document.getElementById("home-search-input");
+    const panel = document.getElementById("home-search-results");
+    const summary = document.getElementById("home-search-summary");
+    const submit = document.getElementById("home-search-submit");
+    if (!input || !panel || !summary || !submit) return;
 
-    if (trigger) {
-      trigger.click();
-    } else {
-      const isMac = navigator.platform.toLowerCase().includes("mac");
-      window.dispatchEvent(
-        new KeyboardEvent("keydown", {
-          key: "k",
-          code: "KeyK",
-          metaKey: isMac,
-          ctrlKey: !isMac,
-          bubbles: true,
-        })
-      );
-    }
+    const normalizedQuery = query.trim().toLocaleLowerCase("zh-CN");
+    let visibleCount = 0;
+    input.value = query;
+    input.setAttribute("aria-expanded", String(Boolean(normalizedQuery)));
 
-    const trimmed = (query || "").trim();
-    if (!trimmed) return;
+    panel.querySelectorAll("[data-search-item]").forEach((item) => {
+      const matches =
+        Boolean(normalizedQuery) &&
+        item.dataset.searchText.includes(normalizedQuery) &&
+        visibleCount < 6;
+      item.hidden = !matches;
+      if (matches) visibleCount += 1;
+    });
 
-    let tries = 0;
-    const fillSearch = () => {
-      const input =
-        document.querySelector("#search-input") ||
-        document.querySelector('[role="dialog"] input[role="combobox"]') ||
-        document.querySelector('[role="dialog"] input');
-      if (input) {
-        const setter = Object.getOwnPropertyDescriptor(
-          window.HTMLInputElement.prototype,
-          "value"
-        ).set;
-        setter.call(input, trimmed);
-        input.dispatchEvent(new Event("input", { bubbles: true }));
-        input.focus();
-        return;
-      }
-      tries += 1;
-      if (tries < 20) requestAnimationFrame(fillSearch);
-    };
-    requestAnimationFrame(fillSearch);
+    panel.hidden = !normalizedQuery;
+    submit.disabled = visibleCount === 0;
+    summary.textContent = visibleCount
+      ? `找到 ${visibleCount} 篇相关内容`
+      : "暂未找到相关内容";
+    if (focus) requestAnimationFrame(() => input.focus());
   };
 
   const productDocsHref = "/getting-started";
@@ -145,62 +128,17 @@ export const Home = ({ t, arts, hot, journeys }) => {
     </header>
   );
 
-  const renderProductVisual = () => (
-    <div className="dt-home-product-visual" aria-hidden="true">
-      <div className="dt-home-visual-orbit dt-home-visual-orbit-one" />
-      <div className="dt-home-visual-orbit dt-home-visual-orbit-two" />
-      <div className="dt-home-visual-card dt-home-visual-metric">
-        <div className="dt-home-visual-card-head">
-          <span />
+  const renderHelpVisual = () => (
+    <div className="dt-home-help-visual" aria-hidden="true">
+      <div className="dt-home-help-sheet dt-home-help-sheet-back" />
+      <div className="dt-home-help-sheet">
+        <span className="dt-home-help-mark">?</span>
+        <div className="dt-home-help-lines">
+          <i />
+          <i />
           <i />
         </div>
-        <strong>发送表现</strong>
-        <svg viewBox="0 0 190 76" fill="none">
-          <defs>
-            <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-              <stop stopColor="#2f80ff" stopOpacity=".24" />
-              <stop offset="1" stopColor="#2f80ff" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <path d="M5 62 32 48 55 54 84 23 108 36 137 17 184 27v45H5Z" fill="url(#area)" />
-          <path d="M5 62 32 48 55 54 84 23 108 36 137 17 184 27" stroke="#1677ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="137" cy="17" r="4" fill="#fff" stroke="#1677ff" strokeWidth="3" />
-        </svg>
-        <div className="dt-home-visual-stats">
-          <span><b>98.6%</b>送达率</span>
-          <span><b>42.1%</b>打开率</span>
-        </div>
-      </div>
-
-      <div className="dt-home-visual-card dt-home-visual-campaign">
-        <div className="dt-home-visual-card-head">
-          <span />
-          <i />
-        </div>
-        <div className="dt-home-visual-cover">
-          <div className="dt-home-visual-mail-mark">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <rect x="3" y="5" width="18" height="14" rx="3" />
-              <path d="m5 8 7 5 7-5" />
-            </svg>
-          </div>
-          <span>Campaign</span>
-        </div>
-        <div className="dt-home-visual-lines"><i /><i /><i /></div>
-        <div className="dt-home-visual-button" />
-      </div>
-
-      <div className="dt-home-visual-card dt-home-visual-audience">
-        <span className="dt-home-visual-label">目标受众</span>
-        <div className="dt-home-avatar-row">
-          <i /><i /><i /><i />
-          <b>+2,864</b>
-        </div>
-      </div>
-
-      <div className="dt-home-visual-success">
-        <span>✓</span>
-        发送成功
+        <span className="dt-home-help-check">✓</span>
       </div>
     </div>
   );
@@ -218,29 +156,70 @@ export const Home = ({ t, arts, hot, journeys }) => {
             role="search"
             onSubmit={(event) => {
               event.preventDefault();
-              openSearchWithQuery(event.currentTarget.elements.query.value);
+              const firstResult = document.querySelector(
+                "#home-search-results [data-search-item]:not([hidden]) a"
+              );
+              if (firstResult) window.location.assign(firstResult.href);
             }}
           >
             <SearchIcon />
-            <input name="query" type="search" aria-label={t.ph} placeholder={t.ph} autoComplete="off" />
-            <button type="submit">
+            <input
+              id="home-search-input"
+              name="query"
+              type="search"
+              aria-label={t.ph}
+              aria-controls="home-search-results"
+              aria-expanded="false"
+              placeholder={t.ph}
+              autoComplete="off"
+              onInput={(event) => applySearchQuery(event.currentTarget.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") applySearchQuery("", true);
+              }}
+            />
+            <button id="home-search-submit" type="submit" disabled>
               <span>{t.search_btn}</span>
               <ArrowIcon />
             </button>
           </form>
 
+          <div className="dt-home-search-results" id="home-search-results" aria-live="polite" hidden>
+            <div className="dt-home-search-summary">
+              <span id="home-search-summary" />
+              <button type="button" onClick={() => applySearchQuery("", true)} aria-label="清空搜索">清空</button>
+            </div>
+            <ul>
+              {searchItems.map((item) => (
+                <li
+                  key={item.slug}
+                  data-search-item
+                  data-search-text={[item.t, item.tag, item.description, item.keywords]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLocaleLowerCase("zh-CN")}
+                  hidden
+                >
+                  <a href={`/${item.slug}`}>
+                    <span>{item.tag}</span>
+                    <strong>{item.t}</strong>
+                    <ArrowIcon />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div className="dt-home-hot" aria-label="热门搜索">
             <span>{t.hot_label}</span>
             {hot.map((tag) => (
-              <button key={tag} type="button" onClick={() => openSearchWithQuery(tag)}>
+              <button key={tag} type="button" onClick={() => applySearchQuery(tag, true)}>
                 {tag}
               </button>
             ))}
           </div>
         </div>
-        {renderProductVisual()}
+        {renderHelpVisual()}
       </div>
-      <div className="dt-home-hero-curve" aria-hidden="true" />
     </main>
   );
 
