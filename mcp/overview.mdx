@@ -1,0 +1,59 @@
+---
+title: "认识 Sendify MCP"
+description: "让 AI 助手安全、只读地查询 Sendify 营销活动、投递数据与联系人"
+icon: "sparkles"
+---
+
+Sendify MCP 把 Sendify 数据连接到支持 MCP 的 AI 客户端。完成一次配置后，你可以直接用自然语言查询营销活动、投递表现和联系人，无需自行部署服务器或编写接口调用代码。
+
+<Note>
+Sendify MCP 当前仅提供**只读查询**。它不能创建联系人、创建营销活动或发送邮件。
+</Note>
+
+## 你可以做什么
+
+<CardGroup cols={3}>
+  <Card title="查询营销活动" icon="rectangle-list">
+    列出活动并获取真实的活动 ID、状态和基础信息。
+  </Card>
+  <Card title="分析投递表现" icon="chart-line">
+    查看发送成功数、独立打开数、独立点击数和收件人状态。
+  </Card>
+  <Card title="查找联系人" icon="address-book">
+    分页浏览联系人，或按邮箱精确查询联系人资料。
+  </Card>
+</CardGroup>
+
+## 接入方式
+
+Sendify 提供托管的远程 MCP 服务：
+
+```text
+https://mcp.sendify.dingstore.cn/dmx/mcp/v2
+```
+
+| 项目 | 说明 |
+| --- | --- |
+| 传输方式 | HTTPS + Streamable HTTP |
+| 认证方式 | `Authorization: Bearer YOUR_API_KEY` |
+| 部署要求 | 无需部署本地 MCP Server |
+| 数据权限 | 由 Sendify API Key 的账号与权限决定 |
+
+## 支持的客户端
+
+- Codex Desktop 与 Codex CLI
+- Cursor
+- Claude Desktop 与 Claude Code
+- 其他支持远程 Streamable HTTP 和自定义请求头的 MCP 客户端
+
+<Tip>
+第一次使用时，建议先完成 [快速接入](/mcp/quickstart)，再从 [工具与提问示例](/mcp/tools) 中复制一条验证问题。
+</Tip>
+
+## 工作原理
+
+```text
+你的问题 → AI 客户端 → Sendify MCP → Sendify 业务数据
+```
+
+AI 客户端根据问题选择合适的只读工具，将结果整理成更容易理解的回答。是否接入成功，应以真实查询结果为准；仅看到客户端提示“已添加”并不代表认证和数据权限已经验证。

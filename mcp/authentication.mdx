@@ -1,0 +1,44 @@
+---
+title: "API Key 认证与安全"
+description: "了解 Sendify MCP 的 Bearer API Key 认证方式与安全实践"
+icon: "key"
+---
+
+在配置 AI 客户端之前，请先了解 API Key 的用途和保存方式。Sendify MCP 使用 Bearer API Key 识别账号与数据权限，每个请求都需要携带：
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+`Bearer` 与 API Key 之间必须保留一个空格。
+
+## 创建与保存 API Key
+
+在 Sendify 控制台进入：
+
+```text
+开放能力 / API 密钥 / 创建密钥
+```
+
+API Key 的完整内容只展示一次。创建后应立即保存到密码管理器、系统环境变量或客户端提供的密钥存储中。
+
+## 推荐做法
+
+- 每个人、每个客户端使用独立的 API Key，便于审计和撤销。
+- 使用能完成查询任务的最小权限。
+- API Key 名称包含使用者和客户端，例如 `lili-codex-desktop`。
+- 人员变更、设备丢失或怀疑泄露时，立即撤销并更换密钥。
+- 定期清理不再使用的密钥。
+
+## 禁止事项
+
+- 不要把 API Key 提交到 Git 仓库。
+- 不要在日志、截图、公开文档或共享 AI 对话中暴露密钥。
+- 不要多人共用一个长期有效的生产密钥。
+- 不要把真实密钥直接写入可复制的客户端配置模板。
+
+<Info>
+MCP 能访问的数据取决于 API Key 所属账号及其权限。客户端连接成功但查询无权限时，请检查密钥权限，而不是扩大到不必要的账号权限。
+</Info>
+
+如遇 `401` 或权限问题，请参阅 [排查连接问题](/mcp/troubleshooting)。

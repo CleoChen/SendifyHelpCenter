@@ -1,0 +1,48 @@
+---
+title: "排查连接问题"
+description: "处理 Sendify MCP 工具不可见、401、权限不足和数据延迟问题"
+icon: "screwdriver-wrench"
+---
+
+连接问题通常来自地址、客户端重启、认证请求头或 API Key 权限。请先确认生产地址完整包含 `/dmx/mcp/v2`。
+
+<AccordionGroup>
+  <Accordion title="客户端中看不到 Sendify 工具">
+    1. 确认 URL 为 `https://mcp.sendify.dingstore.cn/dmx/mcp/v2`。
+    2. 检查配置文件语法和服务器名称。
+    3. 完全退出并重新打开客户端，而不是只关闭当前对话。
+    4. Codex 或 Claude Code 使用 MCP 列表命令检查；Cursor 可查看 `Output` → `MCP Logs`。
+  </Accordion>
+
+  <Accordion title="请求返回 401">
+    `401` 表示 API Key 缺失、无效或没有正确传入。
+
+    - Codex Desktop：确认系统环境中存在 `SENDIFY_API_KEY`，然后完全重启应用。
+    - 其他客户端：确认请求头为 `Authorization: Bearer YOUR_API_KEY`。
+    - 检查 `Bearer` 后是否恰好有一个空格，并确认密钥没有多余换行。
+  </Accordion>
+
+  <Accordion title="能看到工具，但查询提示没有权限">
+    当前 API Key 需要具备对应业务数据的查询权限。确认密钥属于正确账号并拥有所需权限；如有必要，在同一账号下创建一枚新的最小权限密钥后重试。
+  </Accordion>
+
+  <Accordion title="客户端显示已添加，但调用失败">
+    “已添加”通常只表示配置已保存，不代表服务器、认证和业务权限已验证。执行一次真实查询，并根据返回的 `401`、权限或网络错误继续定位。
+  </Accordion>
+
+  <Accordion title="查不到刚创建的数据">
+    等待片刻后重试，并确认 AI 客户端连接的是创建数据时使用的同一 Sendify 账号和环境。
+  </Accordion>
+</AccordionGroup>
+
+## 最小验证问题
+
+配置完成后执行：
+
+> 列出我最近的 20 个 Sendify 营销活动，返回名称、状态和活动 ID。
+
+看到真实活动名称和活动 ID，才说明连接、认证与数据权限均已通过验证。
+
+<Warning>
+排查时不要把完整 API Key 粘贴到工单、截图、日志或共享对话中。只提供错误码、客户端名称和已脱敏的配置即可。
+</Warning>

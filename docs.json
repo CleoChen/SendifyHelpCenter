@@ -11,7 +11,7 @@
   "appearance": {
     "default": "system"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "logo": {
     "light": "/logo/sendify-brand.png",
     "dark": "/logo/sendify-brand-dark.png",
@@ -76,6 +76,29 @@
               "developer/create-contact",
               "developer/list-contacts",
               "developer/get-contact-by-email"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "MCP",
+        "groups": [
+          {
+            "group": "开始使用",
+            "icon": "sparkles",
+            "pages": [
+              "mcp/overview",
+              "mcp/quickstart"
+            ]
+          },
+          {
+            "group": "配置与参考",
+            "icon": "plug",
+            "pages": [
+              "mcp/authentication",
+              "mcp/client-config",
+              "mcp/tools",
+              "mcp/troubleshooting"
             ]
           }
         ]

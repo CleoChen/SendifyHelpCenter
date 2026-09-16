@@ -26,14 +26,13 @@ export const T = {
   pop_title: "大家都在看的内容",
   pop_sub: "精选高频使用指南，快速解决常见问题。",
   sup_title: "需要更多帮助？",
-  sup_sub: "如有任何问题，欢迎联系我们的支持团队，我们会尽快为你解答。",
-  sup_b1: "联系客服",
-  sup_b2: "反馈问题和建议",
+  sup_sub: "如有任何问题，请发送邮件至以下邮箱，我们会尽快为你解答。",
 };
 
 export const HOT = [
   "发信域名",
   "导入联系人",
+  "MCP 接入",
   "退订",
   "送达率",
   "发信任务",
@@ -98,6 +97,12 @@ export const SEARCH_ITEMS = [
   { slug: "developer/create-contact", tag: "Open API", t: "创建联系人", keywords: "API 联系人" },
   { slug: "developer/list-contacts", tag: "Open API", t: "查询联系人列表", keywords: "API 分页 联系人" },
   { slug: "developer/get-contact-by-email", tag: "Open API", t: "查询单个联系人", keywords: "API 邮件地址 联系人" },
+  { slug: "mcp/overview", tag: "MCP", t: "认识 Sendify MCP", keywords: "AI 助手 Codex Cursor Claude 数据查询" },
+  { slug: "mcp/quickstart", tag: "MCP", t: "快速接入 Sendify MCP", keywords: "API Key Streamable HTTP Bearer" },
+  { slug: "mcp/client-config", tag: "MCP", t: "配置 AI 客户端", keywords: "Codex Desktop Codex CLI Cursor Claude Desktop Claude Code" },
+  { slug: "mcp/tools", tag: "MCP", t: "MCP 工具与提问示例", keywords: "营销活动 报告 收件人 联系人" },
+  { slug: "mcp/authentication", tag: "MCP", t: "API Key 认证与安全", keywords: "Authorization Bearer API Key 权限 安全" },
+  { slug: "mcp/troubleshooting", tag: "MCP", t: "排查 MCP 连接问题", keywords: "401 工具不可见 权限 连接失败" },
 ];
 
 <Home t={T} arts={ARTS} hot={HOT} journeys={JOURNEYS} searchItems={SEARCH_ITEMS} />

@@ -33,9 +33,12 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
 
   const productDocsHref = "/getting-started";
   const apiDocsHref = "/developer/overview";
-  const supportMail = "mailto:sendify-support@dingmail.work";
-  const feedbackHref =
-    "https://alidocs.dingtalk.com/notable/share/form/v01YvenvKpQJPD4qoyZ_LIfCrNM_o7BUI39?";
+  const mcpDocsHref = "/mcp/overview";
+  const websiteHref = "https://www.sendify.dingstore.cn/";
+  const pricingHref = "https://www.sendify.dingstore.cn/pricing";
+  const websiteContactHref = "https://www.sendify.dingstore.cn/contact-us";
+  const supportEmail = "sendify-support@dingmail.work";
+  const supportMail = `mailto:${supportEmail}`;
   const currentYear = new Date().getFullYear();
   const legalLinks = [
     [
@@ -102,15 +105,15 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
   const renderHeader = () => (
     <header className="dt-home-header">
       <nav className="dt-home-nav" aria-label="首页导航">
-        <a href="/" className="dt-home-brand" aria-label="Sendify 帮助中心首页">
+        <a href={websiteHref} className="dt-home-brand" aria-label="Sendify 官网">
           <span className="dt-home-brand-logo" aria-hidden="true" />
-          <span className="dt-home-brand-divider" aria-hidden="true" />
-          <span className="dt-home-brand-sub">{t.brand_sub}</span>
         </a>
 
         <div className="dt-home-nav-links">
-          <a href={productDocsHref}>{t.nav1}</a>
-          <a href={apiDocsHref}>{t.nav2}</a>
+          <a href={websiteHref}>首页</a>
+          <a href={pricingHref}>价格</a>
+          <a href={websiteContactHref}>联系我们</a>
+          <a href="/" aria-current="page">帮助中心</a>
         </div>
 
         <details className="dt-home-mobile-menu">
@@ -120,8 +123,10 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
             <span />
           </summary>
           <div className="dt-home-mobile-panel">
-            <a href={productDocsHref}>{t.nav1}</a>
-            <a href={apiDocsHref}>{t.nav2}</a>
+            <a href={websiteHref}>首页</a>
+            <a href={pricingHref}>价格</a>
+            <a href={websiteContactHref}>联系我们</a>
+            <a href="/" aria-current="page">帮助中心</a>
           </div>
         </details>
       </nav>
@@ -246,6 +251,32 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
     </section>
   );
 
+  const renderDeveloperAccess = () => (
+    <section className="dt-home-developer" aria-labelledby="developer-title">
+      <div className="dt-home-wrap dt-home-section">
+        <div className="dt-home-section-head dt-home-section-head-centered">
+          <span>开发者接入</span>
+          <h2 id="developer-title">选择适合你的集成方式</h2>
+          <p>通过 Open API 构建业务集成，或让 AI 助手用 MCP 安全查询 Sendify 数据。</p>
+        </div>
+        <div className="dt-home-developer-grid">
+          <a className="dt-home-developer-card" href={apiDocsHref}>
+            <small>REST API</small>
+            <h3>Open API</h3>
+            <p>使用 Bearer API Key 调用联系人等接口，构建自动化工作流。</p>
+            <span>查看 API 文档 <ArrowIcon /></span>
+          </a>
+          <a className="dt-home-developer-card dt-home-developer-card-featured" href={mcpDocsHref}>
+            <small>AI CONNECTOR</small>
+            <h3>Sendify MCP</h3>
+            <p>连接 Codex、Cursor 或 Claude，用自然语言查询营销活动与联系人。</p>
+            <span>开始接入 MCP <ArrowIcon /></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+
   const renderPopularArticles = () => (
     <section className="dt-home-popular" id="popular" aria-labelledby="popular-title">
       <div className="dt-home-wrap dt-home-section">
@@ -282,9 +313,9 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
             <h2>{t.sup_title}</h2>
             <p>{t.sup_sub}</p>
           </div>
-          <div className="dt-home-support-actions">
-            <a className="dt-home-button-primary" href={supportMail}>{t.sup_b1} <ArrowIcon /></a>
-            <a className="dt-home-button-secondary" href={feedbackHref} target="_blank" rel="noopener noreferrer">{t.sup_b2}</a>
+          <div className="dt-home-support-email" aria-label={`联系邮箱：${supportEmail}`}>
+            <span>联系邮箱</span>
+            <strong>{supportEmail}</strong>
           </div>
         </div>
       </div>
@@ -299,12 +330,13 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
         </div>
         <div className="dt-home-footer-contact">
           <h2>联系我们</h2>
-          <a href={supportMail}>sendify-support@dingmail.work</a>
+          <a href={supportMail}>{supportEmail}</a>
         </div>
         <div className="dt-home-footer-resources">
           <h2>资源</h2>
           <a href={productDocsHref}>帮助中心</a>
           <a href={apiDocsHref}>Open API</a>
+          <a href={mcpDocsHref}>MCP</a>
         </div>
         <div className="dt-home-footer-legal">
           <h2>法律协议</h2>
@@ -336,6 +368,7 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
       {renderHeader()}
       {renderHero()}
       {renderJourneys()}
+      {renderDeveloperAccess()}
       {renderPopularArticles()}
       {renderSupport()}
       {renderFooter()}

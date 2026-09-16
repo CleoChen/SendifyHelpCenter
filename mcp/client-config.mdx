@@ -1,0 +1,213 @@
+---
+title: "配置 AI 客户端"
+description: "在 Codex、Cursor、Claude 和其他 MCP 客户端中连接 Sendify"
+icon: "plug"
+---
+
+所有客户端都连接同一个生产地址：
+
+```text
+https://mcp.sendify.dingstore.cn/dmx/mcp/v2
+```
+
+配置完成后，都应执行一次真实查询进行验证。看到账号下真实的活动名称和活动 ID，才表示地址、认证和数据权限都已生效。
+
+<Tabs>
+  <Tab title="Codex Desktop">
+    **1. 添加服务器**
+
+    在 Codex Desktop 中打开 `Settings` → `MCP servers` → `Add server`，填写：
+
+    | 字段 | 值 |
+    | --- | --- |
+    | Name | `sendify` |
+    | Type | `Streamable HTTP` |
+    | URL | `https://mcp.sendify.dingstore.cn/dmx/mcp/v2` |
+    | Auth | `Bearer Token` |
+    | Environment variable | `SENDIFY_API_KEY` |
+
+    **2. 在 macOS 中设置 API Key**
+
+    打开 macOS 的 **Terminal（终端）**，先单独执行下面这条命令：
+
+    ```zsh
+    read -s "SENDIFY_API_KEY?粘贴 Sendify API Key："
+    ```
+
+    Terminal 会等待输入且不会显示字符。粘贴 API Key，然后按回车。
+
+    再执行以下命令，保存环境变量并确认设置成功：
+
+    ```zsh
+    launchctl setenv SENDIFY_API_KEY "$SENDIFY_API_KEY"
+    unset SENDIFY_API_KEY
+    test -n "$(launchctl getenv SENDIFY_API_KEY)" && echo "SENDIFY_API_KEY 已设置"
+    ```
+
+    **3. 重启并验证**
+
+    看到 `SENDIFY_API_KEY 已设置` 后：
+
+    1. 完全退出并重新打开 Codex Desktop。
+    2. 在对话中输入 `/mcp`，确认 `sendify` 已连接。
+    3. 提问：“列出我最近的 20 个 Sendify 营销活动，返回名称、状态和活动 ID。”
+
+    注销或重启 Mac 后需要重新设置该环境变量。更多客户端行为可参考 [OpenAI MCP 官方文档](https://learn.chatgpt.com/docs/extend/mcp?surface=desktop)。
+  </Tab>
+
+  <Tab title="Cursor">
+    **1. 打开全局 MCP 配置**
+
+    在 Cursor 中进入 `Customize` → `MCPs` → `Add New MCP Server`。对于个人使用，建议保存到全局配置 `~/.cursor/mcp.json`，避免把密钥随项目提交到 Git。
+
+    **2. 添加配置**
+
+    ```json
+    {
+      "mcpServers": {
+        "sendify": {
+          "url": "https://mcp.sendify.dingstore.cn/dmx/mcp/v2",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+
+    将 `YOUR_API_KEY` 替换成 Sendify API Key，然后保存文件。不要把包含真实密钥的配置复制到项目级 `.cursor/mcp.json`。
+
+    **3. 启用并验证**
+
+    1. 返回 `Customize` → `MCPs`，确认 `sendify` 已启用且没有连接错误。
+    2. 如果状态没有刷新，完全退出并重新打开 Cursor。
+    3. 新建 Agent 对话，提出文档顶部的验证问题。
+
+    Cursor 的配置位置、请求头和环境变量语法可参考 [Cursor MCP 官方文档](https://cursor.com/docs/mcp)。
+  </Tab>
+
+  <Tab title="Claude Desktop">
+    <Note>
+    Claude Desktop 的原生远程 Connector 主要支持 OAuth 或无认证服务，不能直接在 `claude_desktop_config.json` 中配置带静态 Bearer Token 的远程服务器。以下方案使用第三方 `mcp-remote` 将远程服务桥接成本地 MCP Server。
+    </Note>
+
+    **1. 准备运行环境**
+
+    安装 Node.js 18 或更高版本，并确认在 Terminal 或 PowerShell 中执行 `npx --version` 能看到版本号。
+
+    **2. 打开 Claude Desktop 配置**
+
+    在 Claude Desktop 中进入 `Settings` → `Developer`，打开配置文件：
+
+    - macOS：`~/Library/Application Support/Claude/claude_desktop_config.json`
+    - Windows：`%APPDATA%\Claude\claude_desktop_config.json`
+
+    ```json
+    {
+      "mcpServers": {
+        "sendify": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "mcp-remote",
+            "https://mcp.sendify.dingstore.cn/dmx/mcp/v2",
+            "--header",
+            "Authorization:${AUTH_HEADER}",
+            "--silent"
+          ],
+          "env": {
+            "AUTH_HEADER": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+
+    将 `YOUR_API_KEY` 替换成真实密钥，保存配置。
+
+    **3. 重启并验证**
+
+    1. 完全退出并重新打开 Claude Desktop。
+    2. 打开工具菜单，确认出现 Sendify 工具。
+    3. 提出文档顶部的验证问题；如果工具没有出现，打开 `Settings` → `Developer` 查看 MCP 日志。
+
+    `mcp-remote` 是第三方本地桥接工具，不是 Anthropic 官方组件。Anthropic 对原生远程 Connector 的支持范围可参考 [官方说明](https://support.anthropic.com/en/articles/11503834-building-custom-connectors-via-remote-mcp-servers)。
+  </Tab>
+
+  <Tab title="Codex CLI">
+    **1. 在 Terminal 中设置密钥并添加服务器**
+
+    把 `YOUR_API_KEY` 替换成真实密钥，然后在安装了 Codex CLI 的 Terminal 中执行：
+
+    ```bash
+    export SENDIFY_API_KEY="YOUR_API_KEY"
+    codex mcp add sendify \
+      --url https://mcp.sendify.dingstore.cn/dmx/mcp/v2 \
+      --bearer-token-env-var SENDIFY_API_KEY
+    codex mcp list
+    ```
+
+    `--bearer-token-env-var` 保存的是环境变量名称，不会把密钥正文写入 Codex 配置。
+
+    **2. 启动并验证**
+
+    1. 在同一个 Terminal 会话中启动或重新启动 `codex`。
+    2. 在 Codex 中输入 `/mcp`，确认 `sendify` 已连接。
+    3. 提出文档顶部的验证问题。
+
+    `export` 只对当前 Terminal 会话生效。新开 Terminal 后，需要再次设置 `SENDIFY_API_KEY`。命令参数可参考 [OpenAI MCP 官方文档](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)。
+  </Tab>
+
+  <Tab title="Claude Code">
+    **1. 在 Terminal 中注册服务器**
+
+    Claude Code 的配置命令需要在安装了 `claude` 命令的 Terminal 中执行，不是在 Claude 对话框中执行。把 `YOUR_API_KEY` 替换成真实密钥，然后运行：
+
+    ```bash
+    claude mcp add --transport http --scope user sendify \
+      https://mcp.sendify.dingstore.cn/dmx/mcp/v2 \
+      --header "Authorization: Bearer YOUR_API_KEY"
+    claude mcp list
+    ```
+
+    `--scope user` 表示该配置对当前用户的所有项目生效。`claude mcp list` 应显示 `sendify`。
+
+    **2. 启动并验证**
+
+    1. 执行 `claude mcp get sendify`，检查地址和连接类型。
+    2. 在项目目录中执行 `claude`，进入 Claude Code 交互会话。
+    3. 在会话中输入 `/mcp`，确认 `sendify` 已连接。
+    4. 提出文档顶部的验证问题。
+
+    如果配置已存在，不要重复执行添加命令；先用 `claude mcp get sendify` 检查现有配置。更多信息请参阅 [Claude Code MCP 官方文档](https://code.claude.com/docs/en/mcp)。
+  </Tab>
+
+  <Tab title="其他客户端">
+    **1. 确认兼容性**
+
+    客户端需要支持远程 Streamable HTTP、自定义请求头、JSON-RPC、`tools/list` 和 `tools/call`。
+
+    **2. 在客户端的 MCP 配置区添加服务器**
+
+    ```json
+    {
+      "name": "sendify",
+      "type": "http",
+      "url": "https://mcp.sendify.dingstore.cn/dmx/mcp/v2",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+    ```
+
+    不同客户端的配置文件位置并不相同；请把这段 JSON 填入该客户端的 MCP Server 配置区，而不是直接粘贴到 Terminal。
+
+    **3. 验证连接**
+
+    保存后重新加载客户端，确认它能够列出 Sendify 工具，再提出文档顶部的验证问题。
+  </Tab>
+</Tabs>
+
+<Warning>
+不要把真实 API Key 提交到配置示例、代码仓库或文档。优先使用客户端提供的密钥存储或环境变量。
+</Warning>
