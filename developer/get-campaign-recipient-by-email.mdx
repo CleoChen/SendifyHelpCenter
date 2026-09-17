@@ -1,0 +1,104 @@
+---
+title: "按邮箱查询营销活动收件人"
+description: "精确查询活动中指定邮箱的收件人追踪记录"
+icon: "envelope-circle-check"
+keywords:
+  - "营销活动收件人"
+  - "邮箱查询"
+  - "投递状态"
+  - "Campaign API"
+---
+
+精确查询当前 API Key 所属用户创建的普通批量活动中，指定邮箱的收件人追踪记录。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaignId}/recipients/by-email
+```
+
+<Note>
+此接口不支持管理员代查、A/B 测试和持续投递活动，也不接收分页或状态筛选条件。数据异步更新；追踪记录尚未生成时返回收件人不存在。同一邮箱匹配多条历史记录时返回数据异常，不会任取一条或合并统计。
+</Note>
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## 路径参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `campaignId` | `string` | 是 | 活动唯一标识，来自营销活动列表的 `id` |
+
+## 查询参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `email` | `string` | 是 | 精确匹配本次发送使用的收件地址，不进行模糊匹配或额外大小写转换。非空白且不超过 320 个字符；作为 URL 查询参数时应编码特殊字符，例如将 `+` 编码为 `%2B` |
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl -G \
+      "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/recipients/by-email" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Accept: application/json" \
+      --data-urlencode "email=alice@example.com"
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    const url = new URL(
+      "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/recipients/by-email"
+    );
+    url.searchParams.set("email", "alice@example.com");
+
+    const response = await fetch(url, {
+      headers: { Authorization: "Bearer YOUR_API_KEY" },
+    });
+    console.log(await response.json());
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    response = requests.get(
+        "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/recipients/by-email",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+        params={"email": "alice@example.com"},
+    )
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `recipient` | `object` | 指定邮箱在本次活动中的收件人追踪记录；不包含联系人全局档案或逐次事件明细 |
+| `recipient.id` | `string` | 收件人追踪记录唯一标识，不是联系人 ID |
+| `recipient.contactId` | `string` | 关联联系人 ID；历史记录无法关联时缺省 |
+| `recipient.email` | `string` | 本次发送使用的收件邮箱 |
+| `recipient.reasonCode` | `string` | 未成功且已记录原因时返回的原因码；未知时缺省 |
+| `recipient.reasonMessage` | `string` | 可读的未成功原因；未知时缺省。程序应使用 `reasonCode` 判断原因 |
+| `recipient.opened` | `boolean` | 是否观测到打开事件；`false` 不代表确定未阅读 |
+| `recipient.clicked` | `boolean` | 是否观测到跟踪链接点击事件；可以在 `opened=false` 时为 `true` |
+| `recipient.lastOpenTime` | `string (date-time)` | 最近一次记录到的打开时间；未知时缺省 |
+| `recipient.lastClickTime` | `string (date-time)` | 最近一次记录到的点击时间；未知时缺省 |
+| `recipient.postResult` | `enum<string>` | 投递状态：`SUCCESS`、`FAIL`、`PROCESSING`、`INVALID_ADDRESS` 或 `CANCEL_SEND` |
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | Bad Request |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `404` | Not Found |
+| `500` | Internal Server Error |
