@@ -1,0 +1,71 @@
+---
+title: "查询营销活动统计"
+description: "查询普通批量活动的累计投递与互动统计"
+icon: "chart-line"
+keywords:
+  - "营销活动统计"
+  - "投递统计"
+  - "打开"
+  - "点击"
+  - "Campaign API"
+---
+
+查询当前 API Key 所属用户创建的普通批量活动的累计投递与互动统计。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaignId}/report
+```
+
+<Note>
+统计数据异步更新。此接口不支持 A/B 测试、持续投递活动或管理员代查。活动不存在或不属于当前用户时均返回资源不存在。
+</Note>
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## 路径参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `campaignId` | `string` | 是 | 活动唯一标识，来自营销活动列表的 `id` |
+
+## 请求示例
+
+```bash
+curl \
+  "https://api.sendify.dingstore.cn/dmx/v2/campaigns/03ec9355-4bf3-4a09-9829-4f3ef1d12a90/report" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+## 成功响应
+
+<Warning>
+计数字段在 HTTP JSON 中编码为十进制字符串，例如 `"1000"`。已知为零时返回 `"0"`，未知字段缺省。
+</Warning>
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `campaignId` | `string` | 本次查询的活动 ID |
+| `delivery` | `object` | 收件人与投递结果统计；不表示进入收件箱的人数 |
+| `delivery.recipientCount` | `string (int64)` | 活动收件人快照中的去重人数，包含最终成功、失败、未发送和待处理人数；快照尚未形成时缺省 |
+| `delivery.deliveryCompletedCount` | `string (int64)` | 已取得最终投递结果的人数，等于 `deliveredCount + deliveryFailedCount`，不包含取消和发送前过滤 |
+| `delivery.deliveredCount` | `string (int64)` | 收件服务器已接受邮件的人数，不保证进入收件箱 |
+| `delivery.deliveryFailedCount` | `string (int64)` | 最终投递失败人数，不包含取消、发送前过滤和仍在重试的邮件 |
+| `delivery.notSentCount` | `string (int64)` | 不再发送的人数，包括入队失败、发送前过滤和取消发送；不属于投递失败 |
+| `delivery.pendingCount` | `string (int64)` | 尚未记录最终处理结果的人数；总人数未知或快照差值异常时缺省。活动完成不保证立即为 `0` |
+| `engagement` | `object` | 系统实际记录到的打开和点击人数，不根据点击推断打开行为 |
+| `engagement.uniqueOpenCount` | `string (int64)` | 投递状态非空且至少记录过一次打开的收件人数 |
+| `engagement.uniqueClickCount` | `string (int64)` | 投递状态非空且同时记录过打开和跟踪链接点击的收件人数；暂不计入只有点击而没有打开的记录 |
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | Bad Request |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `404` | Not Found |
