@@ -1,0 +1,130 @@
+---
+title: "查询营销活动列表"
+description: "分页查询当前账号创建的邮件营销活动摘要"
+icon: "rectangle-list"
+keywords:
+  - "营销活动"
+  - "活动列表"
+  - "Campaign API"
+  - "分页"
+---
+
+分页查询当前 API Key 所属用户创建的邮件营销活动摘要。不支持管理员代查，响应不包含邮件正文和收件人。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns
+```
+
+## 认证
+
+在 `Authorization` 请求头中使用 Bearer API Key：
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+请勿在前端代码、公开仓库或日志中保存真实 API Key。
+</Warning>
+
+## 查询参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `pageNo` | `number` | 是 | 页码，从 `1` 开始 |
+| `pageSize` | `number` | 是 | 每页活动数，取值范围为 `1`～`100` |
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl -G \
+      "https://api.sendify.dingstore.cn/dmx/v2/campaigns" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Accept: application/json" \
+      --data-urlencode "pageNo=1" \
+      --data-urlencode "pageSize=50"
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    const url = new URL("https://api.sendify.dingstore.cn/dmx/v2/campaigns");
+    url.searchParams.set("pageNo", "1");
+    url.searchParams.set("pageSize", "50");
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: "Bearer YOUR_API_KEY",
+        Accept: "application/json",
+      },
+    });
+
+    console.log(await response.json());
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    response = requests.get(
+        "https://api.sendify.dingstore.cn/dmx/v2/campaigns",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+        params={"pageNo": 1, "pageSize": 50},
+    )
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `totalCounts` | `number (int32)` | 符合查询条件的活动总数 |
+| `totalPages` | `number (int32)` | 按本次 `pageSize` 计算的总页数；没有活动时为 `0` |
+| `campaigns` | `array<object>` | 当前页活动摘要；没有活动时返回空数组 |
+| `campaigns[].id` | `string` | 活动唯一标识，可用于查询单个活动 |
+| `campaigns[].name` | `string` | 用户设置的活动名称，并非邮件主题 |
+| `campaigns[].type` | `enum<string>` | 活动内容类型，见下表 |
+| `campaigns[].state` | `enum<string>` | 当前执行状态，见下表 |
+| `campaigns[].createTime` | `string (date-time)` | 创建时间，RFC 3339 格式 |
+| `campaigns[].updateTime` | `string (date-time)` | 活动记录最近更新时间，不代表统计数据刷新时间 |
+| `campaigns[].plannedSendTime` | `string (date-time)` | 计划开始发送时间；未设置计划时缺省 |
+| `campaigns[].startTime` | `string (date-time)` | 实际开始执行时间；尚未开始时缺省 |
+| `campaigns[].endTime` | `string (date-time)` | 执行结束时间；尚未结束时缺省，不代表全部邮件成功送达 |
+| `campaigns[].subject` | `string` | 普通活动的邮件主题；未配置时缺省。A/B 活动暂不返回主题及测试配置 |
+| `campaigns[].from` | `object` | 发件地址与显示名称；未配置时缺省 |
+| `campaigns[].from.email` | `string` | 发件邮箱地址 |
+| `campaigns[].from.name` | `string` | 发件显示名称，未设置时为空 |
+| `campaigns[].replyTo` | `object` | 回复地址与显示名称；未配置时缺省 |
+| `campaigns[].replyTo.email` | `string` | 回复邮箱地址 |
+| `campaigns[].replyTo.name` | `string` | 回复显示名称，未设置时为空 |
+
+### 活动类型
+
+| 值 | 说明 |
+| --- | --- |
+| `CAMPAIGN_TYPE_NORMAL` | 普通邮件营销活动 |
+| `CAMPAIGN_TYPE_ABTEST` | A/B 测试邮件营销活动 |
+
+### 活动状态
+
+| 值 | 说明 |
+| --- | --- |
+| `STATE_DRAFT` | 草稿，尚未安排发送 |
+| `STATE_INPLAN` | 已安排发送，等待执行 |
+| `STATE_SENDING` | 正在发送 |
+| `STATE_SUSPEND` | 发送已暂停 |
+| `STATE_FAILED` | 执行失败 |
+| `STATE_FINISH` | 执行完成；不代表每封邮件均成功送达 |
+| `STATE_CANCELLED` | 已取消 |
+| `STATE_OFFLINE` | 已下线 |
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
