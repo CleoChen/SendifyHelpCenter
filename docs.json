@@ -70,9 +70,25 @@
         "tab": "Open API",
         "groups": [
           {
-            "group": "开发者 API",
+            "group": "开始使用",
             "pages": [
-              "developer/overview",
+              "developer/overview"
+            ]
+          },
+          {
+            "group": "营销活动",
+            "pages": [
+              "developer/list-campaigns",
+              "developer/create-campaign",
+              "developer/list-campaign-recipients",
+              "developer/get-campaign-recipient-by-email",
+              "developer/get-campaign-report",
+              "developer/get-campaign"
+            ]
+          },
+          {
+            "group": "联系人",
+            "pages": [
               "developer/create-contact",
               "developer/list-contacts",
               "developer/get-contact-by-email"
