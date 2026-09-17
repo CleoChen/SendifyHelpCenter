@@ -79,7 +79,6 @@
             "group": "营销活动",
             "pages": [
               "developer/list-campaigns",
-              "developer/create-campaign",
               "developer/list-campaign-recipients",
               "developer/get-campaign-recipient-by-email",
               "developer/get-campaign-report",
