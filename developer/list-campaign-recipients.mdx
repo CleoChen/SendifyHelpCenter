@@ -1,0 +1,122 @@
+---
+title: "查询营销活动收件人列表"
+description: "分页查询普通批量活动的收件人追踪记录"
+icon: "users-viewfinder"
+keywords:
+  - "营销活动收件人"
+  - "收件人追踪"
+  - "投递状态"
+  - "Campaign API"
+---
+
+分页查询当前 API Key 所属用户创建的普通批量活动的收件人追踪记录。不同筛选条件之间取交集，结果按记录 ID 倒序返回。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaignId}/recipients
+```
+
+<Note>
+数据异步更新。尚未生成追踪记录的计划收件人不会出现在列表中，因此 `totalCount` 不保证等于活动统计中的 `recipientCount`。此接口不支持管理员代查、A/B 测试和持续投递活动。
+</Note>
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## 路径参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `campaignId` | `string` | 是 | 活动唯一标识，来自营销活动列表的 `id` |
+
+## 查询参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `pageNo` | `number` | 是 | 页码，从 `1` 开始。页码与每页数量计算出的偏移量不得超过 `2147483647` |
+| `pageSize` | `number` | 是 | 每页记录数，取值范围为 `1`～`100` |
+| `opened` | `boolean` | 否 | 仅支持 `true` 或不传。`true` 表示筛选已记录打开事件的收件人 |
+| `clicked` | `boolean` | 否 | 仅支持 `true` 或不传。`true` 表示筛选已记录跟踪链接点击事件的收件人；点击独立于打开 |
+| `dataType` | `enum<string>` | 否 | 主筛选类型，见下表 |
+| `filterCode` | `enum<string>` | 否 | 子筛选类型，见下表 |
+
+### `dataType`
+
+| 值 | 说明 |
+| --- | --- |
+| `ALL` | 全部，默认值 |
+| `POSTED` | 已发送 |
+| `DELIVERED` | 已送达 |
+| `OPENED` | 已打开 |
+| `CLICKED` | 已点击 |
+| `UNSUBSCRIBE` | 退订；当前暂不支持此筛选 |
+
+### `filterCode`
+
+| 值 | 说明 |
+| --- | --- |
+| `ALL_CONTACT` | 全部，默认值 |
+| `POST_FAIL` | 发送失败；包含发送前失败但排除取消 |
+| `INVALID_ADDRESS` | 无效收件人 |
+| `SENDING` | 发送中 |
+| `CANCEL_SEND` | 取消发送 |
+| `NOT_SEND` | 未发送；包含发送前失败和取消发送 |
+| `COMPLAINT` | 投诉；当前暂不支持此筛选 |
+
+<Warning>
+非 `ALL_CONTACT` 子筛选仅可与 `ALL` 或 `POSTED` 组合。`POST_FAIL` 与 `NOT_SEND` 的范围可能重叠，不能将筛选值直接等同于每行的 `postResult`。
+</Warning>
+
+## 请求示例
+
+```bash
+curl -G \
+  "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/recipients" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json" \
+  --data-urlencode "pageNo=1" \
+  --data-urlencode "pageSize=50" \
+  --data-urlencode "dataType=POSTED" \
+  --data-urlencode "filterCode=ALL_CONTACT"
+```
+
+## 成功响应
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `recipients` | `array<object>` | 当前页收件人追踪记录；没有匹配结果时为空数组 |
+| `recipients[].id` | `string` | 收件人追踪记录唯一标识，不是联系人 ID |
+| `recipients[].contactId` | `string` | 关联联系人 ID；历史记录无法关联时缺省 |
+| `recipients[].email` | `string` | 本次发送使用的收件邮箱 |
+| `recipients[].reasonCode` | `string` | 未成功且已记录原因时返回的原因码；未知时缺省 |
+| `recipients[].reasonMessage` | `string` | 可读的未成功原因；未知时缺省。程序应使用 `reasonCode` 判断原因 |
+| `recipients[].opened` | `boolean` | 是否观测到打开事件；`false` 不代表确定未阅读 |
+| `recipients[].clicked` | `boolean` | 是否观测到跟踪链接点击事件；可以在 `opened=false` 时为 `true` |
+| `recipients[].lastOpenTime` | `string (date-time)` | 最近一次记录到的打开时间；未知时缺省 |
+| `recipients[].lastClickTime` | `string (date-time)` | 最近一次记录到的点击时间；未知时缺省 |
+| `recipients[].postResult` | `enum<string>` | Sendify 页面中的投递状态，见下表 |
+| `pageNo` | `number (int32)` | 当前页码 |
+| `pageSize` | `number (int32)` | 每页记录数 |
+| `totalCount` | `number (int32)` | 满足本次筛选条件的追踪记录总数，不代表计划发送人数 |
+| `hasMore` | `boolean` | 是否存在下一页 |
+
+### 投递状态
+
+| 值 | 说明 |
+| --- | --- |
+| `SUCCESS` | 投递成功，收件服务器已接受 |
+| `FAIL` | 投递失败；未知历史状态也按此值兜底 |
+| `PROCESSING` | 投递中 |
+| `INVALID_ADDRESS` | 无效收件人 |
+| `CANCEL_SEND` | 发送取消，页面显示为“未发送” |
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | Bad Request |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `404` | Not Found |
