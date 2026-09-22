@@ -785,6 +785,11 @@ html[data-page-mode="custom"] :where(div):has(> #content-area) { padding-top: 0 
   outline-offset: 3px;
 }
 
+/* 搜索框已通过 :focus-within 提供可见焦点，避免输入框再出现方形内框。 */
+.dt-home .dt-home-search input:focus-visible {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dt-home *,
   .dt-home *::before,
