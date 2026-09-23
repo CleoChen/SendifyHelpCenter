@@ -1,0 +1,123 @@
+---
+title: "创建联系人标签"
+description: "创建当前账号下的静态联系人标签"
+icon: "tag"
+keywords:
+  - "创建标签"
+  - "联系人标签"
+  - "Tag API"
+  - "tagIds"
+---
+
+为当前 API Key 所属用户创建一个静态联系人标签。返回的标签 ID 可以用于创建营销活动时的 `tagIds` 收件范围。
+
+```http
+POST https://api.sendify.dingstore.cn/dmx/v2/tags
+```
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+请勿在前端代码、公开仓库或日志中保存真实 API Key。
+</Warning>
+
+## 请求体
+
+Content-Type：`application/json`
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `name` | `string` | 是 | 标签名称，长度为 1～20 个字符；只允许中文、字母、数字、下划线和连字符 |
+| `description` | `string` | 否 | 标签描述，可以为空 |
+
+```json
+{
+  "name": "VIP客户",
+  "description": "重点客户标签"
+}
+```
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl -X POST \
+      "https://api.sendify.dingstore.cn/dmx/v2/tags" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "VIP客户",
+        "description": "重点客户标签"
+      }'
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    const response = await fetch(
+      "https://api.sendify.dingstore.cn/dmx/v2/tags",
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer YOUR_API_KEY",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "VIP客户",
+          description: "重点客户标签",
+        }),
+      }
+    );
+
+    console.log(await response.json());
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    response = requests.post(
+        "https://api.sendify.dingstore.cn/dmx/v2/tags",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+        json={
+            "name": "VIP客户",
+            "description": "重点客户标签",
+        },
+    )
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `tag` | `object` | 创建后的联系人标签 |
+| `tag.id` | `string` | 标签的稳定唯一标识，可用于营销活动的 `tagIds` 收件范围 |
+| `tag.name` | `string` | 标签名称 |
+| `tag.description` | `string` | 标签描述，可以为空 |
+
+```json
+{
+  "tag": {
+    "id": "tag-vip",
+    "name": "VIP客户",
+    "description": "重点客户标签"
+  }
+}
+```
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | 标签名称格式不正确、同名标签已存在，或标签数量达到上限 |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `500` | 当前租户不存在或服务内部错误 |

@@ -1,0 +1,111 @@
+---
+title: "查询联系人标签列表"
+description: "分页查询当前账号下的静态联系人标签"
+icon: "tags"
+keywords:
+  - "联系人标签"
+  - "标签列表"
+  - "Tag API"
+  - "分页"
+---
+
+分页查询当前 API Key 所属用户拥有的静态联系人标签。返回的标签 ID 可以用于创建营销活动时的 `tagIds` 收件范围。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/tags
+```
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+请勿在前端代码、公开仓库或日志中保存真实 API Key。
+</Warning>
+
+## 查询参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `pageNo` | `number` | 否 | 页码，从 `1` 开始；未传或传 `0` 时使用默认值 `1` |
+| `pageSize` | `number` | 否 | 每页返回的标签数，取值范围为 `1`～`1500`；未传或传 `0` 时使用默认值 `20` |
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl -G \
+      "https://api.sendify.dingstore.cn/dmx/v2/tags" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Accept: application/json" \
+      --data-urlencode "pageNo=1" \
+      --data-urlencode "pageSize=20"
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    const url = new URL("https://api.sendify.dingstore.cn/dmx/v2/tags");
+    url.searchParams.set("pageNo", "1");
+    url.searchParams.set("pageSize", "20");
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: "Bearer YOUR_API_KEY",
+        Accept: "application/json",
+      },
+    });
+
+    console.log(await response.json());
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    response = requests.get(
+        "https://api.sendify.dingstore.cn/dmx/v2/tags",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+        params={"pageNo": 1, "pageSize": 20},
+    )
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `tags` | `array<object>` | 当前页的联系人标签；没有符合条件的标签时返回空数组 |
+| `tags[].id` | `string` | 标签的稳定唯一标识，可用于营销活动的 `tagIds` 收件范围 |
+| `tags[].name` | `string` | 标签名称 |
+| `tags[].description` | `string` | 标签描述，可以为空 |
+| `totalCounts` | `number (int32)` | 当前用户拥有的联系人标签总数 |
+| `totalPages` | `number (int32)` | 按本次 `pageSize` 计算的总页数；没有标签时为 `0` |
+
+```json
+{
+  "tags": [
+    {
+      "id": "tag-vip",
+      "name": "VIP客户",
+      "description": "重点客户标签"
+    }
+  ],
+  "totalCounts": 1,
+  "totalPages": 1
+}
+```
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | 页码或分页大小不合法 |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `500` | 服务内部错误 |

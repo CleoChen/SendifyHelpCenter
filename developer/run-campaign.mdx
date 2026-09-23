@@ -1,0 +1,108 @@
+---
+title: "启动营销活动"
+description: "生成收件人快照并启动普通批量营销活动"
+icon: "play"
+keywords:
+  - "启动营销活动"
+  - "Campaign API"
+  - "发送营销活动"
+  - "收件人快照"
+---
+
+同步校验当前用户的普通营销活动草稿，按照当前联系人和标签范围生成收件人快照，然后启动发送。
+
+```http
+POST https://api.sendify.dingstore.cn/dmx/v2/campaigns/{id}/run
+```
+
+<Warning>
+成功响应表示营销活动已启动，不代表邮件已经送达。重复启动同一个活动会返回状态错误。
+</Warning>
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## 路径参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `id` | `string` | 是 | 营销活动唯一标识，来自创建结果或营销活动列表 |
+
+## 请求体
+
+当前接口没有额外的业务字段。请求时提交空 JSON 对象：
+
+```json
+{}
+```
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl -X POST \
+      "https://api.sendify.dingstore.cn/dmx/v2/campaigns/03ec9355-4bf3-4a09-9829-4f3ef1d12a90/run" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{}'
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    const campaignId = "03ec9355-4bf3-4a09-9829-4f3ef1d12a90";
+
+    const response = await fetch(
+      `https://api.sendify.dingstore.cn/dmx/v2/campaigns/${campaignId}/run`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer YOUR_API_KEY",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    );
+
+    console.log(response.status);
+    console.log(await response.text());
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    campaign_id = "03ec9355-4bf3-4a09-9829-4f3ef1d12a90"
+    response = requests.post(
+        f"https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaign_id}/run",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+        json={},
+    )
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+请求成功时返回 HTTP `200`。响应体不包含业务字段。
+
+## 使用限制
+
+- 仅支持当前用户拥有的普通营销活动草稿。
+- 不支持定时营销活动、暂停恢复或失败重跑。
+- 启动时会根据最新的联系人和标签成员生成收件人快照。
+- 收件人较多时，请求可能需要更长的处理时间。
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | 活动类型或状态不支持、活动正在处理中、没有有效收件人，或引用的资源不可访问 |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `404` | 营销活动不存在，或不属于当前 API Key 所属用户 |

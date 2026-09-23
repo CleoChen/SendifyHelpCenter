@@ -79,6 +79,8 @@
             "group": "营销活动",
             "pages": [
               "developer/list-campaigns",
+              "developer/create-campaign",
+              "developer/run-campaign",
               "developer/list-campaign-recipients",
               "developer/get-campaign-recipient-by-email",
               "developer/get-campaign-report",
@@ -90,7 +92,10 @@
             "pages": [
               "developer/create-contact",
               "developer/list-contacts",
-              "developer/get-contact-by-email"
+              "developer/get-contact-by-email",
+              "developer/list-tags",
+              "developer/create-tag",
+              "developer/get-tag"
             ]
           }
         ]

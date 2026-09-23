@@ -1,0 +1,102 @@
+---
+title: "查询单个联系人标签"
+description: "根据标签 ID 查询当前账号下的联系人标签"
+icon: "magnifying-glass"
+keywords:
+  - "查询标签"
+  - "联系人标签"
+  - "Tag API"
+  - "标签 ID"
+---
+
+根据标签 ID 查询当前 API Key 所属用户拥有的静态联系人标签。
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/tags/{id}
+```
+
+## 认证
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+请勿在前端代码、公开仓库或日志中保存真实 API Key。
+</Warning>
+
+## 路径参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `id` | `string` | 是 | 要查询的标签稳定唯一标识，可从标签列表或创建标签响应中获取 |
+
+## 请求示例
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl \
+      "https://api.sendify.dingstore.cn/dmx/v2/tags/tag-vip" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Accept: application/json"
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    const tagId = "tag-vip";
+    const response = await fetch(
+      `https://api.sendify.dingstore.cn/dmx/v2/tags/${encodeURIComponent(tagId)}`,
+      {
+        headers: {
+          Authorization: "Bearer YOUR_API_KEY",
+          Accept: "application/json",
+        },
+      }
+    );
+
+    console.log(await response.json());
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    tag_id = "tag-vip"
+    response = requests.get(
+        f"https://api.sendify.dingstore.cn/dmx/v2/tags/{tag_id}",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+    )
+    print(response.status_code)
+    print(response.text)
+    ```
+  </Tab>
+</Tabs>
+
+## 成功响应
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `tag` | `object` | 与请求 ID 匹配的联系人标签 |
+| `tag.id` | `string` | 标签的稳定唯一标识 |
+| `tag.name` | `string` | 标签名称 |
+| `tag.description` | `string` | 标签描述，可以为空 |
+
+```json
+{
+  "tag": {
+    "id": "tag-vip",
+    "name": "VIP客户",
+    "description": "重点客户标签"
+  }
+}
+```
+
+## 错误响应
+
+| HTTP 状态码 | 说明 |
+| --- | --- |
+| `400` | 标签 ID 为空或格式错误、标签不存在，或标签不属于当前用户 |
+| `401` | 访问未授权，请检查是否传递了正确的 Bearer API Key |
+| `403` | 无 API 访问权限，请检查 API Key 的权限配置 |
+| `500` | 服务内部错误 |
