@@ -1,0 +1,170 @@
+---
+title: "Configure an AI client"
+description: "Connect Sendify to Codex, Cursor, Claude, and other MCP clients"
+icon: "plug"
+---
+
+All clients use the same production endpoint:
+
+```text
+https://mcp.sendify.dingstore.cn/dmx/mcp/v2
+```
+
+After setup, run a real query. The connection is fully verified only when the response contains campaign names and IDs from your Sendify account.
+
+<Tabs>
+  <Tab title="Codex Desktop">
+    **1. Add the server**
+
+    Open `Settings` → `MCP servers` → `Add server` and enter:
+
+    | Field | Value |
+    | --- | --- |
+    | Name | `sendify` |
+    | Type | `Streamable HTTP` |
+    | URL | `https://mcp.sendify.dingstore.cn/dmx/mcp/v2` |
+    | Auth | `Bearer Token` |
+    | Environment variable | `SENDIFY_API_KEY` |
+
+    **2. Set the API Key on macOS**
+
+    Open the macOS **Terminal** application and run this command by itself:
+
+    ```zsh
+    read -s "SENDIFY_API_KEY?Paste your Sendify API Key: "
+    ```
+
+    Terminal waits for input without displaying the characters. Paste the key and press Return. Then run:
+
+    ```zsh
+    launchctl setenv SENDIFY_API_KEY "$SENDIFY_API_KEY"
+    unset SENDIFY_API_KEY
+    test -n "$(launchctl getenv SENDIFY_API_KEY)" && echo "SENDIFY_API_KEY is set"
+    ```
+
+    **3. Restart and verify**
+
+    Quit and reopen Codex Desktop, enter `/mcp`, and confirm that `sendify` is connected. Then ask the verification question at the top of this page. You must set the environment variable again after signing out or restarting the Mac.
+  </Tab>
+
+  <Tab title="Cursor">
+    **1. Open the global MCP configuration**
+
+    Go to `Customize` → `MCPs` → `Add New MCP Server`. For personal use, store the configuration in `~/.cursor/mcp.json` so the key is not committed with a project.
+
+    **2. Add the configuration**
+
+    ```json
+    {
+      "mcpServers": {
+        "sendify": {
+          "url": "https://mcp.sendify.dingstore.cn/dmx/mcp/v2",
+          "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+        }
+      }
+    }
+    ```
+
+    Replace `YOUR_API_KEY`, save the file, and never commit a project-level configuration that contains the real key.
+
+    **3. Enable and verify**
+
+    Return to `Customize` → `MCPs`, confirm that `sendify` is enabled, restart Cursor if necessary, and run the verification question in a new Agent chat.
+  </Tab>
+
+  <Tab title="Claude Desktop">
+    <Note>Claude Desktop's native remote connectors generally support OAuth or unauthenticated services, not a static Bearer Token in `claude_desktop_config.json`. The configuration below uses the third-party `mcp-remote` bridge.</Note>
+
+    **1. Install the runtime**
+
+    Install Node.js 18 or later and confirm that `npx --version` works in Terminal or PowerShell.
+
+    **2. Open the Claude Desktop configuration**
+
+    In `Settings` → `Developer`, open:
+
+    - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+    - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+    ```json
+    {
+      "mcpServers": {
+        "sendify": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "mcp-remote",
+            "https://mcp.sendify.dingstore.cn/dmx/mcp/v2",
+            "--header",
+            "Authorization:${AUTH_HEADER}",
+            "--silent"
+          ],
+          "env": { "AUTH_HEADER": "Bearer YOUR_API_KEY" }
+        }
+      }
+    }
+    ```
+
+    Replace `YOUR_API_KEY` and save the file.
+
+    **3. Restart and verify**
+
+    Quit and reopen Claude Desktop, confirm that Sendify tools appear, and ask the verification question. If no tools appear, inspect the MCP logs in `Settings` → `Developer`.
+  </Tab>
+
+  <Tab title="Codex CLI">
+    **1. Set the key and add the server in Terminal**
+
+    ```bash
+    export SENDIFY_API_KEY="YOUR_API_KEY"
+    codex mcp add sendify \
+      --url https://mcp.sendify.dingstore.cn/dmx/mcp/v2 \
+      --bearer-token-env-var SENDIFY_API_KEY
+    codex mcp list
+    ```
+
+    `--bearer-token-env-var` stores the variable name, not the key itself.
+
+    **2. Start and verify**
+
+    Start or restart `codex` in the same Terminal session, enter `/mcp`, and run the verification question. The `export` value applies only to the current Terminal session.
+  </Tab>
+
+  <Tab title="Claude Code">
+    **1. Register the server in Terminal**
+
+    Run this in a Terminal where the `claude` command is installed, not in a Claude chat box:
+
+    ```bash
+    claude mcp add --transport http --scope user sendify \
+      https://mcp.sendify.dingstore.cn/dmx/mcp/v2 \
+      --header "Authorization: Bearer YOUR_API_KEY"
+    claude mcp list
+    ```
+
+    `--scope user` makes the configuration available to all projects for the current user.
+
+    **2. Start and verify**
+
+    Run `claude mcp get sendify`, start Claude Code with `claude` in your project, enter `/mcp`, and run the verification question. If the configuration already exists, inspect it before adding another entry.
+  </Tab>
+
+  <Tab title="Other clients">
+    The client must support remote Streamable HTTP, custom request headers, JSON-RPC, `tools/list`, and `tools/call`.
+
+    Add this in the client's MCP server configuration area—not directly in Terminal:
+
+    ```json
+    {
+      "name": "sendify",
+      "type": "http",
+      "url": "https://mcp.sendify.dingstore.cn/dmx/mcp/v2",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+    }
+    ```
+
+    Reload the client, confirm that it lists Sendify tools, and run the verification question.
+  </Tab>
+</Tabs>
+
+<Warning>Never commit a real API Key to configuration examples, code repositories, or documentation. Prefer environment variables or the client's secret storage.</Warning>

@@ -1,0 +1,67 @@
+---
+title: "Sendify API overview"
+description: "Create an API Key, authenticate requests, and understand rate limits and key security"
+icon: "brackets-curly"
+---
+
+Sendify provides RESTful APIs for campaigns and contact management. After creating an API Key, call `/v2/me` to verify the key and account before using business APIs.
+
+Current documentation version: `1.0.0-beta`
+
+<Info>To query Sendify data from Codex, Cursor, or Claude in natural language, see [Sendify MCP](/en/mcp/overview). MCP is currently read-only.</Info>
+
+## Base URL
+
+```text
+https://api.sendify.dingstore.cn
+```
+
+Use HTTPS for every request and send the API Key as a Bearer token in the `Authorization` header.
+
+## 1. Create an API Key
+
+In the Sendify console, open `Open Capabilities / API Keys / Create key`.
+
+<Note>The full API Key is displayed only once. Save it immediately in a secure secret-management system.</Note>
+
+## 2. Verify the API Key
+
+```bash
+curl -X GET \
+  "https://api.sendify.dingstore.cn/v2/me" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+An HTTP `200` response containing account information confirms that the key is valid.
+
+<Warning>Never store an API Key in browser code, a public repository, logs, or an end-user environment. Production requests should come from a backend service.</Warning>
+
+## 3. Make an API request
+
+For example, create a minimal contact:
+
+```bash
+curl -X POST \
+  "https://api.sendify.dingstore.cn/dmx/v2/contacts" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"customer@example.com"}'
+```
+
+## 4. Handle errors and rate limits
+
+| HTTP status | Meaning | Recommended action |
+| --- | --- | --- |
+| `401` | Missing or invalid API Key | Check the `Authorization` header and key status |
+| `403` | The key lacks API access | Check key permissions |
+| `429` | Rate limit exceeded | Wait and retry with exponential backoff |
+
+For bulk synchronization, queue work, limit retries, and log the endpoint, HTTP status, and relevant object ID.
+
+## 5. Protect API Keys
+
+- Use separate keys for development, staging, and production.
+- Grant the minimum required permissions.
+- Revoke and replace keys after personnel changes or suspected exposure.
+- Do not use a production key for local or shared testing.

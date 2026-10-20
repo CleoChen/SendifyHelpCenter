@@ -938,6 +938,20 @@ html.dark .dt-home-support-email { background: rgba(18, 35, 56, 0.82); }
   white-space: nowrap;
 }
 
+html[lang="en"] #navbar a.select-none:has(> .nav-logo)::after {
+  content: "Help Center";
+}
+
+/*
+ * Mintlify 的移动端导航只有在语言分区包含全局项时才会稳定渲染原生
+ * localization selector。保留该配置作为触发条件，但隐藏重复的全局锚点，
+ * 让用户只看到一个“简体中文 / English”下拉菜单。
+ */
+a.nav-anchor[href="/en/index"],
+a.nav-anchor[href="/"] {
+  display: none !important;
+}
+
 #navbar .nav-logo {
   display: none !important;
 }

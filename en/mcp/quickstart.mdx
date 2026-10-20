@@ -1,0 +1,47 @@
+---
+title: "Quickstart"
+description: "Create an API Key, connect an AI client, and run your first Sendify MCP query"
+icon: "rocket"
+---
+
+Connect to Sendify MCP by creating an API Key, configuring your client, and running one real query.
+
+<Steps>
+  <Step title="Create an API Key">
+    In the Sendify console, open:
+
+    ```text
+    Open Capabilities / API Keys / Create key
+    ```
+
+    Use a name that identifies both the person and client, such as `lili-codex-desktop`, `marketing-team-cursor`, or `reporting-claude-code`.
+
+    <Warning>The full API Key is displayed only once. Save it immediately in a password manager or the client's secret store. Never place it in Git, public documentation, or a shared AI conversation.</Warning>
+
+    ![API Key entry in the Sendify console](/images/mcp-create-api-key.png)
+  </Step>
+  <Step title="Configure your AI client">
+    Use these connection details:
+
+    ```text
+    URL: https://mcp.sendify.dingstore.cn/dmx/mcp/v2
+    Authorization: Bearer YOUR_API_KEY
+    ```
+
+    Follow the client-specific instructions in [Configure an AI client](/en/mcp/client-config).
+  </Step>
+  <Step title="Run a real query">
+    Restart the client completely, then ask:
+
+    > List my 20 most recent Sendify campaigns. Return the name, state, and campaign ID.
+
+    If the response includes real campaign names and IDs from your account, the endpoint, authentication, and data permissions are working.
+  </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Explore available tools" icon="wrench" href="/en/mcp/tools">Review campaign, report, recipient, and contact tools.</Card>
+  <Card title="Protect your API Key" icon="key" href="/en/mcp/authentication">Learn how Bearer authentication works and how to store keys safely.</Card>
+</CardGroup>

@@ -1,0 +1,53 @@
+---
+title: "List contact tags"
+description: "List static contact tags in the current account"
+icon: "tags"
+---
+
+Returns static contact tags owned by the user associated with the API Key. Tag IDs can be used in a campaign's `tagIds` recipient scope.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/tags
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Query parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `pageNo` | `number` | No | Page number starting at `1`; omission or `0` uses `1` |
+| `pageSize` | `number` | No | Tags per page, from `1` to `1500`; omission or `0` uses `20` |
+
+## Request example
+
+```bash
+curl -G "https://api.sendify.dingstore.cn/dmx/v2/tags" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --data-urlencode "pageNo=1" \
+  --data-urlencode "pageSize=20"
+```
+
+## Success response
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tags` | `array<object>` | Tags on the current page |
+| `tags[].id` | `string` | Stable tag ID for use in `tagIds` |
+| `tags[].name` | `string` | Tag name |
+| `tags[].description` | `string` | Optional description |
+| `totalCounts` | `number (int32)` | Total tags owned by the current user |
+| `totalPages` | `number (int32)` | Total pages; `0` when there are no tags |
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Invalid page number or page size |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `500` | Internal service error |

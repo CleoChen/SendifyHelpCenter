@@ -1,0 +1,40 @@
+---
+title: "Troubleshooting"
+description: "Fix missing tools, 401 errors, permission issues, and delayed data"
+icon: "screwdriver-wrench"
+---
+
+Connection problems usually come from the endpoint, client restart behavior, the authentication header, or API Key permissions. Confirm that the production URL includes the full `/dmx/mcp/v2` path.
+
+<AccordionGroup>
+  <Accordion title="Sendify tools do not appear">
+    1. Confirm the URL is `https://mcp.sendify.dingstore.cn/dmx/mcp/v2`.
+    2. Check the configuration syntax and server name.
+    3. Quit and reopen the entire client, not just the current chat.
+    4. Use the MCP list command in Codex or Claude Code; in Cursor, check `Output` → `MCP Logs`.
+  </Accordion>
+  <Accordion title="The server returns 401">
+    A `401` means the API Key is missing, invalid, or not being sent correctly.
+
+    - Codex Desktop: verify that `SENDIFY_API_KEY` exists in the system environment, then restart the app.
+    - Other clients: confirm the header is `Authorization: Bearer YOUR_API_KEY`.
+    - Keep exactly one space after `Bearer` and remove accidental line breaks from the key.
+  </Accordion>
+  <Accordion title="Tools appear, but queries are denied">
+    The API Key must have permission to query the requested data. Confirm that it belongs to the correct account and has the required minimum permissions.
+  </Accordion>
+  <Accordion title="The client says the server was added, but calls fail">
+    “Added” usually means only that the configuration was saved. Run a real query and use the returned network, `401`, or permission error to continue troubleshooting.
+  </Accordion>
+  <Accordion title="Recently created data is missing">
+    Wait briefly and try again. Confirm that the AI client uses the same Sendify account and environment in which the data was created.
+  </Accordion>
+</AccordionGroup>
+
+## Minimum verification query
+
+> List my 20 most recent Sendify campaigns. Return the name, state, and campaign ID.
+
+The connection, authentication, and data permissions are verified only when the response contains real campaign names and IDs.
+
+<Warning>Never paste a full API Key into a ticket, screenshot, log, or shared chat. Provide only the error code, client name, and redacted configuration.</Warning>

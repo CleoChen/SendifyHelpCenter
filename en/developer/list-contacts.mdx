@@ -1,0 +1,60 @@
+---
+title: "List contacts"
+description: "List contacts in the current account"
+icon: "users"
+---
+
+Returns a paginated list of contacts in the account associated with the API Key.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/contacts
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Query parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `pageNo` | `number` | No | `1` | Positive page number. Omission or `0` uses the default; negative values fail |
+| `pageSize` | `number` | No | `50` | Contacts per page, from `1` to `1500`. Omission or `0` uses the default |
+
+## Request example
+
+```bash
+curl -G "https://api.sendify.dingstore.cn/dmx/v2/contacts" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --data-urlencode "pageNo=1" \
+  --data-urlencode "pageSize=50"
+```
+
+## Success response
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `contacts` | `array<object>` | Contacts on the current page |
+| `contacts[].firstName` | `string` | First name; may be empty |
+| `contacts[].lastName` | `string` | Last name; may be empty |
+| `contacts[].company` | `string \| null` | Company |
+| `contacts[].position` | `string` | Job title |
+| `contacts[].source` | `string` | `import`, `user_add`, or `open_api` |
+| `contacts[].createTime` | `string (date-time)` | Creation time in RFC 3339 UTC |
+| `contacts[].customFields` | `array<object>` | Custom fields |
+| `contacts[].lastOpenTime` | `string (date-time)` | Most recent campaign-open time when available |
+| `contacts[].email` | `string` | Unique contact email in the current account |
+| `contacts[].tagNames` | `array<string>` | Tag names |
+| `totalCounts` | `number (int32)` | Total matching contacts |
+| `totalPages` | `number (int32)` | Total pages; `0` when there are no contacts |
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Invalid `pageNo` or `pageSize` |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `500` | Internal service error |

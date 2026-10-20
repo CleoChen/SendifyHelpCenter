@@ -1,0 +1,43 @@
+---
+title: "Get a contact by email"
+description: "Get one contact in the current account by email address"
+icon: "magnifying-glass"
+---
+
+Returns the contact that exactly matches an email address in the current account.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/contacts/{email}
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Path parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `email` | `string` | Yes | Full contact email address. URL-encode it before placing it in the path |
+
+## Request example
+
+```bash
+curl "https://api.sendify.dingstore.cn/dmx/v2/contacts/person%40example.com" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Success response
+
+The `contact` object contains `firstName`, `lastName`, `company`, `position`, `source`, `createTime`, `customFields`, `lastOpenTime`, `email`, and `tagNames`. `source` is one of `import`, `user_add`, or `open_api`.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Invalid email format |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `500` | Internal service error |

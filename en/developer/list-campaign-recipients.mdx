@@ -1,0 +1,67 @@
+---
+title: "List campaign recipients"
+description: "List recipient tracking records for a standard bulk-email campaign"
+icon: "users"
+---
+
+Returns paginated recipient tracking records for a standard campaign owned by the current user.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaignId}/recipients
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `campaignId` | `string` | Yes | Campaign ID |
+| `pageNo` | `number` | Yes | Page number starting at `1` |
+| `pageSize` | `number` | Yes | Records per page, from `1` to `100` |
+| `opened` | `boolean` | No | Supports only `true` or omission; filters recipients with a recorded open |
+| `clicked` | `boolean` | No | Supports only `true` or omission; filters recipients with a recorded tracked-link click |
+| `dataType` | `enum<string>` | No | `ALL`, `POSTED`, `DELIVERED`, `OPENED`, or `CLICKED`; `UNSUBSCRIBE` is not currently supported |
+| `filterCode` | `enum<string>` | No | `ALL_CONTACT`, `POST_FAIL`, `INVALID_ADDRESS`, `SENDING`, `CANCEL_SEND`, or `NOT_SEND`; `COMPLAINT` is not currently supported |
+
+## Request example
+
+```bash
+curl -G "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/recipients" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --data-urlencode "pageNo=1" \
+  --data-urlencode "pageSize=50"
+```
+
+## Success response
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `recipients` | `array<object>` | Recipient tracking records for the page |
+| `recipients[].id` | `string` | Tracking-record ID, not a contact ID |
+| `recipients[].contactId` | `string` | Related contact ID when available |
+| `recipients[].email` | `string` | Address used for this send |
+| `recipients[].reasonCode` | `string` | Machine-readable failure reason when known |
+| `recipients[].reasonMessage` | `string` | Human-readable failure reason when known |
+| `recipients[].opened` | `boolean` | Whether an open was observed; `false` does not prove the message was unread |
+| `recipients[].clicked` | `boolean` | Whether a tracked-link click was observed |
+| `recipients[].lastOpenTime` | `string (date-time)` | Most recent recorded open time |
+| `recipients[].lastClickTime` | `string (date-time)` | Most recent recorded click time |
+| `recipients[].postResult` | `enum<string>` | `SUCCESS`, `FAIL`, `PROCESSING`, `INVALID_ADDRESS`, or `CANCEL_SEND` |
+| `pageNo` | `number (int32)` | Current page |
+| `pageSize` | `number (int32)` | Records per page |
+| `totalCount` | `number (int32)` | Records matching the filter |
+| `hasMore` | `boolean` | Whether another page exists |
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Bad Request |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `404` | Not Found |

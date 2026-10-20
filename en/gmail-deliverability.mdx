@@ -1,0 +1,63 @@
+---
+title: "Improve Gmail deliverability"
+description: "Use authentication, domain warm-up, and monitoring to reduce Gmail spam placement"
+---
+
+Gmail uses strict, adaptive spam filtering. New sending domains and IP addresses may be filtered or rejected if they have not built a positive reputation. This guide outlines a practical warm-up process. See Google's [Email sender guidelines](https://support.google.com/a/answer/81126) for current requirements.
+
+## 1. Complete the technical setup
+
+### Configure SPF, DKIM, and DMARC
+
+- **SPF:** Lists the servers allowed to send for your domain.
+- **DKIM:** Adds a signature that proves the message was authorized and not modified in transit.
+- **DMARC:** Tells Gmail how to handle messages that fail authentication and enables domain-abuse reporting.
+
+<Note>During initial warm-up, consider a DMARC policy of `p=none` so you can monitor results before enforcing rejection.</Note>
+
+See [Add and verify a sending domain](/en/sending-domain) for configuration instructions.
+
+### Configure Google Postmaster Tools
+
+Verify your sending domain in [Google Postmaster Tools](https://postmaster.google.com/).
+
+<Frame>![Google Postmaster Tools](/gmail-postmaster.png)</Frame>
+
+Use it to monitor domain and IP reputation, authentication rates, delivery errors, and spam complaints.
+
+## 2. Warm up gradually
+
+Start with a small, high-quality, engaged audience and increase volume steadily.
+
+- Prioritize users active within the last 30 days who explicitly agreed to receive email.
+- Never warm up with purchased, stale, or unconfirmed lists.
+- Positive opens, clicks, and “not spam” actions help build reputation.
+
+| Stage | Suggested approach |
+| --- | --- |
+| Days 1–3 | Send to 200–1,000 of your most active Gmail users and monitor closely |
+| Days 4–7 | If engagement is healthy and complaints are near zero, increase gradually, for example 200 → 400 → 800 |
+| Days 8–14 | Continue stable growth, for example 1,500 → 3,000 → 6,000 per day |
+
+<Warning>If complaints rise or open rates fall sharply, stop increasing volume and investigate content and list quality.</Warning>
+
+Avoid sudden spikes such as moving from 100 messages per day to 100,000.
+
+## 3. Monitor and optimize
+
+- Keep spam complaints below **0.3%**.
+- Keep hard bounces below **0.5%** and clean invalid addresses.
+- Monitor opens and clicks as engagement signals.
+- Include a clear unsubscribe link in every message.
+- Send relevant content and avoid excessive capitalization, punctuation, or image-heavy layouts.
+
+See [Manage unsubscribes](/en/unsubscribe) for unsubscribe setup.
+
+## Pre-send checklist
+
+- SPF, DKIM, and DMARC are configured correctly.
+- The domain is verified in Google Postmaster Tools.
+- The first audience contains recent, engaged Gmail users.
+- Volume increases gradually and consistently.
+- Complaint and bounce metrics are monitored.
+- Every message provides value and an easy way to unsubscribe.

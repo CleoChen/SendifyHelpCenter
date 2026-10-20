@@ -1,0 +1,64 @@
+---
+title: "Create a contact"
+description: "Create a contact with tag names and custom fields"
+icon: "user-plus"
+---
+
+Creates a contact using tag names and custom-field names. A missing or non-unique tag name or field name causes the request to fail unless automatic tag creation is enabled.
+
+```http
+POST https://api.sendify.dingstore.cn/dmx/v2/contacts
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Request body
+
+Content-Type: `application/json`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `email` | `string` | Yes | Contact email address |
+| `tagNames` | `array<string>` | No | Tags to add. Existing tags remain; new tags from this list are appended |
+| `customFields` | `array<object>` | No | Custom-field values |
+| `customFields[].fieldName` | `string` | Yes | Existing, unique custom-field name |
+| `customFields[].fieldValue` | `string` | No | Custom-field value |
+| `autoCreateTags` | `boolean` | No | Create missing tag names automatically; default `false` |
+| `conflictPolicy` | `enum<string>` | No | Behavior when the contact already exists; default is failure |
+
+### Conflict policies
+
+| Value | Behavior |
+| --- | --- |
+| `CONTACT_CONFLICT_POLICY_FAIL_IF_EXISTS` | Return a conflict and do not update the contact |
+| `CONTACT_CONFLICT_POLICY_UPDATE_IF_EXISTS` | Update by `email`, keep existing tags, and append new tags |
+
+## Request example
+
+```bash
+curl -X POST "https://api.sendify.dingstore.cn/dmx/v2/contacts" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email":"customer@example.com",
+    "tagNames":["Newsletter"],
+    "customFields":[{"fieldName":"City","fieldValue":"Hangzhou"}],
+    "autoCreateTags":true,
+    "conflictPolicy":"CONTACT_CONFLICT_POLICY_FAIL_IF_EXISTS"
+  }'
+```
+
+## Success response
+
+HTTP `200` returns a `contact` object with `id`, `email`, `tagNames`, `customFields`, and `createTime`.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |

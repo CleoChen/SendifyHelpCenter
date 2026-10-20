@@ -1,0 +1,49 @@
+---
+title: "Get a campaign recipient by email"
+description: "Find one recipient tracking record in a campaign by exact email address"
+icon: "envelope-circle-check"
+---
+
+Returns the tracking record for an exact email address in a standard campaign owned by the current user.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaignId}/recipients/by-email
+```
+
+<Note>This endpoint does not support administrator lookup, A/B tests, continuous-delivery campaigns, pagination, or status filters. Data updates asynchronously. If multiple historical records match the address, the API returns a data error rather than choosing or combining records.</Note>
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `campaignId` | `string` | Yes | Campaign ID |
+| `email` | `string` | Yes | Exact recipient address, up to 320 characters. URL-encode special characters such as `+` as `%2B` |
+
+## Request example
+
+```bash
+curl -G \
+  "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/recipients/by-email" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --data-urlencode "email=alice@example.com"
+```
+
+## Success response
+
+The `recipient` object contains the tracking-record ID, related contact ID when available, email, failure reason fields, `opened`, `clicked`, last open and click times, and `postResult`. `postResult` is one of `SUCCESS`, `FAIL`, `PROCESSING`, `INVALID_ADDRESS`, or `CANCEL_SEND`.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Bad Request |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `404` | Not Found |
+| `500` | Internal Server Error |

@@ -1,6 +1,75 @@
 /* Sendify 帮助中心首页。样式位于 /style.css 的 .dt-home 命名空间。 */
 
-export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
+export const Home = ({ t, arts, hot, journeys, searchItems = arts, locale = "cn" }) => {
+  const isEnglish = locale === "en";
+  const localePrefix = isEnglish ? "/en" : "";
+  const pageHref = (slug) => `${localePrefix}/${slug}`;
+  const helpCenterHref = isEnglish ? "/en/index" : "/";
+  const ui = isEnglish
+    ? {
+        searchFound: (count) => `${count} relevant ${count === 1 ? "article" : "articles"} found`,
+        searchEmpty: "No relevant articles found",
+        home: "Home",
+        pricing: "Pricing",
+        contactUs: "Contact us",
+        helpCenter: "Help Center",
+        openMenu: "Open navigation menu",
+        clearSearch: "Clear search",
+        quickStart: "Quick start",
+        journeyTitle: "Follow the path to the answer you need",
+        journeyDescription: "Move from setup to performance analysis with task-based guides.",
+        viewGuide: "View guide",
+        developerAccess: "Developer access",
+        developerTitle: "Choose the integration that fits your workflow",
+        developerDescription: "Build with the Open API or let AI assistants query Sendify data securely through MCP.",
+        apiDescription: "Use a Bearer API Key to automate campaigns and contact workflows.",
+        apiLink: "View API docs",
+        mcpDescription: "Connect Codex, Cursor, or Claude and query campaigns and contacts in natural language.",
+        mcpLink: "Connect MCP",
+        commonGuides: "Popular guides",
+        allGuides: "View all guides",
+        moreQuestions: "Still have questions?",
+        supportEmail: "Support email",
+        contact: "Contact us",
+        resources: "Resources",
+        legal: "Legal",
+        privacy: "Privacy Policy",
+        terms: "Terms of Service",
+        sla: "Service Level Agreement",
+        footerCopyright: (year) => `Alibaba DingTalk © ${year} DingTalk (China) Information Technology Co., Ltd. and/or its affiliates. All rights reserved.`,
+      }
+    : {
+        searchFound: (count) => `找到 ${count} 篇相关内容`,
+        searchEmpty: "暂未找到相关内容",
+        home: "首页",
+        pricing: "价格",
+        contactUs: "联系我们",
+        helpCenter: "帮助中心",
+        openMenu: "打开导航菜单",
+        clearSearch: "清空搜索",
+        quickStart: "快速开始",
+        journeyTitle: "沿着使用路径，找到需要的答案",
+        journeyDescription: "从基础配置到效果分析，按任务阶段快速进入对应指南。",
+        viewGuide: "查看指南",
+        developerAccess: "开发者接入",
+        developerTitle: "选择适合你的集成方式",
+        developerDescription: "通过 Open API 构建业务集成，或让 AI 助手用 MCP 安全查询 Sendify 数据。",
+        apiDescription: "使用 Bearer API Key 调用联系人等接口，构建自动化工作流。",
+        apiLink: "查看 API 文档",
+        mcpDescription: "连接 Codex、Cursor 或 Claude，用自然语言查询营销活动与联系人。",
+        mcpLink: "开始接入 MCP",
+        commonGuides: "常用指南",
+        allGuides: "查看全部指南",
+        moreQuestions: "还有疑问？",
+        supportEmail: "联系邮箱",
+        contact: "联系我们",
+        resources: "资源",
+        legal: "法律协议",
+        privacy: "隐私政策",
+        terms: "服务协议",
+        sla: "服务等级协议",
+        footerCopyright: (year) => `阿里钉钉 ©版权公告 © ${year} 钉钉（中国）信息技术有限公司/或其关联公司版权所有`,
+      };
   const applySearchQuery = (query, focus = false) => {
     if (typeof document === "undefined") return;
     const input = document.getElementById("home-search-input");
@@ -9,7 +78,7 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
     const submit = document.getElementById("home-search-submit");
     if (!input || !panel || !summary || !submit) return;
 
-    const normalizedQuery = query.trim().toLocaleLowerCase("zh-CN");
+    const normalizedQuery = query.trim().toLocaleLowerCase(isEnglish ? "en" : "zh-CN");
     let visibleCount = 0;
     input.value = query;
     input.setAttribute("aria-expanded", String(Boolean(normalizedQuery)));
@@ -26,14 +95,14 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
     panel.hidden = !normalizedQuery;
     submit.disabled = visibleCount === 0;
     summary.textContent = visibleCount
-      ? `找到 ${visibleCount} 篇相关内容`
-      : "暂未找到相关内容";
+      ? ui.searchFound(visibleCount)
+      : ui.searchEmpty;
     if (focus) requestAnimationFrame(() => input.focus());
   };
 
-  const productDocsHref = "/getting-started";
-  const apiDocsHref = "/developer/overview";
-  const mcpDocsHref = "/mcp/overview";
+  const productDocsHref = pageHref("getting-started");
+  const apiDocsHref = pageHref("developer/overview");
+  const mcpDocsHref = pageHref("mcp/overview");
   const websiteHref = "https://www.sendify.dingstore.cn/";
   const pricingHref = "https://www.sendify.dingstore.cn/pricing";
   const websiteContactHref = "https://www.sendify.dingstore.cn/contact-us";
@@ -42,15 +111,15 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
   const currentYear = new Date().getFullYear();
   const legalLinks = [
     [
-      "隐私政策",
+      ui.privacy,
       "https://terms.alicdn.com/legal-agreement/terms/privacy_policy_full/20250320112834560/20250320112834560.html",
     ],
     [
-      "服务协议",
+      ui.terms,
       "https://terms.alicdn.com/legal-agreement/terms/b_end_product_protocol/20250320110123957/20250320110123957.html",
     ],
     [
-      "服务等级协议",
+      ui.sla,
       "https://terms.alicdn.com/legal-agreement/terms/b_end_product_protocol/20250320143730445/20250320143730445.html",
     ],
   ];
@@ -104,29 +173,29 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
 
   const renderHeader = () => (
     <header className="dt-home-header">
-      <nav className="dt-home-nav" aria-label="首页导航">
-        <a href={websiteHref} className="dt-home-brand" aria-label="Sendify 官网">
+      <nav className="dt-home-nav" aria-label={isEnglish ? "Home navigation" : "首页导航"}>
+        <a href={websiteHref} className="dt-home-brand" aria-label={isEnglish ? "Sendify website" : "Sendify 官网"}>
           <span className="dt-home-brand-logo" aria-hidden="true" />
         </a>
 
         <div className="dt-home-nav-links">
-          <a href={websiteHref}>首页</a>
-          <a href={pricingHref}>价格</a>
-          <a href={websiteContactHref}>联系我们</a>
-          <a href="/" aria-current="page">帮助中心</a>
+          <a href={websiteHref}>{ui.home}</a>
+          <a href={pricingHref}>{ui.pricing}</a>
+          <a href={websiteContactHref}>{ui.contactUs}</a>
+          <a href={helpCenterHref} aria-current="page">{ui.helpCenter}</a>
         </div>
 
         <details className="dt-home-mobile-menu">
-          <summary aria-label="打开导航菜单">
+          <summary aria-label={ui.openMenu}>
             <span />
             <span />
             <span />
           </summary>
           <div className="dt-home-mobile-panel">
-            <a href={websiteHref}>首页</a>
-            <a href={pricingHref}>价格</a>
-            <a href={websiteContactHref}>联系我们</a>
-            <a href="/" aria-current="page">帮助中心</a>
+            <a href={websiteHref}>{ui.home}</a>
+            <a href={pricingHref}>{ui.pricing}</a>
+            <a href={websiteContactHref}>{ui.contactUs}</a>
+            <a href={helpCenterHref} aria-current="page">{ui.helpCenter}</a>
           </div>
         </details>
       </nav>
@@ -152,7 +221,7 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
     <main className="dt-home-hero">
       <div className="dt-home-hero-grid dt-home-wrap">
         <div className="dt-home-hero-copy">
-          <span className="dt-home-eyebrow"><i /> Sendify 帮助中心</span>
+          <span className="dt-home-eyebrow"><i /> Sendify {ui.helpCenter}</span>
           <h1>{t.title}</h1>
           <p>{t.subtitle}</p>
 
@@ -191,7 +260,7 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
           <div className="dt-home-search-results" id="home-search-results" aria-live="polite" hidden>
             <div className="dt-home-search-summary">
               <span id="home-search-summary" />
-              <button type="button" onClick={() => applySearchQuery("", true)} aria-label="清空搜索">清空</button>
+              <button type="button" onClick={() => applySearchQuery("", true)} aria-label={ui.clearSearch}>{ui.clearSearch}</button>
             </div>
             <ul>
               {searchItems.map((item) => (
@@ -201,10 +270,10 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
                   data-search-text={[item.t, item.tag, item.description, item.keywords]
                     .filter(Boolean)
                     .join(" ")
-                    .toLocaleLowerCase("zh-CN")}
+                    .toLocaleLowerCase(isEnglish ? "en" : "zh-CN")}
                   hidden
                 >
-                  <a href={`/${item.slug}`}>
+                  <a href={pageHref(item.slug)}>
                     <span>{item.tag}</span>
                     <strong>{item.t}</strong>
                     <ArrowIcon />
@@ -214,7 +283,7 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
             </ul>
           </div>
 
-          <div className="dt-home-hot" aria-label="热门搜索">
+          <div className="dt-home-hot" aria-label={isEnglish ? "Popular searches" : "热门搜索"}>
             <span>{t.hot_label}</span>
             {hot.map((tag) => (
               <button key={tag} type="button" onClick={() => applySearchQuery(tag, true)}>
@@ -232,18 +301,18 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
     <section className="dt-home-journeys" aria-labelledby="journey-title">
       <div className="dt-home-wrap dt-home-section">
         <div className="dt-home-section-head dt-home-section-head-centered">
-          <span>快速开始</span>
-          <h2 id="journey-title">沿着使用路径，找到需要的答案</h2>
-          <p>从基础配置到效果分析，按任务阶段快速进入对应指南。</p>
+          <span>{ui.quickStart}</span>
+          <h2 id="journey-title">{ui.journeyTitle}</h2>
+          <p>{ui.journeyDescription}</p>
         </div>
         <div className="dt-home-journey-grid">
           {journeys.map((item, index) => (
-            <a className="dt-home-journey" href={`/${item.slug}`} key={item.slug}>
+            <a className="dt-home-journey" href={pageHref(item.slug)} key={item.slug}>
               <span className="dt-home-journey-step">0{index + 1}</span>
               <span className="dt-home-journey-icon"><JourneyIcon name={item.icon} /></span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <span className="dt-home-journey-link">查看指南 <ArrowIcon /></span>
+              <span className="dt-home-journey-link">{ui.viewGuide} <ArrowIcon /></span>
             </a>
           ))}
         </div>
@@ -255,22 +324,22 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
     <section className="dt-home-developer" aria-labelledby="developer-title">
       <div className="dt-home-wrap dt-home-section">
         <div className="dt-home-section-head dt-home-section-head-centered">
-          <span>开发者接入</span>
-          <h2 id="developer-title">选择适合你的集成方式</h2>
-          <p>通过 Open API 构建业务集成，或让 AI 助手用 MCP 安全查询 Sendify 数据。</p>
+          <span>{ui.developerAccess}</span>
+          <h2 id="developer-title">{ui.developerTitle}</h2>
+          <p>{ui.developerDescription}</p>
         </div>
         <div className="dt-home-developer-grid">
           <a className="dt-home-developer-card" href={apiDocsHref}>
             <small>REST API</small>
             <h3>Open API</h3>
-            <p>使用 Bearer API Key 调用联系人等接口，构建自动化工作流。</p>
-            <span>查看 API 文档 <ArrowIcon /></span>
+            <p>{ui.apiDescription}</p>
+            <span>{ui.apiLink} <ArrowIcon /></span>
           </a>
           <a className="dt-home-developer-card dt-home-developer-card-featured" href={mcpDocsHref}>
             <small>AI CONNECTOR</small>
             <h3>Sendify MCP</h3>
-            <p>连接 Codex、Cursor 或 Claude，用自然语言查询营销活动与联系人。</p>
-            <span>开始接入 MCP <ArrowIcon /></span>
+            <p>{ui.mcpDescription}</p>
+            <span>{ui.mcpLink} <ArrowIcon /></span>
           </a>
         </div>
       </div>
@@ -282,15 +351,15 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
       <div className="dt-home-wrap dt-home-section">
         <div className="dt-home-section-head">
           <div>
-            <span>常用指南</span>
+          <span>{ui.commonGuides}</span>
             <h2 id="popular-title">{t.pop_title}</h2>
             <p>{t.pop_sub}</p>
           </div>
-          <a className="dt-home-text-link" href={productDocsHref}>查看全部指南 <ArrowIcon /></a>
+          <a className="dt-home-text-link" href={productDocsHref}>{ui.allGuides} <ArrowIcon /></a>
         </div>
         <div className="dt-home-art-grid">
           {arts.map((article, index) => (
-            <a key={article.slug} className="dt-home-art" href={`/${article.slug}`}>
+            <a key={article.slug} className="dt-home-art" href={pageHref(article.slug)}>
               <span className="dt-home-art-index">{String(index + 1).padStart(2, "0")}</span>
               <span className="dt-home-art-copy">
                 <small>{article.tag}</small>
@@ -309,12 +378,12 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
       <div className="dt-home-wrap dt-home-section">
         <div className="dt-home-support">
           <div className="dt-home-support-copy">
-            <span>还有疑问？</span>
+            <span>{ui.moreQuestions}</span>
             <h2>{t.sup_title}</h2>
             <p>{t.sup_sub}</p>
           </div>
-          <div className="dt-home-support-email" aria-label={`联系邮箱：${supportEmail}`}>
-            <span>联系邮箱</span>
+          <div className="dt-home-support-email" aria-label={`${ui.supportEmail}: ${supportEmail}`}>
+            <span>{ui.supportEmail}</span>
             <strong>{supportEmail}</strong>
           </div>
         </div>
@@ -329,24 +398,24 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts }) => {
           <span className="dt-home-brand-logo" aria-hidden="true" />
         </div>
         <div className="dt-home-footer-contact">
-          <h2>联系我们</h2>
+          <h2>{ui.contact}</h2>
           <a href={supportMail}>{supportEmail}</a>
         </div>
         <div className="dt-home-footer-resources">
-          <h2>资源</h2>
-          <a href={productDocsHref}>帮助中心</a>
+          <h2>{ui.resources}</h2>
+          <a href={productDocsHref}>{ui.helpCenter}</a>
           <a href={apiDocsHref}>Open API</a>
           <a href={mcpDocsHref}>MCP</a>
         </div>
         <div className="dt-home-footer-legal">
-          <h2>法律协议</h2>
+          <h2>{ui.legal}</h2>
           {legalLinks.map(([label, href]) => (
             <a key={label} href={href} target="_blank" rel="noopener noreferrer">{label}</a>
           ))}
         </div>
       </div>
       <div className="dt-home-wrap dt-home-footer-bottom">
-        <span>阿里钉钉 ©版权公告 © {currentYear} 钉钉（中国）信息技术有限公司/或其关联公司版权所有</span>
+        <span>{ui.footerCopyright(currentYear)}</span>
         <span className="dt-home-footer-filings">
           <a
             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002018233"

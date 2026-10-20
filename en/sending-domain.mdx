@@ -1,0 +1,97 @@
+---
+title: "Add and verify a sending domain"
+description: "Choose a sending mode and complete the required DNS configuration"
+---
+
+Verify a sending domain before sending email with Sendify. Domain verification protects your sender identity, improves deliverability, and reduces the risk of messages being treated as spam.
+
+## Choose a sending mode
+
+Sendify supports branded sending and platform relay.
+
+| Capability | Branded sending | Platform relay |
+| --- | --- | --- |
+| Visible From address | Your brand, such as `name@yourcompany.com` | Your brand, such as `name@yourcompany.com` |
+| Envelope sender (MailFrom) | Your domain | Sendify's platform domain |
+| Brand independence | Highest | Lower because Sendify handles the underlying delivery identity |
+| DNS setup | Usually SPF, DKIM, DMARC, and MX | Usually DKIM and DMARC |
+| Best for | Teams that need independent reputation and brand alignment | Teams that prioritize faster setup and lower direct domain risk |
+
+### Branded sending
+
+All technical layers of the message use your domain. This gives you the clearest brand identity and an independent sending reputation.
+
+<Warning>
+  Poor list quality or a high complaint rate can damage your domain reputation and may affect corporate mail. Use a dedicated subdomain such as `service.yourcompany.com` whenever possible.
+</Warning>
+
+### Platform relay
+
+Recipients still see your branded From address, while Sendify handles MailFrom and delivery.
+
+<Frame>
+  ![Platform relay notice](/platform-relay-warning.png)
+</Frame>
+
+Platform relay requires less DNS configuration, but its shared delivery reputation can be affected by other users. Some strict recipients may also place less trust in a message whose From and MailFrom domains do not align.
+
+## Add a sending domain in Sendify
+
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `System Management` → `Domain Management`
+
+<Steps>
+  <Step title="Enter the sending domain">
+    Sign in as an administrator and select **Add sending domain**.
+
+    <Frame>![Add a sending domain](/add-sending-domain.png)</Frame>
+
+    To avoid conflicts with existing SPF and MX records, use a dedicated subdomain such as `mail.yourcompany.com` or `mkt.yourcompany.com`.
+  </Step>
+  <Step title="Choose a sending mode">
+    Select branded sending or platform relay based on the tradeoffs above.
+
+    <Frame>![Choose a sending mode](/sending-mode-choice.png)</Frame>
+  </Step>
+  <Step title="Configure DNS records">
+    At your domain registrar or DNS provider, add or update the host names, record types, and values shown by Sendify.
+
+    <Frame>![DNS records required by Sendify](/sending-dns-records.png)</Frame>
+
+    <Warning>If an SPF record already exists, update it as instructed. Do not remove existing `include` entries that are required by other mail services.</Warning>
+  </Step>
+  <Step title="Wait for verification">
+    DNS changes normally take a few minutes to several hours to propagate. Sendify checks the records automatically.
+
+    <Frame>![Waiting for domain verification](/sending-domain-verifying.png)</Frame>
+  </Step>
+</Steps>
+
+## Example: configure records in Alibaba Cloud DNS
+
+<Steps>
+  <Step title="Open DNS settings"><Frame>![Open DNS settings in Alibaba Cloud](/aliyun-dns-entry.png)</Frame></Step>
+  <Step title="Add each DNS record">Copy each host, record type, and value from Sendify.<Frame>![Add a DNS record in Alibaba Cloud](/aliyun-add-dns-record.png)</Frame></Step>
+  <Step title="Save and wait">Return to Sendify after saving and wait for verification.</Step>
+</Steps>
+
+## DNS record glossary
+
+- **MX:** Identifies the servers that receive mail for your domain.
+- **SPF:** Lists the servers allowed to send mail on behalf of your domain.
+- **DKIM:** Adds a cryptographic signature that proves the message is authorized and unchanged.
+- **DMARC:** Tells receiving providers how to handle messages that fail SPF or DKIM and can produce abuse reports.
+- **TXT:** May be used by Sendify to verify that you control the domain.
+
+## Common DNS providers
+
+| Provider | Console | Setup guide |
+| --- | --- | --- |
+| Alibaba Cloud | [Console](https://www.aliyun.com/) | [Add mail DNS records](https://help.aliyun.com/zh/dns/pubz-add-mailbox-resolution) |
+| Tencent Cloud | [Console](https://console.cloud.tencent.com/) | [Quick DNS setup](https://cloud.tencent.com/document/product/302/3446) |
+| Huawei Cloud | [Console](https://console.huaweicloud.com/) | [Quick DNS setup](https://support.huaweicloud.com/qs-dns/dns_qs_0002.html) |
+| DNSPod | [Console](https://www.dnspod.cn/) | [DNS guide](https://docs.dnspod.com/dns/help-change-domain-ns-zh/) |
+| GoDaddy | [Console](https://www.godaddy.com/) | [Add a TXT record](https://www.godaddy.com/help/add-a-txt-record-19232) |
+
+## Support
+
+Email `sendify-support@dingmail.work` or join the DingTalk support group `110245001796` if domain verification fails.

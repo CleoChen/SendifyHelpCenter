@@ -1,0 +1,42 @@
+---
+title: "API Key authentication and security"
+description: "Understand Sendify MCP Bearer API Key authentication and security practices"
+icon: "key"
+---
+
+Sendify MCP uses a Bearer API Key to identify the account and its data permissions. Every request includes:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+Keep exactly one space between `Bearer` and the API Key.
+
+## Create and store an API Key
+
+In the Sendify console, open:
+
+```text
+Open Capabilities / API Keys / Create key
+```
+
+The full key is displayed only once. Save it in a password manager, operating-system environment variable, or the secret storage provided by your client.
+
+## Recommended practices
+
+- Use a separate key for every person and client so access can be audited and revoked.
+- Grant only the permissions required for the intended queries.
+- Include the user and client in the key name, such as `lili-codex-desktop`.
+- Revoke and replace the key after personnel changes, device loss, or suspected exposure.
+- Remove keys that are no longer used.
+
+## Never do this
+
+- Do not commit an API Key to Git.
+- Do not expose it in logs, screenshots, public docs, or shared AI chats.
+- Do not share one long-lived production key across a team.
+- Do not place a real key in copyable configuration examples.
+
+<Info>MCP access is limited by the account and permissions associated with the key. If the client connects but a query is denied, check the key's permissions instead of granting broader account access than necessary.</Info>
+
+For `401` and permission errors, see [Troubleshooting](/en/mcp/troubleshooting).

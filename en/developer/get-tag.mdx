@@ -1,0 +1,43 @@
+---
+title: "Get a contact tag"
+description: "Get a contact tag in the current account by tag ID"
+icon: "tag"
+---
+
+Returns the contact tag that matches a stable tag ID.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/tags/{id}
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Path parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | Yes | Stable tag ID returned by the list or create endpoint |
+
+## Request example
+
+```bash
+curl "https://api.sendify.dingstore.cn/dmx/v2/tags/tag-vip" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Success response
+
+The `tag` object contains `id`, `name`, and optional `description`.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Empty or invalid ID, tag not found, or tag not owned by the current user |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `500` | Internal service error |

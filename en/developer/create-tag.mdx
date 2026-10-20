@@ -1,0 +1,58 @@
+---
+title: "Create a contact tag"
+description: "Create a static contact tag in the current account"
+icon: "tag"
+---
+
+Creates a static contact tag for the user associated with the API Key. The returned tag ID can be used in a campaign's `tagIds` recipient scope.
+
+```http
+POST https://api.sendify.dingstore.cn/dmx/v2/tags
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Request body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | Yes | 1–20 characters; Chinese characters, letters, numbers, underscores, and hyphens are allowed |
+| `description` | `string` | No | Optional tag description |
+
+```json
+{ "name": "VIP-Customers", "description": "High-priority customers" }
+```
+
+## Request example
+
+```bash
+curl -X POST "https://api.sendify.dingstore.cn/dmx/v2/tags" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"VIP-Customers","description":"High-priority customers"}'
+```
+
+## Success response
+
+```json
+{
+  "tag": {
+    "id": "tag-vip",
+    "name": "VIP-Customers",
+    "description": "High-priority customers"
+  }
+}
+```
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Invalid name, duplicate name, or tag limit reached |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `500` | Tenant missing or internal service error |

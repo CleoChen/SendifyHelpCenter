@@ -1,0 +1,40 @@
+---
+title: "Manage contacts"
+description: "Add, import, edit, and delete contacts"
+keywords: ["contacts"]
+---
+
+## Import contacts in bulk
+
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `Contacts` → `All contacts`, or `Campaigns` → `Add contacts`
+
+The import flow is: choose a file → map fields → add tags → complete the import.
+
+<Steps>
+  <Step title="Choose a file">
+    Upload a contact list containing email addresses. Supported fields include email, last name, first name, company, and job title. You can use `.csv`, `.xls`, or `.xlsx` files.
+    <Frame>![Choose a contact import file](/contacts-import-file.png)</Frame>
+  </Step>
+  <Step title="Map fields">
+    Sendify maps recognized headers automatically. Manually map any remaining columns; unmapped columns are not imported. If an email already exists, values from the file overwrite the existing contact data.
+    <Frame>![Map contact fields](/contacts-match-fields.png)</Frame>
+  </Step>
+  <Step title="Add tags">Optionally add tags to organize imported contacts.<Frame>![Add tags during import](/contacts-import-tags.png)</Frame></Step>
+  <Step title="Complete the import">Review the import status when processing finishes.<Frame>![Contact import complete](/contacts-import-complete.png)</Frame></Step>
+</Steps>
+
+## Add a contact manually
+
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `Contacts` → `All contacts`
+
+<Steps>
+  <Step title="Start manual entry">Select `Add contact → Add manually`.<Frame>![Choose manual entry](/contacts-manual-entry.png)</Frame></Step>
+  <Step title="Enter contact details">Complete the form and confirm.<Frame>![Contact details form](/contacts-manual-form.png)</Frame></Step>
+  <Step title="Review the contact">The new contact appears under **All contacts**.<Frame>![Contact list](/contacts-list.png)</Frame></Step>
+</Steps>
+
+## Edit or delete contacts
+
+Update or remove contacts from the contact list.
+
+<Frame>![Edit or delete a contact](/contacts-edit-delete.png)</Frame>

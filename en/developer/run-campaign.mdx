@@ -1,0 +1,63 @@
+---
+title: "Start a campaign"
+description: "Create a recipient snapshot and start a standard bulk-email campaign"
+icon: "play"
+---
+
+Validates a standard draft owned by the current user, creates a recipient snapshot from the current contacts and tags, and starts sending.
+
+```http
+POST https://api.sendify.dingstore.cn/dmx/v2/campaigns/{id}/run
+```
+
+<Warning>A successful response means that the campaign started. It does not mean that messages were delivered. Starting the same campaign again returns a state error.</Warning>
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Path parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | Yes | Campaign ID returned by the create or list endpoint |
+
+## Request body
+
+Send an empty JSON object:
+
+```json
+{}
+```
+
+## Request example
+
+```bash
+curl -X POST \
+  "https://api.sendify.dingstore.cn/dmx/v2/campaigns/03ec9355-4bf3-4a09-9829-4f3ef1d12a90/run" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+## Success response
+
+Returns HTTP `200` with no business fields in the response body.
+
+## Limitations
+
+- Only standard draft campaigns owned by the current user are supported.
+- Scheduled campaigns, pause/resume, and failed-run retries are not supported.
+- Recipients are resolved from the latest contact and tag membership when the endpoint runs.
+- A large recipient set may take longer to process.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Unsupported type or state, in-progress operation, no valid recipients, or inaccessible references |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `404` | Campaign not found or not owned by the current user |

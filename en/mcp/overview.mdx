@@ -1,0 +1,47 @@
+---
+title: "Sendify MCP overview"
+description: "Let AI assistants query Sendify campaigns, delivery data, and contacts securely"
+icon: "sparkles"
+---
+
+Sendify MCP connects Sendify data to AI clients that support the Model Context Protocol. Configure it once, then use natural-language questions to explore campaigns, delivery performance, and contacts without deploying your own server or writing API calls.
+
+<Note>Sendify MCP currently provides **read-only queries**. It cannot create contacts, create campaigns, or send email.</Note>
+
+## What you can do
+
+<CardGroup cols={3}>
+  <Card title="Find campaigns" icon="rectangle-list">List campaigns and retrieve real campaign IDs, states, and summary information.</Card>
+  <Card title="Analyze delivery" icon="chart-line">Review delivery counts, unique opens, unique clicks, and recipient status.</Card>
+  <Card title="Find contacts" icon="address-book">Browse contacts by page or retrieve one contact by email address.</Card>
+</CardGroup>
+
+## Connection details
+
+```text
+https://mcp.sendify.dingstore.cn/dmx/mcp/v2
+```
+
+| Item | Value |
+| --- | --- |
+| Transport | HTTPS + Streamable HTTP |
+| Authentication | `Authorization: Bearer YOUR_API_KEY` |
+| Local deployment | Not required |
+| Data access | Determined by the account and permissions associated with the API Key |
+
+## Supported clients
+
+- Codex Desktop and Codex CLI
+- Cursor
+- Claude Desktop and Claude Code
+- Other clients that support remote Streamable HTTP and custom request headers
+
+<Tip>Start with [Quickstart](/en/mcp/quickstart), then copy a verification question from [Tools and prompt examples](/en/mcp/tools).</Tip>
+
+## How it works
+
+```text
+Your question → AI client → Sendify MCP → Sendify data
+```
+
+The AI client selects a read-only tool and turns its response into a useful answer. A saved configuration is not enough to prove the connection works; verify it with a query that returns real data from your account.

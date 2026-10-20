@@ -1,0 +1,47 @@
+---
+title: "Tools and prompt examples"
+description: "Understand Sendify MCP read-only tools, recommended call order, and example questions"
+icon: "wrench"
+---
+
+Sendify MCP currently provides read-only tools for campaigns, campaign reports, recipients, and contacts.
+
+## Available tools
+
+| Tool | Purpose |
+| --- | --- |
+| `list_campaigns` | List campaigns and retrieve real campaign IDs |
+| `get_campaign` | Retrieve a campaign summary by `id` |
+| `get_campaign_report` | Retrieve campaign statistics by `campaignId` |
+| `list_campaign_recipients` | List recipients and engagement status |
+| `get_campaign_recipient_by_email` | Find one email address in a campaign |
+| `list_contacts_by_offset` | List contacts by page |
+| `get_contact_by_email` | Retrieve one contact by email address |
+
+<Tip>If you only know a campaign name, ask the AI to call `list_campaigns` first and use the returned ID. Do not let it guess an ID.</Tip>
+
+## Example prompts
+
+### Find campaigns
+
+> List my 20 most recent Sendify campaigns. Return the name, state, and campaign ID.
+
+### Analyze campaign performance
+
+> Find the campaign whose name contains “Fall launch,” then report successful deliveries, unique opens, and unique clicks.
+
+### Review clicked recipients
+
+> List clicked recipients for campaign ID CAMPAIGN_ID, 50 per page. Include the total and the current page range.
+
+### Find a contact
+
+> Retrieve the Sendify contact for person@example.com. Return only fields provided by Sendify; do not infer missing data.
+
+## Validate responses
+
+- Ask for real campaign or contact identifiers so you can verify them in the console.
+- For paginated results, ask for the total, current range, and whether more pages exist.
+- Explicitly ask the AI to return only fields actually provided by Sendify.
+
+<Warning>MCP does not currently support write operations. Treat any claim that it created a contact, created a campaign, or sent email as unverified and incorrect.</Warning>

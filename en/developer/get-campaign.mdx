@@ -1,0 +1,58 @@
+---
+title: "Get a campaign"
+description: "Get an email campaign summary by campaign ID"
+icon: "calendar"
+---
+
+Returns a campaign summary for the current user.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{id}
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Path parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | Yes | Campaign ID returned by the campaign list |
+
+## Request example
+
+```bash
+curl "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Success response
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` | Campaign ID |
+| `name` | `string` | Campaign name, not the email subject |
+| `type` | `enum<string>` | `CAMPAIGN_TYPE_NORMAL` or `CAMPAIGN_TYPE_ABTEST` |
+| `state` | `enum<string>` | Execution state |
+| `createTime` | `string (date-time)` | Creation time in RFC 3339 format |
+| `updateTime` | `string (date-time)` | Most recent campaign-record update |
+| `plannedSendTime` | `string (date-time)` | Planned start time when scheduled |
+| `startTime` | `string (date-time)` | Actual start time |
+| `endTime` | `string (date-time)` | End time; does not mean every message was delivered |
+| `subject` | `string` | Subject for a normal campaign when available |
+| `from.email` | `string` | Sender email address |
+| `from.name` | `string` | Sender display name |
+| `replyTo.email` | `string` | Reply-to email address when configured |
+| `replyTo.name` | `string` | Reply-to display name when available |
+
+Campaign states are `STATE_DRAFT`, `STATE_INPLAN`, `STATE_SENDING`, `STATE_SUSPEND`, `STATE_FAILED`, `STATE_FINISH`, `STATE_CANCELLED`, and `STATE_OFFLINE`.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |

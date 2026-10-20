@@ -1,0 +1,84 @@
+---
+title: "Sendify Help Center — Guides and FAQs"
+description: "Find Sendify setup guides, contact management instructions, campaign workflows, API documentation, and answers to common questions."
+keywords: "Sendify, Sendify Help Center, email marketing, sending domain, EDM, deliverability, contact management"
+"og:title": "Sendify Help Center — Guides and FAQs"
+"og:description": "Find Sendify setup guides, contact management instructions, campaign workflows, API documentation, and answers to common questions."
+"og:locale": "en_US"
+"twitter:title": "Sendify Help Center — Guides and FAQs"
+"twitter:description": "Find Sendify setup guides, contact management instructions, campaign workflows, API documentation, and answers to common questions."
+mode: "custom"
+---
+
+import { Home } from "/snippets/home.jsx";
+
+export const T = {
+  title: "How can we help today?",
+  subtitle: "Search the Sendify Help Center for setup instructions, product guides, and API answers.",
+  search_btn: "Search",
+  ph: "Search questions, features, or keywords…",
+  hot_label: "Popular:",
+  pop_title: "Popular help articles",
+  pop_sub: "Frequently used guides for common Sendify workflows.",
+  sup_title: "Need more help?",
+  sup_sub: "Email our support team and we will get back to you as soon as possible.",
+};
+
+export const HOT = [
+  "Sending domain",
+  "Import contacts",
+  "MCP setup",
+  "Unsubscribe",
+  "Deliverability",
+  "Campaigns",
+];
+
+export const JOURNEYS = [
+  { slug: "getting-started", icon: "domain", title: "Build a trusted sender identity", description: "Set up your account, verify a sending domain, and configure sender addresses." },
+  { slug: "contacts", icon: "contacts", title: "Organize contacts and audiences", description: "Import contacts and organize audiences with tags and segments." },
+  { slug: "send-task", icon: "send", title: "Create and send email", description: "Prepare content, configure a campaign, and start sending." },
+  { slug: "analytics", icon: "analytics", title: "Measure and improve results", description: "Review delivery, opens, and clicks to improve performance." },
+];
+
+export const ARTS = [
+  { slug: "getting-started", tag: "Get started", t: "Get started with Sendify" },
+  { slug: "sending-domain", tag: "Account and settings", t: "Add and verify a sending domain" },
+  { slug: "sender-address", tag: "Account and settings", t: "Manage sender and reply-to addresses" },
+  { slug: "member-settings", tag: "Account and settings", t: "Manage member accounts" },
+  { slug: "contacts", tag: "Contact management", t: "Manage contacts" },
+  { slug: "tags", tag: "Contact management", t: "Manage tags" },
+  { slug: "segments", tag: "Contact management", t: "Build dynamic segments" },
+  { slug: "unsubscribe", tag: "Contact management", t: "Manage unsubscribes" },
+  { slug: "assets", tag: "Email creation", t: "Use the asset library" },
+  { slug: "send-task", tag: "Campaigns and analytics", t: "Create a campaign" },
+  { slug: "analytics", tag: "Campaigns and analytics", t: "Review campaign analytics" },
+  { slug: "gmail-deliverability", tag: "Campaigns and analytics", t: "Improve Gmail deliverability" },
+];
+
+export const SEARCH_ITEMS = [
+  { slug: "getting-started", tag: "Get started", t: "Get started with Sendify", keywords: "quickstart onboarding" },
+  { slug: "sending-domain", tag: "Account and settings", t: "Add and verify a sending domain", keywords: "DNS domain verification SPF DKIM DMARC" },
+  { slug: "sender-address", tag: "Account and settings", t: "Manage sender and reply-to addresses", keywords: "sender from reply email" },
+  { slug: "member-settings", tag: "Account and settings", t: "Manage member accounts", keywords: "members roles permissions users" },
+  { slug: "contacts", tag: "Contact management", t: "Manage contacts", keywords: "import add edit delete contacts" },
+  { slug: "tags", tag: "Contact management", t: "Manage tags", keywords: "contact tags" },
+  { slug: "segments", tag: "Contact management", t: "Build dynamic segments", keywords: "audience group filter" },
+  { slug: "unsubscribe", tag: "Contact management", t: "Manage unsubscribes", keywords: "unsubscribe opt out suppression" },
+  { slug: "assets", tag: "Email creation", t: "Use the asset library", keywords: "images upload editor" },
+  { slug: "send-task", tag: "Campaigns and analytics", t: "Create a campaign", keywords: "send email campaign task" },
+  { slug: "analytics", tag: "Campaigns and analytics", t: "Review campaign analytics", keywords: "open rate click rate analytics" },
+  { slug: "gmail-deliverability", tag: "Campaigns and analytics", t: "Improve Gmail deliverability", keywords: "Gmail Postmaster delivery warmup" },
+  { slug: "developer/overview", tag: "Open API", t: "Sendify API overview", keywords: "API Key Bearer developer" },
+  { slug: "developer/create-campaign", tag: "Open API", t: "Create a campaign", keywords: "API campaign draft" },
+  { slug: "developer/create-contact", tag: "Open API", t: "Create a contact", keywords: "API contacts" },
+  { slug: "developer/list-contacts", tag: "Open API", t: "List contacts", keywords: "API pagination contacts" },
+  { slug: "developer/get-contact-by-email", tag: "Open API", t: "Get a contact by email", keywords: "API email contact" },
+  { slug: "mcp/overview", tag: "MCP", t: "Sendify MCP overview", keywords: "AI assistant Codex Cursor Claude queries" },
+  { slug: "mcp/quickstart", tag: "MCP", t: "Connect to Sendify MCP", keywords: "API Key Streamable HTTP Bearer" },
+  { slug: "mcp/client-config", tag: "MCP", t: "Configure an AI client", keywords: "Codex Desktop CLI Cursor Claude Desktop Claude Code" },
+  { slug: "mcp/tools", tag: "MCP", t: "MCP tools and prompt examples", keywords: "campaign reports recipients contacts" },
+  { slug: "mcp/authentication", tag: "MCP", t: "API Key authentication and security", keywords: "Authorization Bearer API Key permissions security" },
+  { slug: "mcp/troubleshooting", tag: "MCP", t: "Troubleshoot MCP connections", keywords: "401 tools missing permission connection failed" },
+];
+
+<Home t={T} arts={ARTS} hot={HOT} journeys={JOURNEYS} searchItems={SEARCH_ITEMS} locale="en" />

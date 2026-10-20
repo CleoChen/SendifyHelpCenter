@@ -1,0 +1,57 @@
+---
+title: "Get campaign statistics"
+description: "Get cumulative delivery and engagement statistics for a standard campaign"
+icon: "chart-line"
+---
+
+Returns cumulative delivery and engagement statistics for a standard campaign owned by the current user.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns/{campaignId}/report
+```
+
+<Note>Statistics update asynchronously. A/B tests, continuous-delivery campaigns, and administrator lookup are not supported. A missing or inaccessible campaign returns not found.</Note>
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Path parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `campaignId` | `string` | Yes | Campaign ID returned by the campaign list |
+
+## Request example
+
+```bash
+curl "https://api.sendify.dingstore.cn/dmx/v2/campaigns/campaign-123/report" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Success response
+
+<Warning>Count fields are encoded as decimal strings in JSON, for example `"1000"`. A known zero is returned as `"0"`; unknown fields are omitted.</Warning>
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `campaignId` | `string` | Campaign ID |
+| `delivery.recipientCount` | `string (int64)` | Unique recipients in the snapshot, including success, failure, not sent, and pending |
+| `delivery.deliveryCompletedCount` | `string (int64)` | Final delivery results: delivered plus delivery failed |
+| `delivery.deliveredCount` | `string (int64)` | Recipients whose mail server accepted the message; inbox placement is not guaranteed |
+| `delivery.deliveryFailedCount` | `string (int64)` | Final delivery failures, excluding cancellations and pre-send filtering |
+| `delivery.notSentCount` | `string (int64)` | Recipients no longer being sent to, including queue failures, filtering, and cancellation |
+| `delivery.pendingCount` | `string (int64)` | Recipients without a final processing result |
+| `engagement.uniqueOpenCount` | `string (int64)` | Recipients with at least one recorded open |
+| `engagement.uniqueClickCount` | `string (int64)` | Recipients with both a recorded open and tracked-link click |
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Bad Request |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |
+| `404` | Not Found |

@@ -1,0 +1,81 @@
+---
+title: "Create a campaign"
+description: "Create a standard bulk-email campaign draft"
+icon: "calendar-plus"
+---
+
+Creates a standard bulk-email campaign draft for the user associated with the API Key and returns its campaign ID.
+
+```http
+POST https://api.sendify.dingstore.cn/dmx/v2/campaigns
+```
+
+<Note>This endpoint does not snapshot recipients or send email. Repeated calls create separate campaigns. A/B tests, attachments, scheduling, and API-based updates are not supported.</Note>
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Request body
+
+Content-Type: `application/json`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | Yes | **Campaign name**, not the email subject. Must not be blank or contain a single quote; UTF-8 length must be under 255 bytes |
+| `subject` | `string` | Yes | Email subject shown to recipients; UTF-8 length must be under 255 bytes |
+| `from` | `object` | Yes | Sender available to the current user |
+| `from.email` | `string` | Yes | Sender email address |
+| `from.name` | `string` | No | Sender display name |
+| `replyTo` | `object` | No | Reply-to address; omit it to use no separate reply-to address |
+| `replyTo.email` | `string` | Conditional | Required when `replyTo` is provided. `replyTo` supports an email address only and has no display-name field |
+| `previewText` | `string` | No | Inbox preview text |
+| `content` | `object` | Yes | Message body; at least one of `html` and `plainText` must be nonblank |
+| `content.html` | `string` | Conditional | HTML body |
+| `content.plainText` | `string` | Conditional | Plain-text body |
+| `recipients` | `object` | Yes | Recipient scope; actual recipients are resolved when the campaign is started |
+| `recipients.include` | `object` | Yes | Must include at least one contact ID or tag ID |
+| `recipients.include.contactIds` | `array<string>` | Conditional | Contact IDs to include |
+| `recipients.include.tagIds` | `array<string>` | Conditional | Tag IDs to include |
+| `recipients.exclude.contactIds` | `array<string>` | No | Contact IDs to exclude |
+| `recipients.exclude.tagIds` | `array<string>` | No | Tag IDs to exclude |
+
+<Info>`replyTo` accepts only `email`. Do not send a `name` property in the `replyTo` object.</Info>
+
+## Request example
+
+```bash
+curl -X POST "https://api.sendify.dingstore.cn/dmx/v2/campaigns" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "September member campaign",
+    "subject": "Your member offer is ready",
+    "from": {"email":"marketing@example.com","name":"Member Services"},
+    "replyTo": {"email":"support@example.com"},
+    "previewText": "Explore this month’s offers",
+    "content": {"plainText":"Your member offer is ready"},
+    "recipients": {
+      "include": {"tagIds":["tag-vip"]},
+      "exclude": {"contactIds":["contact-001"]}
+    }
+  }'
+```
+
+## Success response
+
+```json
+{ "id": "03ec9355-4bf3-4a09-9829-4f3ef1d12a90" }
+```
+
+The `id` identifies the new campaign and can be used to retrieve or start it.
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `400` | Invalid parameters or an inaccessible sender, reply-to address, contact, or tag |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |

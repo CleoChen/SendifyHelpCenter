@@ -1,0 +1,73 @@
+---
+title: "List campaigns"
+description: "List email campaign summaries created by the current account"
+icon: "rectangle-list"
+---
+
+Returns a paginated list of campaigns created by the user associated with the API Key. Administrator lookup on behalf of another user is not supported. Message content and recipients are not included.
+
+```http
+GET https://api.sendify.dingstore.cn/dmx/v2/campaigns
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Query parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `pageNo` | `number` | Yes | Page number starting at `1` |
+| `pageSize` | `number` | Yes | Campaigns per page, from `1` to `100` |
+
+## Request example
+
+```bash
+curl -G "https://api.sendify.dingstore.cn/dmx/v2/campaigns" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --data-urlencode "pageNo=1" \
+  --data-urlencode "pageSize=50"
+```
+
+## Success response
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `totalCounts` | `number (int32)` | Total campaigns matching the query |
+| `totalPages` | `number (int32)` | Total pages; `0` when no campaigns exist |
+| `campaigns` | `array<object>` | Campaign summaries for the current page |
+| `campaigns[].id` | `string` | Stable campaign identifier |
+| `campaigns[].name` | `string` | Campaign name, not the email subject |
+| `campaigns[].type` | `enum<string>` | `CAMPAIGN_TYPE_NORMAL` or `CAMPAIGN_TYPE_ABTEST` |
+| `campaigns[].state` | `enum<string>` | Current execution state |
+| `campaigns[].createTime` | `string (date-time)` | Creation time in RFC 3339 format |
+| `campaigns[].updateTime` | `string (date-time)` | Most recent campaign-record update |
+| `campaigns[].plannedSendTime` | `string (date-time)` | Planned start time; omitted when not scheduled |
+| `campaigns[].startTime` | `string (date-time)` | Actual start time; omitted before execution |
+| `campaigns[].endTime` | `string (date-time)` | End time; does not mean every message was delivered |
+| `campaigns[].subject` | `string` | Subject for a normal campaign; omitted when unavailable |
+| `campaigns[].from` | `object` | Sender email and display name |
+| `campaigns[].replyTo` | `object` | Reply-to email and display name when configured |
+
+### Campaign states
+
+| Value | Meaning |
+| --- | --- |
+| `STATE_DRAFT` | Draft |
+| `STATE_INPLAN` | Scheduled and waiting |
+| `STATE_SENDING` | Sending |
+| `STATE_SUSPEND` | Paused |
+| `STATE_FAILED` | Failed |
+| `STATE_FINISH` | Completed; individual delivery may still have failed |
+| `STATE_CANCELLED` | Cancelled |
+| `STATE_OFFLINE` | Offline |
+
+## Error responses
+
+| HTTP status | Meaning |
+| --- | --- |
+| `401` | Missing or invalid Bearer API Key |
+| `403` | The API Key lacks permission |

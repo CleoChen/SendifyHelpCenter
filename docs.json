@@ -1,16 +1,14 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Sendify 帮助中心",
-  "description": "Sendify 产品使用指南",
+  "name": "Sendify Help Center",
+  "description": "Sendify product guides and API documentation",
   "colors": {
     "primary": "#0B63E6",
     "light": "#3B8CFF",
     "dark": "#084EA8"
   },
-  "appearance": {
-    "default": "system"
-  },
+  "appearance": { "default": "system" },
   "favicon": "/favicon.png",
   "logo": {
     "light": "/logo/sendify-brand.png",
@@ -18,115 +16,120 @@
     "href": "/"
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "产品功能介绍",
-        "groups": [
+        "language": "cn",
+        "global": {
+          "anchors": [
+            { "anchor": "English", "icon": "language", "href": "/en/index" }
+          ]
+        },
+        "tabs": [
           {
-            "group": "开始使用",
-            "icon": "rocket",
-            "pages": [
-              "getting-started"
+            "tab": "产品功能介绍",
+            "groups": [
+              { "group": "开始使用", "icon": "rocket", "pages": ["getting-started"] },
+              { "group": "账户与设置", "icon": "gear", "pages": ["sending-domain", "sender-address", "dedicated-ip", "member-settings"] },
+              { "group": "联系人管理", "icon": "address-book", "pages": ["contacts", "tags", "segments", "unsubscribe"] },
+              { "group": "邮件创作", "icon": "envelope-open-text", "pages": ["assets"] },
+              { "group": "发信任务与效果", "icon": "paper-plane", "pages": ["send-task", "analytics", "gmail-deliverability"] }
             ]
           },
           {
-            "group": "账户与设置",
-            "icon": "gear",
-            "pages": [
-              "sending-domain",
-              "sender-address",
-              "dedicated-ip",
-              "member-settings"
+            "tab": "Open API",
+            "groups": [
+              { "group": "开始使用", "pages": ["developer/overview"] },
+              {
+                "group": "营销活动",
+                "pages": [
+                  "developer/list-campaigns",
+                  "developer/create-campaign",
+                  "developer/run-campaign",
+                  "developer/list-campaign-recipients",
+                  "developer/get-campaign-recipient-by-email",
+                  "developer/get-campaign-report",
+                  "developer/get-campaign"
+                ]
+              },
+              {
+                "group": "联系人",
+                "pages": [
+                  "developer/create-contact",
+                  "developer/list-contacts",
+                  "developer/get-contact-by-email",
+                  "developer/list-tags",
+                  "developer/create-tag",
+                  "developer/get-tag"
+                ]
+              }
             ]
           },
           {
-            "group": "联系人管理",
-            "icon": "address-book",
-            "pages": [
-              "contacts",
-              "tags",
-              "segments",
-              "unsubscribe"
-            ]
-          },
-          {
-            "group": "邮件创作",
-            "icon": "envelope-open-text",
-            "pages": [
-              "assets"
-            ]
-          },
-          {
-            "group": "发信任务与效果",
-            "icon": "paper-plane",
-            "pages": [
-              "send-task",
-              "analytics",
-              "gmail-deliverability"
+            "tab": "MCP",
+            "groups": [
+              { "group": "开始使用", "icon": "sparkles", "pages": ["mcp/overview", "mcp/quickstart"] },
+              { "group": "配置与参考", "icon": "plug", "pages": ["mcp/authentication", "mcp/client-config", "mcp/tools", "mcp/troubleshooting"] }
             ]
           }
         ]
       },
       {
-        "tab": "Open API",
-        "groups": [
+        "language": "en",
+        "global": {
+          "anchors": [
+            { "anchor": "简体中文", "icon": "language", "href": "/" }
+          ]
+        },
+        "tabs": [
           {
-            "group": "开始使用",
-            "pages": [
-              "developer/overview"
+            "tab": "Product guides",
+            "groups": [
+              { "group": "Get started", "icon": "rocket", "pages": ["en/getting-started"] },
+              { "group": "Account and settings", "icon": "gear", "pages": ["en/sending-domain", "en/sender-address", "en/member-settings"] },
+              { "group": "Contact management", "icon": "address-book", "pages": ["en/contacts", "en/tags", "en/segments", "en/unsubscribe"] },
+              { "group": "Email creation", "icon": "envelope-open-text", "pages": ["en/assets"] },
+              { "group": "Campaigns and analytics", "icon": "paper-plane", "pages": ["en/send-task", "en/analytics", "en/gmail-deliverability"] }
             ]
           },
           {
-            "group": "营销活动",
-            "pages": [
-              "developer/list-campaigns",
-              "developer/create-campaign",
-              "developer/run-campaign",
-              "developer/list-campaign-recipients",
-              "developer/get-campaign-recipient-by-email",
-              "developer/get-campaign-report",
-              "developer/get-campaign"
+            "tab": "Open API",
+            "groups": [
+              { "group": "Get started", "pages": ["en/developer/overview"] },
+              {
+                "group": "Campaigns",
+                "pages": [
+                  "en/developer/list-campaigns",
+                  "en/developer/create-campaign",
+                  "en/developer/run-campaign",
+                  "en/developer/list-campaign-recipients",
+                  "en/developer/get-campaign-recipient-by-email",
+                  "en/developer/get-campaign-report",
+                  "en/developer/get-campaign"
+                ]
+              },
+              {
+                "group": "Contacts",
+                "pages": [
+                  "en/developer/create-contact",
+                  "en/developer/list-contacts",
+                  "en/developer/get-contact-by-email",
+                  "en/developer/list-tags",
+                  "en/developer/create-tag",
+                  "en/developer/get-tag"
+                ]
+              }
             ]
           },
           {
-            "group": "联系人",
-            "pages": [
-              "developer/create-contact",
-              "developer/list-contacts",
-              "developer/get-contact-by-email",
-              "developer/list-tags",
-              "developer/create-tag",
-              "developer/get-tag"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "MCP",
-        "groups": [
-          {
-            "group": "开始使用",
-            "icon": "sparkles",
-            "pages": [
-              "mcp/overview",
-              "mcp/quickstart"
-            ]
-          },
-          {
-            "group": "配置与参考",
-            "icon": "plug",
-            "pages": [
-              "mcp/authentication",
-              "mcp/client-config",
-              "mcp/tools",
-              "mcp/troubleshooting"
+            "tab": "MCP",
+            "groups": [
+              { "group": "Get started", "icon": "sparkles", "pages": ["en/mcp/overview", "en/mcp/quickstart"] },
+              { "group": "Configuration and reference", "icon": "plug", "pages": ["en/mcp/authentication", "en/mcp/client-config", "en/mcp/tools", "en/mcp/troubleshooting"] }
             ]
           }
         ]
       }
     ]
   },
-  "footer": {
-    "socials": {}
-  }
+  "footer": { "socials": {} }
 }

@@ -1,0 +1,66 @@
+---
+title: "Manage unsubscribes"
+description: "Insert unsubscribe links, review opt-outs, and restore subscriptions with consent"
+---
+
+Recipients can unsubscribe when they no longer want your email. Sendify manages unsubscribe links, opt-out records, and subscription restoration to support compliance and sender reputation.
+
+## Insert an unsubscribe link
+
+Every marketing message should include a visible and working way to unsubscribe.
+
+### Insert a link from the editor
+
+<Steps>
+  <Step title="Open the email editor">Open the content editor for your campaign.</Step>
+  <Step title="Choose the insertion point">Place the cursor where the link should appear.</Step>
+  <Step title="Insert the unsubscribe link">Select **Insert unsubscribe link** and choose a language.</Step>
+</Steps>
+
+<Tabs>
+  <Tab title="Rich-text editor"><Frame>![Insert an unsubscribe link in the rich-text editor](/unsubscribe-editor-rich.png)</Frame></Tab>
+  <Tab title="Drag-and-drop editor"><Frame>![Insert an unsubscribe link in the drag-and-drop editor](/unsubscribe-editor-builder.png)</Frame></Tab>
+</Tabs>
+
+### Use custom linked text
+
+Select your unsubscribe wording, insert a hyperlink, and use `${SYS:UNSUBSCRIBE_LINK}` as the URL.
+
+## What happens after a contact unsubscribes
+
+- The contact is marked **Unsubscribed**.
+- Sendify records the campaign and sender address associated with the opt-out.
+- Future campaigns using that sender address automatically exclude the contact.
+
+## View unsubscribed contacts
+
+<Icon icon="arrow-right-to-bracket" iconType="solid" /> `Contacts` → `Unsubscribed contacts`
+
+The list includes the email address, unsubscribe time, sender address, and originating campaign.
+
+<Frame>![Unsubscribed-contact list](/unsubscribe-list.png)</Frame>
+
+## Restore a subscription
+
+<Warning>Restore a subscription only after the person has explicitly agreed to receive email again.</Warning>
+
+<Steps>
+  <Step title="Open unsubscribed contacts">Go to `Contacts → Unsubscribed contacts`.</Step>
+  <Step title="Find the address">Search for the email address.</Step>
+  <Step title="Remove the unsubscribe status">Select **Remove**.<Frame>![Remove unsubscribe status](/unsubscribe-remove.png)</Frame></Step>
+  <Step title="Confirm">Confirm the removal so the contact can receive future campaigns.<Frame>![Confirm subscription restoration](/unsubscribe-confirm.png)</Frame></Step>
+</Steps>
+
+## FAQ
+
+### What if my message does not include an unsubscribe link?
+
+Mailbox providers may classify it as spam, which can reduce deliverability or cause enforcement actions.
+
+### Can I link to my own unsubscribe page?
+
+Yes. Sendify's built-in link opens the standard unsubscribe page, but you may add your organization's own link as regular linked text.
+
+### Does the standard unsubscribe page support multiple languages?
+
+Yes. It uses the visitor's preferred browser language when a supported translation is available.
