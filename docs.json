@@ -35,6 +35,7 @@
             "pages": [
               "sending-domain",
               "sender-address",
+              "dedicated-ip",
               "member-settings"
             ]
           },
