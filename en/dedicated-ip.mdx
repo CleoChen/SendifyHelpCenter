@@ -1,0 +1,98 @@
+---
+title: "Dedicated IPs"
+description: "Learn what dedicated IPs do, whether they are right for your team, and how to purchase and configure them."
+---
+
+Dedicated IPs are a paid Sendify add-on for teams that send email regularly and want to build their sending reputation over time. A dedicated sending IP reduces the impact of other senders on a shared IP, allowing your own sending activity to build its reputation.
+
+## What can you do with dedicated IPs?
+
+### Build your own sending reputation
+
+By default, Sendify sends email through shared IPs. With a dedicated IP, you can build and maintain your own IP reputation through consistent, high-quality sending.
+
+A dedicated IP gives you more control over your IP reputation. Inbox placement also depends on your domain reputation, email authentication, contact quality, content, and recipient feedback. Purchasing a dedicated IP does not guarantee inbox placement.
+
+### Manage sending through IP pools
+
+Add your dedicated IPs to an IP pool, then associate the relevant sender addresses with that pool. Email from those addresses will prioritize the dedicated IPs in the pool.
+
+### Gradually increase sending capacity
+
+A new IP needs to warm up. Increasing sending volume gradually helps receiving mailbox providers learn your sending behavior. Check your warm-up settings in the console and allow time for warm-up before sending at scale.
+
+With automatic warm-up enabled, the system allocates traffic according to the warm-up threshold. Traffic above that threshold can be sent through shared IPs. It is normal for some email to use shared IPs during warm-up.
+
+## Is a dedicated IP right for your team?
+
+Consider your sending frequency, contact quality, and ability to manage email performance—not just the size of a single campaign.
+
+| Your situation | Recommendation |
+| --- | --- |
+| You run ongoing email campaigns with relatively stable volumes and want to build your brand’s sending reputation | Consider dedicated IPs. |
+| You have clear subscription sources and regularly maintain contacts and handle bounces and complaints | You have a good foundation for managing dedicated IP reputation. |
+| You need more control over sending infrastructure and can invest time in warm-up and monitoring | Evaluate the number of IPs and pool configuration for your needs. |
+| You are new to email marketing, send small volumes, or send irregularly | Start with shared IPs and reassess when your sending pattern becomes consistent. |
+| You need to send a large, one-off campaign without time for warm-up | Plan your sending schedule before deciding whether to purchase dedicated IPs. |
+| You want to fix high bounce rates, complaints, or spam placement by switching IPs | Address contact quality, authentication, and content first. Dedicated IPs cannot replace these fundamentals. |
+
+These are buying recommendations, not Sendify purchase requirements. Consistent, predictable sending helps maintain dedicated IP reputation.
+
+## How to purchase and get started
+
+1. **Open the dedicated IP page.** Sign in to Sendify, then open your account avatar → Settings → Sending Settings → Dedicated IPs.
+
+   <Frame>
+     ![Open Dedicated IPs from the Sending Settings menu in Settings](/dedicated-ip-entry-en.png)
+   </Frame>
+
+2. **Purchase dedicated IPs.** Click **Purchase Dedicated IP**, review the available specifications, quantity, subscription term, and price, then complete payment. Available options and prices are shown on the purchase page.
+3. **Create an IP pool.** Return to the dedicated IP management page, create a pool, and add your purchased IPs. A pool groups the IPs that your sender addresses can use.
+4. **Associate sender addresses.** Associate each sender address with the appropriate pool. Purchasing IPs alone does not configure your sender addresses to use them; you must complete this association.
+5. **Check warm-up settings and start sending.** Start with active contacts who have explicitly subscribed, increase volume gradually, and monitor bounces, complaints, and delivery performance.
+
+## Frequently asked questions
+
+### How many IPs should I purchase?
+
+Consider three questions: Can one IP meet your sending needs? Do different email streams need separate IP reputations? Do you need another dedicated IP available as a backup?
+
+**Consider starting with one IP if:**
+
+- You send one type of email, such as subscription marketing for a single brand, and do not need separate IP reputations for different email streams.
+- Your sending frequency and volume are relatively stable, and one warmed-up IP can meet your sending window based on actual delivery performance.
+- You can accept disruption if that IP becomes unavailable, or accept fallback to shared IPs where enabled and available. You do not require all email to use dedicated IPs at all times.
+
+For example, a team that regularly sends a single brand’s newsletter to subscribers, with a flexible sending window, may consider starting with one IP. If your volume is very low or you send infrequently, start with shared IPs instead.
+
+**Consider two or more IPs if:**
+
+| Need | Why additional IPs may help | Configuration considerations |
+| --- | --- | --- |
+| Business continuity | Another available dedicated IP can handle sending if an IP or its host becomes unavailable. | Backup IPs also need warm-up, ongoing reputation maintenance, and the appropriate configuration. |
+| Separate IP reputations for different email streams | Manage marketing and important notifications, or different brands, separately to reduce the impact of one stream on another’s IP reputation. | Use separate IP pools and associate the relevant sender addresses with each pool. Placing all IPs in one pool does not isolate the streams. |
+| Higher sustained volume or sending peaks | One warmed-up IP may be unable to complete sending within your required window under receiving providers’ limits. | Use delivery data to assess capacity needs. New IPs still need warm-up and cannot immediately handle the full peak volume. |
+
+You can purchase two IPs to support business continuity and redundancy. Teams with one email stream, a stable sending pattern, and no dedicated-IP backup requirement can assess whether one IP is sufficient based on budget and actual performance.
+
+**Do not calculate IP count from daily email volume alone.** Sending throughout the day places different demands on an IP than sending the same volume in a short burst. A recipient list concentrated at one mailbox provider is also subject to that provider’s receiving policies. Adding IPs does not guarantee a proportional increase in sending speed and must not be used to bypass receiving providers’ limits.
+
+Before purchasing, prepare your recent average daily volume, peak-period volume, required sending window, and recipient distribution across providers such as Gmail and Outlook. The Sendify service team can help assess your needs. Each IP needs consistent traffic to maintain its reputation; too many IPs may spread your traffic too thinly.
+
+### Can I send at full volume immediately after purchase?
+
+New IPs need gradual warm-up. Avoid sending your entire volume immediately after activation, especially if you are also using a new domain or contact list. Adjust your warm-up schedule based on actual delivery performance.
+
+### Do I still need to verify my sending domain?
+
+Yes. Dedicated IPs and domain authentication serve different purposes. Complete your [sending domain setup](/en/sending-domain), continue maintaining contact quality, and provide an easy way to [unsubscribe](/en/unsubscribe).
+
+### Can I cancel a dedicated IP purchase?
+
+According to Sendify’s documentation, dedicated IP purchases are not eligible for cancellation once the IPs have been used, because usage affects their reputation. Confirm the quantity and your usage plan before purchasing, and review the terms on the order page.
+
+### Still unsure whether to purchase?
+
+Share your recent average daily volume, peak volume, sending frequency, main recipient mailbox providers, and any current delivery issues with the Sendify service team. This information helps the team assess whether dedicated IPs are appropriate and recommend an IP count and warm-up plan.
+
+If you have any questions about purchasing dedicated IPs, email the Sendify support team at [sendify-support@dingmail.work](mailto:sendify-support@dingmail.work).

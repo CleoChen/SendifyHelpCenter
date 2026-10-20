@@ -85,7 +85,7 @@
             "tab": "Product guides",
             "groups": [
               { "group": "Get started", "icon": "rocket", "pages": ["en/getting-started"] },
-              { "group": "Account and settings", "icon": "gear", "pages": ["en/sending-domain", "en/sender-address", "en/member-settings"] },
+              { "group": "Account and settings", "icon": "gear", "pages": ["en/sending-domain", "en/sender-address", "en/dedicated-ip", "en/member-settings"] },
               { "group": "Contact management", "icon": "address-book", "pages": ["en/contacts", "en/tags", "en/segments", "en/unsubscribe"] },
               { "group": "Email creation", "icon": "envelope-open-text", "pages": ["en/assets"] },
               { "group": "Campaigns and analytics", "icon": "paper-plane", "pages": ["en/send-task", "en/analytics", "en/gmail-deliverability"] }
