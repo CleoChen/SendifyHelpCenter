@@ -103,9 +103,9 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts, locale = "cn"
   const productDocsHref = pageHref("getting-started");
   const apiDocsHref = pageHref("developer/overview");
   const mcpDocsHref = pageHref("mcp/overview");
-  const websiteHref = "https://www.sendify.dingstore.cn/";
-  const pricingHref = "https://www.sendify.dingstore.cn/pricing";
-  const websiteContactHref = "https://www.sendify.dingstore.cn/contact-us";
+  const websiteHref = "https://www.sendify.com.cn/";
+  const pricingHref = "https://www.sendify.com.cn/pricing";
+  const websiteContactHref = "https://www.sendify.com.cn/contact-us";
   const supportEmail = "sendify-support@dingmail.work";
   const supportMail = `mailto:${supportEmail}`;
   const currentYear = new Date().getFullYear();
