@@ -417,15 +417,15 @@ export const Home = ({ t, arts, hot, journeys, searchItems = arts, locale = "cn"
       <div className="dt-home-wrap dt-home-footer-bottom">
         <span>{ui.footerCopyright(currentYear)}</span>
         <span className="dt-home-footer-filings">
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+            网站备案号：浙ICP备18037475号-61
+          </a>
           <a
-            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002018233"
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=33011002021111"
             target="_blank"
             rel="noopener noreferrer"
           >
-            浙公网安备 33011002018233号
-          </a>
-          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
-            浙ICP备18037475号-53
+            浙公网安备33011002021111号
           </a>
         </span>
       </div>
